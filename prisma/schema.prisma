@@ -25,7 +25,7 @@ model Question {
     body       String
     options    String[]
     answer     String
-    categories String
+    categories String[]
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
 }
