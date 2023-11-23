@@ -12,16 +12,17 @@ datasource db {
 
 model Flashcard {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    title       String
-    description String
     category    String   @db.ObjectId
     cardset     String   @db.ObjectId
+    title       String
+    description String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }
 
 model Question {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    flashcard String   @db.ObjectId
     title     String
     body      String
     options   String[]
@@ -32,9 +33,9 @@ model Question {
 
 model Category {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    cardset   String   @db.ObjectId
     name      String
     color     String
-    cardset   String   @db.ObjectId
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
