@@ -22,7 +22,7 @@ export default function DeleteCategory() {
   const deleteCategory = api.category.delete.useMutation({
     onSuccess: () => {
       router.push("/admin?cardset=" + selectedCardsetId);
-      void utils.cardset.getAll.invalidate();
+      void utils.question.getAll.invalidate();
     },
   });
 

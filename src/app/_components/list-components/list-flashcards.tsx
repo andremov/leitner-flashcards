@@ -1,38 +1,21 @@
-"use client";
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
+import CreateFlashCardButton from "../create-components/create-flashcard";
 
-export default function ListFlashcards() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCardsetId = searchParams.get("cardset");
-  const selectedCategoryId = searchParams.get("category");
-  const selectedFlashcardId = searchParams.get("flashcard");
+export default async function ListFlashcards(props: {
+  selectedCardsetId?: string;
+  selectedCategoryId?: string;
+  selectedFlashcardId?: string;
+}) {
+  const { selectedCardsetId, selectedCategoryId, selectedFlashcardId } = props;
 
-  const { data: flashcards } = api.flashcard.getAll.useQuery({
+  const flashcards = await api.flashcard.getAll.query({
     cardset: selectedCardsetId ?? undefined,
     category: selectedCategoryId ?? undefined,
   });
 
-  const createFlashcard = api.flashcard.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      void utils.flashcard.getAll.invalidate();
-    },
-  });
-
   if (!selectedCardsetId || !selectedCategoryId) return <></>;
-
-  const createDraftFlashcard = () =>
-    createFlashcard.mutate({
-      title: "New card",
-      description: "",
-      cardset: selectedCardsetId,
-      category: selectedCategoryId,
-    });
 
   return (
     <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
@@ -51,7 +34,7 @@ export default function ListFlashcards() {
             <span>{flashcard.title}</span>
             <div className="flex gap-2">
               <Link
-                href={`/admin?cardset=${selectedCardsetId}&category=${selectedCategoryId}&flashcard=${flashcard.id}`}
+                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${flashcard.id}`}
                 className="w-6 rounded-sm transition hover:bg-black/20"
               >
                 <ExternalLink className="mx-auto w-5" />
@@ -67,12 +50,7 @@ export default function ListFlashcards() {
         ))}
       </div>
 
-      <button
-        onClick={createDraftFlashcard}
-        className="h-12 w-full rounded-md bg-emerald-600 px-4 py-1 text-white transition hover:bg-emerald-500"
-      >
-        Create a flashcard
-      </button>
+      <CreateFlashCardButton {...props} />
     </div>
   );
 }

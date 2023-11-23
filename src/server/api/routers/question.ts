@@ -87,7 +87,7 @@ export const questionRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       if (!input.id) return undefined;
 
-      return ctx.db.category.findFirst({
+      return ctx.db.question.findFirst({
         where: {
           id: input.id,
         },

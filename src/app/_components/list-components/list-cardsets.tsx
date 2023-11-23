@@ -1,27 +1,13 @@
-"use client";
-
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
+import CreateCardSet from "../create-components/create-cardset";
 
-export default function ListCardSets() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCardsetId = searchParams.get("cardset");
-
-  const { data: cardsets } = api.cardset.getAll.useQuery();
-
-  const createCardSet = api.cardset.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      void utils.cardset.getAll.invalidate();
-    },
-  });
-
-  const createDraftCardSet = () =>
-    createCardSet.mutate({ name: "New card set" });
+export default async function ListCardSets(props: {
+  selectedCardsetId?: string;
+}) {
+  const { selectedCardsetId } = props;
+  const cardsets = await api.cardset.getAll.query();
 
   return (
     <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
@@ -41,7 +27,7 @@ export default function ListCardSets() {
               <span>{cardset.name}</span>
               <div className="flex gap-2">
                 <Link
-                  href={`/admin?cardset=${cardset.id}`}
+                  href={`/admin/${cardset.id}`}
                   className="w-6 rounded-sm transition hover:bg-black/20"
                 >
                   <ExternalLink className="mx-auto w-5" />
@@ -64,12 +50,7 @@ export default function ListCardSets() {
         ))}
       </div>
 
-      <button
-        onClick={createDraftCardSet}
-        className="h-12 w-full rounded-md bg-emerald-600 px-4 py-1 text-white transition hover:bg-emerald-500"
-      >
-        Create a card set
-      </button>
+      <CreateCardSet />
     </div>
   );
 }

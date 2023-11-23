@@ -1,4 +1,4 @@
-import MagicPage from "../_components/magic-page";
+import MagicPage from "~/app/_components/magic-page";
 
 type MagicPageProps = {
   cardset?: string;
@@ -6,7 +6,7 @@ type MagicPageProps = {
   flashcard?: string;
 };
 
-export default function AdminHome({ params }: { params: MagicPageProps }) {
+export default function Page({ params }: { params: MagicPageProps }) {
   return (
     <MagicPage
       selectedCardsetId={params.cardset}

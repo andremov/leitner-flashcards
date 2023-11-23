@@ -14,14 +14,14 @@ export default function DeleteCardSet() {
     cardset: deletingCardsetId ?? undefined,
   });
 
-  const { data: deletingCardset } = api.cardset.findOne.useQuery({
+  const { data: deletingCardset } = api.question.findOne.useQuery({
     id: deletingCardsetId ?? "",
   });
 
-  const deleteCardSet = api.cardset.delete.useMutation({
+  const deleteCardSet = api.question.delete.useMutation({
     onSuccess: () => {
       router.push("/admin");
-      void utils.cardset.getAll.invalidate();
+      void utils.question.getAll.invalidate();
     },
   });
 

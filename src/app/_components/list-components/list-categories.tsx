@@ -1,35 +1,19 @@
-"use client";
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
+import CreateCategoryButton from "../create-components/create-category";
 
-export default function ListCategories() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCardsetId = searchParams.get("cardset");
-  const selectedCategoryId = searchParams.get("category");
+export default async function ListCategories(props: {
+  selectedCardsetId?: string;
+  selectedCategoryId?: string;
+}) {
+  const { selectedCardsetId, selectedCategoryId } = props;
 
-  const { data: categories } = api.category.getAll.useQuery({
+  const categories = await api.category.getAll.query({
     cardset: selectedCardsetId ?? undefined,
   });
 
-  const createCategory = api.category.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      void utils.category.getAll.invalidate();
-    },
-  });
-
   if (!selectedCardsetId) return <></>;
-
-  const createDraftCategory = () =>
-    createCategory.mutate({
-      name: "New category",
-      cardset: selectedCardsetId,
-      color: "emerald-500",
-    });
 
   return (
     <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
@@ -48,7 +32,7 @@ export default function ListCategories() {
             <span>{category.name}</span>
             <div className="flex gap-2">
               <Link
-                href={`/admin?cardset=${selectedCardsetId}&category=${category.id}`}
+                href={`/admin/${selectedCardsetId}/${category.id}`}
                 className="w-6 rounded-sm transition hover:bg-black/20"
               >
                 <ExternalLink className="mx-auto w-5" />
@@ -70,12 +54,7 @@ export default function ListCategories() {
         ))}
       </div>
 
-      <button
-        onClick={createDraftCategory}
-        className="h-12 w-full rounded-md bg-emerald-600 px-4 py-1 text-white transition hover:bg-emerald-500"
-      >
-        Create a category
-      </button>
+      <CreateCategoryButton {...props} />
     </div>
   );
 }

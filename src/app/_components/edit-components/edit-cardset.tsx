@@ -11,7 +11,7 @@ export default function EditCardSet() {
   const editingCardsetId = searchParams.get("cardset-edit");
   const [name, setName] = useState("");
 
-  const { data: editingCardset } = api.cardset.findOne.useQuery({
+  const { data: editingCardset } = api.question.findOne.useQuery({
     id: editingCardsetId ?? "",
   });
 
@@ -19,10 +19,10 @@ export default function EditCardSet() {
     if (editingCardset) setName(editingCardset.name);
   }, [editingCardset]);
 
-  const updateCardSet = api.cardset.update.useMutation({
+  const updateCardSet = api.question.update.useMutation({
     onSuccess: () => {
       router.refresh();
-      void utils.cardset.getAll.invalidate();
+      void utils.question.getAll.invalidate();
     },
   });
 
