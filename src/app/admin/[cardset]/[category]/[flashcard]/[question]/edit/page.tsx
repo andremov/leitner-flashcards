@@ -7,6 +7,7 @@ export default function Page({ params }: { params: PartialRPP }) {
       selectedCardsetId={params.cardset}
       selectedCategoryId={params.category}
       selectedFlashcardId={params.flashcard}
+      selectedQuestionId={params.question}
       editingModel={"question"}
       deletingModel={undefined}
     />
