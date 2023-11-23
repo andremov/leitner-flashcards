@@ -4,6 +4,7 @@ import { api } from "~/trpc/server";
 import CreateQuestionButton from "../create-components/create-question";
 import SimpleView from "../simple-view";
 import { type PartialMPP } from "~/types/magic-page-types";
+import DetailedView from "../detailed-view";
 
 export default async function ListQuestions(props: PartialMPP) {
   const {
@@ -17,16 +18,27 @@ export default async function ListQuestions(props: PartialMPP) {
     flashcard: selectedFlashcardId,
   });
 
-  if (!selectedFlashcardId) return <></>;
+  const selectedFlashcard = await api.flashcard.findOne.query({
+    id: selectedFlashcardId,
+  });
+
+  if (!selectedFlashcard) return <></>;
 
   return (
     <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
-      {questions && <p>{questions.length} questions for flashcard</p>}
+      <DetailedView data={selectedFlashcard} type="flashcard" />
+
+      {questions && (
+        <p>
+          {questions.length} question{questions.length > 1 ? "s" : ""} for
+          flashcard
+        </p>
+      )}
 
       <div className="my-2 flex flex-1 select-none flex-col gap-1">
         {questions?.map((question) => (
           <SimpleView
-            baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/${selectedQuestionId}`}
+            baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/`}
             id={question.id}
             name={question.title}
             selection={selectedQuestionId}

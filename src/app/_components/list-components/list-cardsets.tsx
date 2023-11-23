@@ -9,7 +9,11 @@ export default async function ListCardSets(props: PartialMPP) {
 
   return (
     <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
-      {cardsets && <p>{cardsets.length} card sets</p>}
+      {cardsets && (
+        <p>
+          {cardsets.length} card set{cardsets.length > 1 ? "s" : ""}
+        </p>
+      )}
 
       <div className="my-2 flex flex-1 select-none flex-col gap-1">
         {cardsets?.map((cardset) => (

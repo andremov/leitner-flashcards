@@ -73,7 +73,7 @@ export const categoryRouter = createTRPCRouter({
   findOne: publicProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {

@@ -1,7 +1,7 @@
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
-export default async function ListCardSets(props: {
+export default function SimpleView(props: {
   name: string;
   id: string;
   baseUrl: string;
