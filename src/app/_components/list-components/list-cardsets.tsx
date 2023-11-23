@@ -1,7 +1,9 @@
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { api } from "~/trpc/server";
-import CreateCardSet from "../create-components/create-cardset";
+import { api as ReactApi } from "~/trpc/react";
+import CreateObjectButton from "../create-components/create-object";
+import { CardSet } from "@prisma/client";
 
 export default async function ListCardSets(props: {
   selectedCardsetId?: string;
@@ -50,7 +52,11 @@ export default async function ListCardSets(props: {
         ))}
       </div>
 
-      <CreateCardSet />
+      <CreateObjectButton
+        buttonText="Create a card set"
+        defaultObject={{ name: "New card set" }}
+        model={"cardset"}
+      />
     </div>
   );
 }

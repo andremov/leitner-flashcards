@@ -1,13 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateCategoryButton(props: {
   selectedCardsetId: string;
 }) {
   const { selectedCardsetId } = props;
+  const router = useRouter();
 
-  const createCategory = api.category.create.useMutation();
+  const createCategory = api.category.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const createDraftCategory = () =>
     createCategory.mutate({

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateFlashCardButton(props: {
@@ -7,8 +8,13 @@ export default function CreateFlashCardButton(props: {
   selectedCategoryId: string;
 }) {
   const { selectedCardsetId, selectedCategoryId } = props;
+  const router = useRouter();
 
-  const createFlashcard = api.flashcard.create.useMutation();
+  const createFlashcard = api.flashcard.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const createDraftFlashcard = () =>
     createFlashcard.mutate({

@@ -1,9 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateCardSet() {
-  const createCardSet = api.question.create.useMutation();
+  const router = useRouter();
+
+  const createCardSet = api.cardset.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const createDraftCardSet = () =>
     createCardSet.mutate({ name: "New card set" });

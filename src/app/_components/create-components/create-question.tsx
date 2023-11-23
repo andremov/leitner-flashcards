@@ -1,13 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateQuestionButton(props: {
   selectedFlashcardId: string;
 }) {
   const { selectedFlashcardId } = props;
+  const router = useRouter();
 
-  const createQuestion = api.question.create.useMutation();
+  const createQuestion = api.question.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const createDraftQuestion = () =>
     createQuestion.mutate({
