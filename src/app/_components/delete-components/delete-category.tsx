@@ -1,32 +1,30 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default function DeleteCategory() {
-  const utils = api.useUtils();
+export default function DeleteCategory(props: PartialMPP) {
+  const { selectedCardsetId, selectedCategoryId, deletingModel } = props;
+
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const deletingCategoryId = searchParams.get("category-delete");
-  const selectedCardsetId = searchParams.get("cardset");
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({
-    category: deletingCategoryId ?? undefined,
+    category: selectedCategoryId ?? undefined,
   });
 
   const { data: deletingCategory } = api.category.findOne.useQuery({
-    id: deletingCategoryId ?? "",
+    id: selectedCategoryId ?? "",
   });
 
   const deleteCategory = api.category.delete.useMutation({
     onSuccess: () => {
-      router.push("/admin?cardset=" + selectedCardsetId);
-      void utils.question.getAll.invalidate();
+      router.push("/admin/" + selectedCardsetId);
     },
   });
 
-  if (!deletingCategory) return <></>;
+  if (!deletingCategory || deletingModel !== "category") return <></>;
 
   return (
     <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">

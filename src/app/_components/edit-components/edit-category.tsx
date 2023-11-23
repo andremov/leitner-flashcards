@@ -1,19 +1,17 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default function EditCategory() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const editingCategoryId = searchParams.get("category-edit");
+export default function EditCategory(props: PartialMPP) {
+  const { selectedCategoryId, editingModel } = props;
+
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
 
   const { data: editingCategory } = api.category.findOne.useQuery({
-    id: editingCategoryId ?? "",
+    id: selectedCategoryId ?? "",
   });
 
   useEffect(() => {
@@ -23,14 +21,9 @@ export default function EditCategory() {
     }
   }, [editingCategory]);
 
-  const updateCategory = api.category.update.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      void utils.category.getAll.invalidate();
-    },
-  });
+  const updateCategory = api.category.update.useMutation();
 
-  if (!editingCategory) return <></>;
+  if (!editingCategory || editingModel !== "category") return <></>;
 
   return (
     <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">

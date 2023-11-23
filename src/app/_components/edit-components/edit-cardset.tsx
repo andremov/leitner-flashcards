@@ -1,32 +1,25 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default function EditCardSet() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const editingCardsetId = searchParams.get("cardset-edit");
+export default function EditCardSet(props: PartialMPP) {
+  const { selectedCardsetId, editingModel } = props;
+
   const [name, setName] = useState("");
 
-  const { data: editingCardset } = api.question.findOne.useQuery({
-    id: editingCardsetId ?? "",
+  const { data: editingCardset } = api.cardset.findOne.useQuery({
+    id: selectedCardsetId ?? "",
   });
 
   useEffect(() => {
     if (editingCardset) setName(editingCardset.name);
   }, [editingCardset]);
 
-  const updateCardSet = api.question.update.useMutation({
-    onSuccess: () => {
-      router.refresh();
-      void utils.question.getAll.invalidate();
-    },
-  });
+  const updateCardSet = api.cardset.update.useMutation();
 
-  if (!editingCardset) return <></>;
+  if (!editingCardset || editingModel !== "cardset") return <></>;
 
   return (
     <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">

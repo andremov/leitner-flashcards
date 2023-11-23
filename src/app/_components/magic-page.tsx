@@ -7,15 +7,17 @@ import DeleteCardSet from "../_components/delete-components/delete-cardset";
 import EditCategory from "../_components/edit-components/edit-category";
 import DeleteCategory from "../_components/delete-components/delete-category";
 import ListQuestions from "./list-components/list-questions";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-type MagicPageProps = {
-  selectedCardsetId?: string;
-  selectedCategoryId?: string;
-  selectedFlashcardId?: string;
-};
-
-export default async function MagicPage(props: MagicPageProps) {
-  const { selectedCardsetId, selectedCategoryId, selectedFlashcardId } = props;
+export default async function MagicPage(props: PartialMPP) {
+  const {
+    selectedCardsetId,
+    selectedCategoryId,
+    selectedFlashcardId,
+    deletingModel,
+    editingModel,
+    selectedQuestionId,
+  } = props;
 
   const selectedCardset = await api.cardset.findOne.query({
     id: selectedCardsetId ?? "",
@@ -40,12 +42,12 @@ export default async function MagicPage(props: MagicPageProps) {
       </div>
       <div className="flex flex-1 items-stretch gap-1">
         <ListCardSets {...props} />
-        {/* <EditCardSet /> */}
-        {/* <DeleteCardSet /> */}
+        <EditCardSet {...props} />
+        <DeleteCardSet {...props} />
 
         <ListCategories {...props} />
-        {/* <EditCategory /> */}
-        {/* <DeleteCategory /> */}
+        <EditCategory {...props} />
+        <DeleteCategory {...props} />
 
         <ListFlashcards {...props} />
 

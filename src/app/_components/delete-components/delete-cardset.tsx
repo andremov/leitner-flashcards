@@ -1,31 +1,23 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default function DeleteCardSet() {
-  const utils = api.useUtils();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const deletingCardsetId = searchParams.get("cardset-delete");
+export default function DeleteCardSet(props: PartialMPP) {
+  const { selectedCardsetId, deletingModel } = props;
 
   const { data: categories } = api.category.getAll.useQuery({
-    cardset: deletingCardsetId ?? undefined,
+    cardset: selectedCardsetId ?? undefined,
   });
 
-  const { data: deletingCardset } = api.question.findOne.useQuery({
-    id: deletingCardsetId ?? "",
+  const { data: deletingCardset } = api.cardset.findOne.useQuery({
+    id: selectedCardsetId ?? "",
   });
 
-  const deleteCardSet = api.question.delete.useMutation({
-    onSuccess: () => {
-      router.push("/admin");
-      void utils.question.getAll.invalidate();
-    },
-  });
+  const deleteCardSet = api.cardset.delete.useMutation();
 
-  if (!deletingCardset) return <></>;
+  if (!deletingCardset || deletingModel !== "cardset") return <></>;
 
   return (
     <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">

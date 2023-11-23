@@ -33,13 +33,13 @@ export default async function ListCardSets(props: {
                   <ExternalLink className="mx-auto w-5" />
                 </Link>
                 <Link
-                  href={`/admin?cardset-edit=${cardset.id}`}
+                  href={`/admin/${cardset.id}/edit`}
                   className="w-6 rounded-sm transition hover:bg-black/20"
                 >
                   <Pencil className="mx-auto w-5" />
                 </Link>
                 <Link
-                  href={`/admin?cardset-delete=${cardset.id}`}
+                  href={`/admin/${cardset.id}/delete`}
                   className="w-6 rounded-sm transition hover:bg-red-500/40"
                 >
                   <Trash className="mx-auto w-5" />

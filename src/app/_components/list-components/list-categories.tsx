@@ -38,13 +38,13 @@ export default async function ListCategories(props: {
                 <ExternalLink className="mx-auto w-5" />
               </Link>
               <Link
-                href={`/admin?cardset=${selectedCardsetId}&category-edit=${category.id}`}
+                href={`/admin/${selectedCardsetId}/${category.id}/edit`}
                 className="w-6 rounded-sm transition hover:bg-black/20"
               >
                 <Pencil className="mx-auto w-5" />
               </Link>
               <Link
-                href={`/admin?cardset=${selectedCardsetId}&category-delete=${category.id}`}
+                href={`/admin/${selectedCardsetId}/${category.id}/delete`}
                 className="w-6 rounded-sm transition hover:bg-red-500/40"
               >
                 <Trash className="mx-auto w-5" />

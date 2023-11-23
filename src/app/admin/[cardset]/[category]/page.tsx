@@ -1,17 +1,14 @@
 import MagicPage from "~/app/_components/magic-page";
+import { type PartialRPP } from "~/types/magic-page-types";
 
-type MagicPageProps = {
-  cardset?: string;
-  category?: string;
-  flashcard?: string;
-};
-
-export default function Page({ params }: { params: MagicPageProps }) {
+export default function Page({ params }: { params: PartialRPP }) {
   return (
     <MagicPage
       selectedCardsetId={params.cardset}
       selectedCategoryId={params.category}
       selectedFlashcardId={params.flashcard}
+      editingModel={undefined}
+      deletingModel={undefined}
     />
   );
 }
