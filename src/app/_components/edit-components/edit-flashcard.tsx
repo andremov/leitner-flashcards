@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function EditFlashcard(props: PartialMPP) {
   const { selectedFlashcardId, editingModel } = props;
+  const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,7 +23,11 @@ export default function EditFlashcard(props: PartialMPP) {
     }
   }, [editingFlashcard]);
 
-  const updateFlashcard = api.flashcard.update.useMutation();
+  const updateFlashcard = api.flashcard.update.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   if (!editingFlashcard || editingModel !== "flashcard") return <></>;
 

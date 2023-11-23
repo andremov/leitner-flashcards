@@ -7,7 +7,6 @@ import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function DeleteCategory(props: PartialMPP) {
   const { selectedCardsetId, selectedCategoryId, deletingModel } = props;
-
   const router = useRouter();
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({

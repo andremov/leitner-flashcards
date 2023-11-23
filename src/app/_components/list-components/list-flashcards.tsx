@@ -1,13 +1,9 @@
-import { ExternalLink, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
 import { api } from "~/trpc/server";
 import CreateFlashCardButton from "../create-components/create-flashcard";
+import SimpleView from "../simple-view";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default async function ListFlashcards(props: {
-  selectedCardsetId?: string;
-  selectedCategoryId?: string;
-  selectedFlashcardId?: string;
-}) {
+export default async function ListFlashcards(props: PartialMPP) {
   const { selectedCardsetId, selectedCategoryId, selectedFlashcardId } = props;
 
   const flashcards = await api.flashcard.getAll.query({
@@ -23,36 +19,16 @@ export default async function ListFlashcards(props: {
 
       <div className="my-2 flex flex-1 select-none flex-col gap-1">
         {flashcards?.map((flashcard) => (
-          <div
+          <SimpleView
+            baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${flashcard.id}`}
+            id={flashcard.id}
+            name={flashcard.title}
+            selection={selectedFlashcardId}
             key={flashcard.id}
-            className={`flex items-center justify-between rounded-md px-4 py-2 transition ${
-              selectedFlashcardId === flashcard.id
-                ? "bg-indigo-500 text-white"
-                : "bg-indigo-300"
-            }`}
-          >
-            <span>{flashcard.title}</span>
-            <div className="flex gap-2">
-              <Link
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${flashcard.id}`}
-                className="w-6 rounded-sm transition hover:bg-black/20"
-              >
-                <ExternalLink className="mx-auto w-5" />
-              </Link>
-              <Link
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${flashcard.id}/edit`}
-                className="w-6 rounded-sm transition hover:bg-black/20"
-              >
-                <Pencil className="mx-auto w-5" />
-              </Link>
-              <Link
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${flashcard.id}/delete`}
-                className="w-6 rounded-sm transition hover:bg-red-500/40"
-              >
-                <Trash className="mx-auto w-5" />
-              </Link>
-            </div>
-          </div>
+            activeColor="bg-indigo-500 text-white"
+            inactiveColor="bg-indigo-300"
+            hasChildren
+          />
         ))}
       </div>
 

@@ -2,13 +2,16 @@ import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { api } from "~/trpc/server";
 import CreateQuestionButton from "../create-components/create-question";
+import SimpleView from "../simple-view";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default async function ListQuestions(props: {
-  selectedCardsetId?: string;
-  selectedCategoryId?: string;
-  selectedFlashcardId?: string;
-}) {
-  const { selectedFlashcardId } = props;
+export default async function ListQuestions(props: PartialMPP) {
+  const {
+    selectedCardsetId,
+    selectedCategoryId,
+    selectedFlashcardId,
+    selectedQuestionId,
+  } = props;
 
   const questions = await api.question.getAll.query({
     flashcard: selectedFlashcardId,
@@ -22,38 +25,15 @@ export default async function ListQuestions(props: {
 
       <div className="my-2 flex flex-1 select-none flex-col gap-1">
         {questions?.map((question) => (
-          <div
+          <SimpleView
+            baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/${selectedQuestionId}`}
+            id={question.id}
+            name={question.title}
+            selection={selectedQuestionId}
             key={question.id}
-            className={`rounded-md px-4 py-2 transition ${
-              selectedFlashcardId === question.id
-                ? "bg-purple-500 text-white"
-                : "bg-purple-300"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <span>{question.title}</span>
-              <div className="flex gap-2">
-                {/* <Link
-                  href={`/admin?cardset=${question.id}`}
-                  className="w-6 rounded-sm transition hover:bg-black/20"
-                >
-                  <ExternalLink className="mx-auto w-5" />
-                </Link> */}
-                <Link
-                  href={`/admin?cardset-edit=${question.id}`}
-                  className="w-6 rounded-sm transition hover:bg-black/20"
-                >
-                  <Pencil className="mx-auto w-5" />
-                </Link>
-                <Link
-                  href={`/admin?cardset-delete=${question.id}`}
-                  className="w-6 rounded-sm transition hover:bg-red-500/40"
-                >
-                  <Trash className="mx-auto w-5" />
-                </Link>
-              </div>
-            </div>
-          </div>
+            activeColor="bg-blue-500 text-white"
+            inactiveColor="bg-blue-300"
+          />
         ))}
       </div>
 

@@ -1,11 +1,13 @@
 "use client";
 
 import { Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function DeleteCardSet(props: PartialMPP) {
   const { selectedCardsetId, deletingModel } = props;
+  const router = useRouter();
 
   const { data: categories } = api.category.getAll.useQuery({
     cardset: selectedCardsetId ?? undefined,
@@ -15,7 +17,11 @@ export default function DeleteCardSet(props: PartialMPP) {
     id: selectedCardsetId ?? "",
   });
 
-  const deleteCardSet = api.cardset.delete.useMutation();
+  const deleteCardSet = api.cardset.delete.useMutation({
+    onSuccess: () => {
+      router.push("/admin/");
+    },
+  });
 
   if (!deletingCardset || deletingModel !== "cardset") return <></>;
 

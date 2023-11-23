@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function EditCategory(props: PartialMPP) {
   const { selectedCategoryId, editingModel } = props;
+  const router = useRouter();
 
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -21,7 +23,11 @@ export default function EditCategory(props: PartialMPP) {
     }
   }, [editingCategory]);
 
-  const updateCategory = api.category.update.useMutation();
+  const updateCategory = api.category.update.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   if (!editingCategory || editingModel !== "category") return <></>;
 

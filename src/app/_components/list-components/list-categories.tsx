@@ -1,12 +1,9 @@
-import { ExternalLink, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
 import { api } from "~/trpc/server";
 import CreateCategoryButton from "../create-components/create-category";
+import SimpleView from "../simple-view";
+import { type PartialMPP } from "~/types/magic-page-types";
 
-export default async function ListCategories(props: {
-  selectedCardsetId?: string;
-  selectedCategoryId?: string;
-}) {
+export default async function ListCategories(props: PartialMPP) {
   const { selectedCardsetId, selectedCategoryId } = props;
 
   const categories = await api.category.getAll.query({
@@ -21,36 +18,16 @@ export default async function ListCategories(props: {
 
       <div className="my-2 flex flex-1 select-none flex-col gap-1">
         {categories?.map((category) => (
-          <div
+          <SimpleView
+            baseUrl={`/admin/${selectedCardsetId}/`}
+            id={category.id}
+            name={category.name}
+            selection={selectedCategoryId}
             key={category.id}
-            className={`flex items-center justify-between rounded-md px-4 py-2 transition ${
-              selectedCategoryId === category.id
-                ? "bg-violet-500 text-white"
-                : "bg-violet-300"
-            }`}
-          >
-            <span>{category.name}</span>
-            <div className="flex gap-2">
-              <Link
-                href={`/admin/${selectedCardsetId}/${category.id}`}
-                className="w-6 rounded-sm transition hover:bg-black/20"
-              >
-                <ExternalLink className="mx-auto w-5" />
-              </Link>
-              <Link
-                href={`/admin/${selectedCardsetId}/${category.id}/edit`}
-                className="w-6 rounded-sm transition hover:bg-black/20"
-              >
-                <Pencil className="mx-auto w-5" />
-              </Link>
-              <Link
-                href={`/admin/${selectedCardsetId}/${category.id}/delete`}
-                className="w-6 rounded-sm transition hover:bg-red-500/40"
-              >
-                <Trash className="mx-auto w-5" />
-              </Link>
-            </div>
-          </div>
+            activeColor="bg-violet-500 text-white"
+            inactiveColor="bg-violet-300"
+            hasChildren
+          />
         ))}
       </div>
 

@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function EditCardSet(props: PartialMPP) {
   const { selectedCardsetId, editingModel } = props;
+  const router = useRouter();
 
   const [name, setName] = useState("");
 
@@ -17,7 +19,11 @@ export default function EditCardSet(props: PartialMPP) {
     if (editingCardset) setName(editingCardset.name);
   }, [editingCardset]);
 
-  const updateCardSet = api.cardset.update.useMutation();
+  const updateCardSet = api.cardset.update.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   if (!editingCardset || editingModel !== "cardset") return <></>;
 

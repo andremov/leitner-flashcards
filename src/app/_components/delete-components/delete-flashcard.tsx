@@ -12,7 +12,6 @@ export default function DeleteFlashcard(props: PartialMPP) {
     selectedFlashcardId,
     deletingModel,
   } = props;
-
   const router = useRouter();
 
   const { data: flashcards } = api.question.getAll.useQuery({
