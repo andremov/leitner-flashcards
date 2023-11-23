@@ -45,7 +45,7 @@ export default function SimpleView(props: {
           </Link>
           <Link
             href={`${baseUrl}${id}/delete`}
-            className="w-6 rounded-sm transition hover:bg-red-500/40"
+            className="w-6 rounded-sm transition hover:bg-red-400"
           >
             <Trash className="mx-auto w-5" />
           </Link>

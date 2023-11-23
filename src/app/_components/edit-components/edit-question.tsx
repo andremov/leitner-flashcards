@@ -9,7 +9,7 @@ export default function EditQuestion(props: PartialMPP) {
   const { selectedQuestionId, editingModel } = props;
   const router = useRouter();
 
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState(0);
   const [body, setBody] = useState("");
   const [options, setOptions] = useState<string[]>([]);
   const [title, setTitle] = useState("");
@@ -20,6 +20,8 @@ export default function EditQuestion(props: PartialMPP) {
 
   useEffect(() => {
     if (editingQuestion) {
+      console.log(editingQuestion.answer);
+
       setAnswer(editingQuestion.answer);
       setBody(editingQuestion.body);
       setOptions(editingQuestion.options);
@@ -36,7 +38,7 @@ export default function EditQuestion(props: PartialMPP) {
   if (!editingQuestion || editingModel !== "question") return <></>;
 
   return (
-    <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+    <div className="flex flex-[2_2_0%] flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -87,7 +89,11 @@ export default function EditQuestion(props: PartialMPP) {
                 <input
                   className="flex-1 px-2 py-1"
                   value={option}
-                  onChange={(e) => (options[index] = e.target.value)}
+                  onChange={(e) => {
+                    const newOptions = [...options];
+                    newOptions.splice(index, 1, e.target.value);
+                    setOptions(newOptions);
+                  }}
                 />
               </div>
             </div>
@@ -98,7 +104,7 @@ export default function EditQuestion(props: PartialMPP) {
           type="button"
           onClick={() => setOptions([...options, "New answer"])}
           value="New answer"
-          className="rounded-md bg-black/30 py-1 text-white"
+          className="cursor-pointer rounded-md bg-black/30 py-1 text-white"
         />
 
         <button

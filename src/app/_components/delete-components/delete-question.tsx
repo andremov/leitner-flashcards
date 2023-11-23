@@ -29,7 +29,7 @@ export default function DeleteQuestion(props: PartialMPP) {
   if (!deletingQuestion || deletingModel !== "question") return <></>;
 
   return (
-    <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+    <div className="flex flex-[2_2_0%] flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();

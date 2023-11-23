@@ -32,7 +32,7 @@ export default function EditFlashcard(props: PartialMPP) {
   if (!editingFlashcard || editingModel !== "flashcard") return <></>;
 
   return (
-    <div className="flex w-full flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+    <div className="flex-[2_2_0%] flex flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();

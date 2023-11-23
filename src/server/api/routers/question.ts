@@ -8,7 +8,7 @@ export const questionRouter = createTRPCRouter({
       z.object({
         title: z.string().min(1),
         body: z.string().min(1),
-        answer: z.string().min(1),
+        answer: z.number(),
         options: z.array(z.string().min(1)).min(1),
         flashcard: z.string().min(1),
       }),
@@ -47,7 +47,7 @@ export const questionRouter = createTRPCRouter({
         title: z.string().min(1),
         body: z.string().min(1),
         options: z.array(z.string().min(1)).min(1),
-        answer: z.string().min(1),
+        answer: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

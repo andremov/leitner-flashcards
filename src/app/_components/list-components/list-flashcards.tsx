@@ -19,7 +19,7 @@ export default async function ListFlashcards(props: PartialMPP) {
   if (!selectedCardsetId || !selectedCategory) return <></>;
 
   return (
-    <div className="flex w-full flex-col overflow-y-auto bg-slate-200 px-4 py-4">
+    <div className="flex flex-1 flex-col overflow-y-auto bg-slate-200 px-4 py-4">
       <DetailedView data={selectedCategory} type="category" />
 
       {flashcards && (

@@ -19,7 +19,7 @@ export default function CreateQuestionButton(props: {
     createQuestion.mutate({
       title: "New question",
       body: "Question body",
-      answer: "Answer1",
+      answer: 0,
       flashcard: selectedFlashcardId,
       options: ["Answer1", "Answer2"],
     });
