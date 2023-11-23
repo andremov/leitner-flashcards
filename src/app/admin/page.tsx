@@ -7,6 +7,8 @@ import { api } from "~/trpc/react";
 import ListCards from "../_components/list-components/list-cards";
 import EditCardSet from "../_components/edit-components/edit-cardset";
 import DeleteCardSet from "../_components/delete-components/delete-cardset";
+import EditCategory from "../_components/edit-components/edit-category";
+import DeleteCategory from "../_components/delete-components/delete-category";
 
 export default function AdminHome() {
   const searchParams = useSearchParams();
@@ -35,6 +37,9 @@ export default function AdminHome() {
         <DeleteCardSet />
 
         <ListCategories />
+        <EditCategory />
+        <DeleteCategory />
+
         <ListCards />
       </div>
     </main>

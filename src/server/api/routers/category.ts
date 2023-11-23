@@ -44,6 +44,40 @@ export const categoryRouter = createTRPCRouter({
       });
     }),
 
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        name: z.string().min(1),
+        color: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.category.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+          color: input.color,
+        },
+      });
+    }),
+
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.category.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
   findOne: publicProcedure
     .input(
       z.object({

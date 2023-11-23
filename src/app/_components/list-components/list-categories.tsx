@@ -53,12 +53,18 @@ export default function ListCategories() {
               >
                 <ExternalLink className="mx-auto w-5" />
               </Link>
-              <button className="w-6 rounded-sm transition hover:bg-black/20">
+              <Link
+                href={`/admin?cardset=${selectedCardsetId}&category-edit=${category.id}`}
+                className="w-6 rounded-sm transition hover:bg-black/20"
+              >
                 <Pencil className="mx-auto w-5" />
-              </button>
-              <button className="w-6 rounded-sm transition hover:bg-red-500/40">
+              </Link>
+              <Link
+                href={`/admin?cardset=${selectedCardsetId}&category-delete=${category.id}`}
+                className="w-6 rounded-sm transition hover:bg-red-500/40"
+              >
                 <Trash className="mx-auto w-5" />
-              </button>
+              </Link>
             </div>
           </div>
         ))}
