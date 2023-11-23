@@ -45,6 +45,7 @@ export default async function ListQuestions(props: PartialMPP) {
             key={question.id}
             activeColor="bg-blue-500 text-white"
             inactiveColor="bg-blue-300"
+            hasChildren
           />
         ))}
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
@@ -62,13 +63,11 @@ export default function EditQuestion(props: PartialMPP) {
         />
 
         <p className="text-white">Question Body</p>
-        <input
-          multiple
-          type="text"
+        <textarea
           placeholder="Question Body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="mb-2 w-full rounded-full px-4 py-2 text-black"
+          className="mb-2 w-full rounded-xl px-4 py-2 text-black"
         />
 
         <p className="text-white">Options</p>
@@ -88,12 +87,23 @@ export default function EditQuestion(props: PartialMPP) {
                 <span>{index + 1}. </span>
                 <input
                   className="flex-1 px-2 py-1"
+                  placeholder="New answer"
                   value={option}
                   onChange={(e) => {
                     const newOptions = [...options];
                     newOptions.splice(index, 1, e.target.value);
                     setOptions(newOptions);
                   }}
+                />
+                <input
+                  type="button"
+                  value="X"
+                  onClick={() => {
+                    const newOptions = [...options];
+                    newOptions.splice(index, 1);
+                    setOptions(newOptions);
+                  }}
+                  className="cursor-pointer rounded-md px-1.5 transition hover:bg-red-600 hover:text-white"
                 />
               </div>
             </div>
@@ -102,7 +112,7 @@ export default function EditQuestion(props: PartialMPP) {
 
         <input
           type="button"
-          onClick={() => setOptions([...options, "New answer"])}
+          onClick={() => setOptions([...options, ""])}
           value="New answer"
           className="cursor-pointer rounded-md bg-black/30 py-1 text-white"
         />

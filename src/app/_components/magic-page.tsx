@@ -12,15 +12,16 @@ import EditFlashcard from "./edit-components/edit-flashcard";
 import DeleteFlashcard from "./delete-components/delete-flashcard";
 import EditQuestion from "./edit-components/edit-question";
 import DeleteQuestion from "./delete-components/delete-question";
+import ViewQuestion from "./list-components/view-question";
 
 export default async function MagicPage(props: PartialMPP) {
   const {
     selectedCardsetId,
     selectedCategoryId,
     selectedFlashcardId,
+    selectedQuestionId,
     deletingModel,
     editingModel,
-    selectedQuestionId,
   } = props;
 
   const selectedCardset = await api.cardset.findOne.query({
@@ -35,13 +36,20 @@ export default async function MagicPage(props: PartialMPP) {
     id: selectedFlashcardId ?? "",
   });
 
+  const selectedQuestion = await api.question.findOne.query({
+    id: selectedQuestionId ?? "",
+  });
+
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
       <div className="flex h-16 w-screen items-center justify-center">
         <div className="rounded-md border border-black bg-white px-4 py-2">
           / {selectedCardset && `${selectedCardset.name} /`}{" "}
           {selectedCategory && `${selectedCategory.name} /`}{" "}
-          {selectedFlashcard && `${selectedFlashcard.title} /`}
+          {selectedFlashcard && `${selectedFlashcard.title} /`}{" "}
+          {selectedQuestion && `${selectedQuestion.title} /`}{" "}
+          {editingModel && "EDITING"}
+          {deletingModel && "DELETING"}
         </div>
       </div>
       <div className="flex flex-1 items-stretch gap-1">
@@ -60,6 +68,8 @@ export default async function MagicPage(props: PartialMPP) {
         <ListQuestions {...props} />
         <EditQuestion {...props} />
         <DeleteQuestion {...props} />
+
+        <ViewQuestion {...props} />
       </div>
     </main>
   );
