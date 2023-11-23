@@ -10,6 +10,8 @@ import ListQuestions from "./list-components/list-questions";
 import { type PartialMPP } from "~/types/magic-page-types";
 import EditFlashcard from "./edit-components/edit-flashcard";
 import DeleteFlashcard from "./delete-components/delete-flashcard";
+import EditQuestion from "./edit-components/edit-question";
+import DeleteQuestion from "./delete-components/delete-question";
 
 export default async function MagicPage(props: PartialMPP) {
   const {
@@ -56,6 +58,8 @@ export default async function MagicPage(props: PartialMPP) {
         <DeleteFlashcard {...props} />
 
         <ListQuestions {...props} />
+        <EditQuestion {...props} />
+        <DeleteQuestion {...props} />
       </div>
     </main>
   );

@@ -50,7 +50,7 @@ export default function EditFlashcard(props: PartialMPP) {
           placeholder="Flashcard Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-full px-4 py-2 text-black"
+          className="mb-2 w-full rounded-full px-4 py-2 text-black"
         />
 
         <p className="text-white">Flashcard Description</p>
