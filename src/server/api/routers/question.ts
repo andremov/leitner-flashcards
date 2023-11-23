@@ -14,22 +14,21 @@ export const questionRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
+        title: z.string().min(1),
         body: z.string().min(1),
         answer: z.string().min(1),
         options: z.array(z.string().min(1)).min(1),
-        categories: z.array(z.string().min(1)).min(1),
+        category: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       return ctx.db.question.create({
         data: {
+          title: input.title,
           body: input.body,
           answer: input.answer,
           options: input.options,
-          categories: input.categories,
+          category: input.category,
         },
       });
     }),

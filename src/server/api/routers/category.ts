@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const flashcardRouter = createTRPCRouter({
+export const categoryRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -14,18 +14,16 @@ export const flashcardRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string().min(1),
-        description: z.string(),
-        category: z.string().min(1),
+        name: z.string().min(1),
+        color: z.string().min(1),
         cardset: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.create({
+      return ctx.db.category.create({
         data: {
-          title: input.title,
-          description: input.description,
-          category: input.category,
+          name: input.name,
+          color: input.color,
           cardset: input.cardset,
         },
       });
@@ -35,22 +33,31 @@ export const flashcardRouter = createTRPCRouter({
     .input(
       z.object({
         cardset: z.string().optional(),
-        category: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.flashcard.findMany({
+      return ctx.db.category.findMany({
         where: {
           cardset: input.cardset,
-          category: input.category,
         },
         orderBy: { createdAt: "desc" },
       });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.flashcard.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
-  }),
+  findOne: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      if (!input.id) return undefined;
+
+      return ctx.db.category.findFirst({
+        where: {
+          id: input.id,
+        },
+        orderBy: { createdAt: "desc" },
+      });
+    }),
 });
