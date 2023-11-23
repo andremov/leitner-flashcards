@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
 
-export default function ListCards() {
+export default function ListFlashcards() {
   const utils = api.useUtils();
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedCardsetId = searchParams.get("cardset");
   const selectedCategoryId = searchParams.get("category");
+  const selectedFlashcardId = searchParams.get("flashcard");
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({
     cardset: selectedCardsetId ?? undefined,
@@ -42,19 +43,19 @@ export default function ListCards() {
           <div
             key={flashcard.id}
             className={`flex items-center justify-between rounded-md px-4 py-2 transition ${
-              selectedCardsetId === flashcard.id
+              selectedFlashcardId === flashcard.id
                 ? "bg-indigo-500 text-white"
                 : "bg-indigo-300"
             }`}
           >
             <span>{flashcard.title}</span>
             <div className="flex gap-2">
-              {/* <Link
-                href={`/admin?cardset=${selectedCardset}&category=${category.id}`}
+              <Link
+                href={`/admin?cardset=${selectedCardsetId}&category=${selectedCategoryId}&flashcard=${flashcard.id}`}
                 className="w-6 rounded-sm transition hover:bg-black/20"
               >
                 <ExternalLink className="mx-auto w-5" />
-              </Link> */}
+              </Link>
               <button className="w-6 rounded-sm transition hover:bg-black/20">
                 <Pencil className="mx-auto w-5" />
               </button>

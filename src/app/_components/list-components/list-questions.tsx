@@ -9,7 +9,7 @@ export default function ListQuestions() {
   const utils = api.useUtils();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const selectedCardsetId = searchParams.get("cardset");
+  const selectedFlashcardId = searchParams.get("");
 
   const { data: cardsets } = api.cardset.getAll.useQuery();
 

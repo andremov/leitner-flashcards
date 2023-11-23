@@ -1,27 +1,27 @@
-"use client";
+// "use client";
 
 import { useSearchParams } from "next/navigation";
 import ListCardSets from "../_components/list-components/list-cardsets";
 import ListCategories from "../_components/list-components/list-categories";
 import { api } from "~/trpc/react";
-import ListCards from "../_components/list-components/list-cards";
+import ListFlashcards from "../_components/list-components/list-flashcards";
 import EditCardSet from "../_components/edit-components/edit-cardset";
 import DeleteCardSet from "../_components/delete-components/delete-cardset";
 import EditCategory from "../_components/edit-components/edit-category";
 import DeleteCategory from "../_components/delete-components/delete-category";
 
-export default function AdminHome() {
-  const searchParams = useSearchParams();
-  const selectedCardsetId = searchParams.get("cardset");
-  const selectedCategoryId = searchParams.get("category");
+export default function AdminHome({ params }) {
+  // const searchParams = useSearchParams();
+  // const selectedCardsetId = searchParams.get("cardset");
+  // const selectedCategoryId = searchParams.get("category");
 
-  const { data: selectedCardset } = api.cardset.findOne.useQuery({
-    id: selectedCardsetId ?? "",
-  });
+  // const { data: selectedCardset } = api.cardset.findOne.useQuery({
+  //   id: selectedCardsetId ?? "",
+  // });
 
-  const { data: selectedCategory } = api.category.findOne.useQuery({
-    id: selectedCategoryId ?? "",
-  });
+  // const { data: selectedCategory } = api.category.findOne.useQuery({
+  //   id: selectedCategoryId ?? "",
+  // });
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
@@ -40,7 +40,7 @@ export default function AdminHome() {
         <EditCategory />
         <DeleteCategory />
 
-        <ListCards />
+        <ListFlashcards />
       </div>
     </main>
   );
