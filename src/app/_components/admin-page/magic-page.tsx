@@ -1,11 +1,11 @@
-import ListCardSets from "../_components/list-components/list-cardsets";
-import ListCategories from "../_components/list-components/list-categories";
+import ListCardSets from "./list-components/list-cardsets";
+import ListCategories from "./list-components/list-categories";
 import { api } from "~/trpc/server";
-import ListFlashcards from "../_components/list-components/list-flashcards";
-import EditCardSet from "../_components/edit-components/edit-cardset";
-import DeleteCardSet from "../_components/delete-components/delete-cardset";
-import EditCategory from "../_components/edit-components/edit-category";
-import DeleteCategory from "../_components/delete-components/delete-category";
+import ListFlashcards from "./list-components/list-flashcards";
+import EditCardSet from "./edit-components/edit-cardset";
+import DeleteCardSet from "./delete-components/delete-cardset";
+import EditCategory from "./edit-components/edit-category";
+import DeleteCategory from "./delete-components/delete-category";
 import ListQuestions from "./list-components/list-questions";
 import { type PartialMPP } from "~/types/magic-page-types";
 import EditFlashcard from "./edit-components/edit-flashcard";
@@ -13,6 +13,8 @@ import DeleteFlashcard from "./delete-components/delete-flashcard";
 import EditQuestion from "./edit-components/edit-question";
 import DeleteQuestion from "./delete-components/delete-question";
 import ViewQuestion from "./list-components/view-question";
+import { ArrowBigLeft } from "lucide-react";
+import Link from "next/link";
 
 export default async function MagicPage(props: PartialMPP) {
   const {
@@ -42,7 +44,13 @@ export default async function MagicPage(props: PartialMPP) {
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
-      <div className="flex h-16 w-screen items-center justify-center">
+      <div className="relative flex h-16 w-screen items-center justify-center">
+        <Link
+          href={"/"}
+          className="border-blac absolute left-10 rounded-md border border-2 border-black bg-white px-4 py-2"
+        >
+          <ArrowBigLeft />
+        </Link>
         <div className="rounded-md border border-black bg-white px-4 py-2">
           / {selectedCardset && `${selectedCardset.name} /`}{" "}
           {selectedCategory && `${selectedCategory.name} /`}{" "}

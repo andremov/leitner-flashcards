@@ -8,7 +8,7 @@ export function TallyCounters(props: { count: number }) {
   const remTallies = count - fullTallies * 5;
 
   const width = 2;
-
+  if (count === 0) return <span>0</span>;
   return (
     <span className="flex gap-2 opacity-40">
       {[...Array(fullTallies).keys()].map((item) => (

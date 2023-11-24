@@ -1,4 +1,4 @@
-import MagicPage from "~/app/_components/magic-page";
+import MagicPage from "~/app/_components/admin-page/magic-page";
 import { type PartialRPP } from "~/types/magic-page-types";
 
 export default function Page({ params }: { params: PartialRPP }) {
