@@ -1,5 +1,3 @@
-import { ExternalLink, Pencil, Trash } from "lucide-react";
-import Link from "next/link";
 import { api } from "~/trpc/server";
 import CreateQuestionButton from "../create-components/create-question";
 import SimpleView from "../simple-view";

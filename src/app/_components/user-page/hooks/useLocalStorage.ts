@@ -46,6 +46,7 @@ export default function useLocalStorage(
 
   useEffect(() => {
     refreshCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardset, flashcards]);
 
   function updateDueDate(id: string, diff: number) {

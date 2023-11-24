@@ -2,10 +2,10 @@
 
 import { type Question } from "@prisma/client";
 import { Check, Dot, X } from "lucide-react";
-import { MouseEvent, useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type DatedFlashcard } from "~/types/shared";
-import { TallyCounters } from "../../tally-counters";
+import { TallyCounters } from "../tally-counters";
 
 export default function QuestionCard(props: {
   flashcard: DatedFlashcard;

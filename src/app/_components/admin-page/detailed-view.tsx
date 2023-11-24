@@ -1,4 +1,9 @@
-import { Category, type CardSet, Flashcard, Question } from "@prisma/client";
+import {
+  type Category,
+  type CardSet,
+  type Flashcard,
+  type Question,
+} from "@prisma/client";
 
 export default function DetailedView(props: {
   data: unknown;

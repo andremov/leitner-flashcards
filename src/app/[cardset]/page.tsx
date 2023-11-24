@@ -3,10 +3,9 @@
 import useLocalStorage from "../_components/user-page/hooks/useLocalStorage";
 import QuestionCard from "../_components/user-page/cards/question-card";
 import { RefreshCw } from "lucide-react";
-// import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: { cardset: string } }) {
-  // const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [datedFlashcards, dueFlashcards, updateDueDate, refreshCards] =
     useLocalStorage(params.cardset);
 
