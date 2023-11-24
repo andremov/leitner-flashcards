@@ -1,7 +1,7 @@
 "use client";
 
-import useLocalStorage from "../_components/user-page/hooks/useLocalStorage";
-import QuestionCard from "../_components/user-page/cards/question-card";
+import useLocalStorage from "~/components/user-page/hooks/useLocalStorage";
+import QuestionCard from "~/components/user-page/cards/question-card";
 // import { RefreshCw } from "lucide-react";
 
 export default function Page({ params }: { params: { cardset: string } }) {

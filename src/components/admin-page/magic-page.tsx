@@ -47,7 +47,7 @@ export default async function MagicPage(props: PartialMPP) {
       <div className="relative flex h-16 w-screen items-center justify-center">
         <Link
           href={"/"}
-          className="border-blac absolute left-10 rounded-md border border-2 border-black bg-white px-4 py-2"
+          className="border-blac absolute left-10 rounded-md border-2 border-black bg-white px-4 py-2"
         >
           <ArrowBigLeft />
         </Link>
