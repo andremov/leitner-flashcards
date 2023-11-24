@@ -44,7 +44,10 @@ export default async function ListFlashcards(props: PartialMPP) {
         ))}
       </div>
 
-      <CreateFlashCardButton {...props} />
+      <CreateFlashCardButton
+        selectedCardsetId={selectedCardsetId}
+        selectedCategoryId={selectedCategoryId!}
+      />
     </div>
   );
 }

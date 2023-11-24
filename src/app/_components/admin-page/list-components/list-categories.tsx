@@ -43,7 +43,7 @@ export default async function ListCategories(props: PartialMPP) {
         ))}
       </div>
 
-      <CreateCategoryButton {...props} />
+      <CreateCategoryButton selectedCardsetId={selectedCardsetId!} />
     </div>
   );
 }

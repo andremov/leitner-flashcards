@@ -50,7 +50,7 @@ export default async function ListQuestions(props: PartialMPP) {
         ))}
       </div>
 
-      <CreateQuestionButton {...props} />
+      <CreateQuestionButton selectedFlashcardId={props.selectedFlashcardId!} />
     </div>
   );
 }
