@@ -37,13 +37,8 @@ function filterDueFlashcards(ffc: DatedFlashcard, today: Temporal.PlainDate) {
 
 export default function useLocalStorage(
   cardset: string,
-): [
-  DatedFlashcard[],
-  DatedFlashcard[],
-  (id: string, diff: number) => void,
-  () => void,
-] {
-  const [datedFlashcards, setFlashcards] = useState<DatedFlashcard[]>([]);
+): [DatedFlashcard[], (id: string, diff: number) => void, () => void] {
+  const [, setFlashcards] = useState<DatedFlashcard[]>([]);
   const [dueFlashcards, setDueFlashcards] = useState<DatedFlashcard[]>([]);
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({
@@ -106,5 +101,5 @@ export default function useLocalStorage(
     }
   }
 
-  return [datedFlashcards, dueFlashcards, updateDueDate, refreshCards];
+  return [dueFlashcards, updateDueDate, refreshCards];
 }

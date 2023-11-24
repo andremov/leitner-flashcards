@@ -11,8 +11,9 @@ export default function QuestionCard(props: {
   flashcard: DatedFlashcard;
   updateDueDate: (id: string, diff: number) => void;
   refreshCards: () => void;
+  handleModifyScore: (right: boolean) => void;
 }) {
-  const { flashcard, updateDueDate, refreshCards } = props;
+  const { handleModifyScore, flashcard, updateDueDate, refreshCards } = props;
   const [flipped, setFlipped] = useState(false);
   const [pickedAnswer, setPickedAnswer] = useState<number | undefined>(
     undefined,
@@ -43,6 +44,7 @@ export default function QuestionCard(props: {
 
     setPickedAnswer(index);
     updateDueDate(flashcard.id, +(pickedQuestion.answer === index));
+    handleModifyScore(pickedQuestion.answer === index);
   }
 
   function handleClick() {
@@ -80,8 +82,8 @@ export default function QuestionCard(props: {
         }}
       >
         <div className="flex h-full w-full flex-col items-center justify-around gap-2 rounded-md bg-violet-300 p-4 text-center text-slate-800">
-          <p>{flashcard.title}</p>
-          <h4 className="text-3xl font-semibold">{pickedQuestion.title}</h4>
+          <p>{pickedQuestion.title}</p>
+          <h4 className="text-3xl font-semibold">{flashcard.title}</h4>
           {category && (
             <p
               className={`bg-${category.color} rounded-md px-2 py-1 text-white`}
@@ -116,7 +118,7 @@ export default function QuestionCard(props: {
           <p>
             {pickedQuestion.title}: {flashcard.title}
           </p>
-          <h4 className="text-3xl font-semibold">{pickedQuestion.body}</h4>
+          <h4 className="text-2xl font-semibold">{pickedQuestion.body}</h4>
           <div className="flex h-24 w-full flex-wrap items-center justify-center gap-2">
             {pickedQuestion.options?.map((option, index) => (
               <button
