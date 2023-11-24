@@ -1,8 +1,8 @@
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import { CardSetCard } from "~/components/user-page/cards/cardset-card";
 
-export default function UserHome() {
-  const { data: cardsets } = api.cardset.getAll.useQuery();
+export default async function UserHome() {
+  const cardsets = await api.cardset.getAll.query();
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-200 text-slate-950">
