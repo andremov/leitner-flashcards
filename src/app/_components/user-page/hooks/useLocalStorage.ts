@@ -29,6 +29,12 @@ function getPlainDateFromDue(dueDate: string): Temporal.PlainDate {
   return new Temporal.PlainDate(+year!, +month!, +day!);
 }
 
+function filterDueFlashcards(ffc: DatedFlashcard, today: Temporal.PlainDate) {
+  const flashcardDate = getPlainDateFromDue(ffc.due);
+
+  return flashcardDate.until(today).days >= 0;
+}
+
 export default function useLocalStorage(
   cardset: string,
 ): [
@@ -75,7 +81,6 @@ export default function useLocalStorage(
 
   function refreshCards() {
     if (flashcards) {
-      const { day, month, year } = Temporal.Now.plainDateISO();
       const history = JSON.parse(
         localStorage.getItem(cardset) ?? "{}",
       ) as ParsedStorage;
@@ -94,8 +99,9 @@ export default function useLocalStorage(
 
       setFlashcards(fixedFlashcards);
 
+      const today = Temporal.Now.plainDateISO();
       setDueFlashcards(
-        fixedFlashcards.filter((ffc) => ffc.due === `${year}-${month}-${day}`),
+        fixedFlashcards.filter((ffc) => filterDueFlashcards(ffc, today)),
       );
     }
   }

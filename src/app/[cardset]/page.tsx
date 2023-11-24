@@ -24,12 +24,12 @@ export default function Page({ params }: { params: { cardset: string } }) {
               updateDueDate={updateDueDate}
               refreshCards={refreshCards}
             />
-            <button
+            {/* <button
               className="rounded-md border-2 border-black bg-white px-4 py-2"
               onClick={() => refreshCards()}
             >
               <RefreshCw />
-            </button>
+            </button> */}
           </>
         ) : (
           <p>We&apos;re done!</p>
