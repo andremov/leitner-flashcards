@@ -2,7 +2,7 @@
 
 import { type Question } from "@prisma/client";
 import { Check, Dot, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type DatedFlashcard } from "~/types/shared";
 import { TallyCounters } from "../../tally-counters";
@@ -36,7 +36,7 @@ export default function QuestionCard(props: {
     }
   }, [questions, pickedQuestion]);
 
-  function handlePickAnswer(e: Event, index: number) {
+  function handlePickAnswer(e: MouseEvent, index: number) {
     e.stopPropagation();
 
     if (!pickedQuestion) return;
