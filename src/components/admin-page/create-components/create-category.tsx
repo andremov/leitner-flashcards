@@ -10,8 +10,8 @@ export default function CreateCategoryButton(props: {
   const router = useRouter();
 
   const createCategory = api.category.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
+    onSuccess: (newCategory) => {
+      router.push(`/admin/${selectedCardsetId}/${newCategory.id}/edit`);
     },
   });
 

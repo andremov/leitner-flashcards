@@ -46,6 +46,7 @@ export const flashcardRouter = createTRPCRouter({
         id: z.string().min(1),
         title: z.string().min(1),
         description: z.string().min(1),
+        category: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -56,6 +57,7 @@ export const flashcardRouter = createTRPCRouter({
         data: {
           title: input.title,
           description: input.description,
+          category: input.category,
         },
       });
     }),

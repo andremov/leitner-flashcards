@@ -7,8 +7,8 @@ export default function CreateCardSet() {
   const router = useRouter();
 
   const createCardSet = api.cardset.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
+    onSuccess: (newCardset) => {
+      router.push(`/admin/${newCardset.id}/edit`);
     },
   });
 

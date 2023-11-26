@@ -11,8 +11,10 @@ export default function CreateFlashCardButton(props: {
   const router = useRouter();
 
   const createFlashcard = api.flashcard.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
+    onSuccess: (newFlashcard) => {
+      router.push(
+        `/admin/${selectedCardsetId}/${selectedCategoryId}/${newFlashcard.id}/edit`,
+      );
     },
   });
 

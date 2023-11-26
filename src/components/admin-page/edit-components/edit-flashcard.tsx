@@ -6,20 +6,26 @@ import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/types/magic-page-types";
 
 export default function EditFlashcard(props: PartialMPP) {
-  const { selectedFlashcardId, editingModel } = props;
+  const { selectedFlashcardId, selectedCardsetId, editingModel } = props;
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
 
   const { data: editingFlashcard } = api.flashcard.findOne.useQuery({
     id: selectedFlashcardId ?? "",
+  });
+
+  const { data: availCategories } = api.category.getAll.useQuery({
+    cardset: selectedCardsetId,
   });
 
   useEffect(() => {
     if (editingFlashcard) {
       setTitle(editingFlashcard.title);
       setDescription(editingFlashcard.description);
+      setCategory(editingFlashcard.category);
     }
   }, [editingFlashcard]);
 
@@ -40,6 +46,7 @@ export default function EditFlashcard(props: PartialMPP) {
             id: editingFlashcard.id,
             title: title,
             description: description,
+            category: category,
           });
         }}
         className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
@@ -60,6 +67,20 @@ export default function EditFlashcard(props: PartialMPP) {
           onChange={(e) => setDescription(e.target.value)}
           className="w-full rounded-xl px-4 py-2 text-black"
         />
+
+        <p className="text-white">Flashcard Category</p>
+        <select
+          placeholder="Flashcard Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full rounded-xl px-4 py-2 text-black"
+        >
+          {availCategories?.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
 
         <button
           type="submit"

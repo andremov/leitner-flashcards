@@ -58,7 +58,7 @@ export default function QuestionCard(props: {
 
   if (!pickedQuestion)
     return (
-      <div className="absolute m-4 h-72 w-96 cursor-pointer rounded-lg bg-white p-1 shadow-lg transition">
+      <div className="absolute m-4 h-72 cursor-pointer rounded-lg bg-white p-1 shadow-lg transition sm:w-96">
         <div className="flex h-full w-full flex-col items-center justify-around gap-2 rounded-md bg-violet-300 p-4 text-center text-slate-800">
           <h4 className="text-3xl font-semibold">Loading...</h4>
         </div>
@@ -67,7 +67,7 @@ export default function QuestionCard(props: {
 
   return (
     <div
-      className="relative m-4 h-72 w-96"
+      className="relative m-4 h-96 w-72 sm:h-72 sm:w-96"
       onClick={handleClick}
       style={{
         transformStyle: "preserve-3d",
@@ -119,18 +119,20 @@ export default function QuestionCard(props: {
             {pickedQuestion.title}: {flashcard.title}
           </p>
           <h4 className="text-2xl font-semibold">{pickedQuestion.body}</h4>
-          <div className="flex h-24 w-full flex-wrap items-center justify-center gap-2">
+          <div className="flex h-48 w-full flex-wrap items-center justify-center gap-2 sm:h-24">
             {pickedQuestion.options?.map((option, index) => (
               <button
                 key={index}
                 onClick={(e) => handlePickAnswer(e, index)}
                 disabled={!!pickedAnswer}
-                className={`h-10 w-5/12 rounded-md bg-black/30 text-white transition  ${
+                className={`h-10 w-56 rounded-md bg-black/30 px-1 leading-4 text-white transition sm:w-36 ${
                   pickedAnswer === index
                     ? pickedQuestion.answer === index
-                      ? "bg-lime-400"
-                      : "bg-red-400"
-                    : "hover:bg-black/50 disabled:bg-black/10"
+                      ? "border-2 border-white bg-lime-500"
+                      : "border-2 border-white bg-red-500"
+                    : pickedQuestion.answer === index && !!pickedAnswer
+                      ? "bg-lime-500"
+                      : "hover:bg-black/50 disabled:bg-black/10"
                 }`}
               >
                 {option}
