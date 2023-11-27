@@ -2,10 +2,10 @@
 
 import useLocalStorage from "~/components/user-page/hooks/useLocalStorage";
 import QuestionCard from "~/components/user-page/cards/question-card";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Check, X } from "lucide-react";
 import { TallyCounters } from "~/components/user-page/tally-counters";
-// import { RefreshCw } from "lucide-react";
+import { openCard, successFanfare } from "~/shared/assets";
 
 function reducer(state: { right: number; wrong: number }, right: boolean) {
   return {
@@ -16,9 +16,19 @@ function reducer(state: { right: number; wrong: number }, right: boolean) {
 
 export default function Page({ params }: { params: { cardset: string } }) {
   const [score, setScore] = useReducer(reducer, { right: 0, wrong: 0 });
-  const [dueFlashcards, updateDueDate, refreshCards] = useLocalStorage(
+  const [dueFlashcards, updateDueDate, refreshCards, loaded] = useLocalStorage(
     params.cardset,
   );
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    if (dueFlashcards.length === 0) {
+      successFanfare.play();
+    } else {
+      openCard.play();
+    }
+  }, [dueFlashcards.length, loaded]);
 
   const topStyles = {
     titleTextSize: dueFlashcards.length === 0 ? "text-3xl" : "text-xl",

@@ -11,7 +11,7 @@ type ParsedStorage = Record<
 >;
 
 function mapBox(newBox: number) {
-const boxMapping = [1, 2, 4, 8, 16];
+  const boxMapping = [1, 2, 4, 8, 16];
 
   if (newBox > boxMapping.length) {
     return boxMapping[boxMapping.length - 1];
@@ -45,8 +45,8 @@ function filterDueFlashcards(ffc: DatedFlashcard, today: Temporal.PlainDate) {
 
 export default function useLocalStorage(
   cardset: string,
-): [DatedFlashcard[], (id: string, diff: number) => void, () => void] {
-  const [, setFlashcards] = useState<DatedFlashcard[]>([]);
+): [DatedFlashcard[], (id: string, diff: number) => void, () => void, boolean] {
+  const [loaded, setLoaded] = useState(false);
   const [dueFlashcards, setDueFlashcards] = useState<DatedFlashcard[]>([]);
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({
@@ -84,6 +84,7 @@ export default function useLocalStorage(
 
   function refreshCards() {
     if (flashcards) {
+      setLoaded(false);
       const history = JSON.parse(
         localStorage.getItem(cardset) ?? "{}",
       ) as ParsedStorage;
@@ -100,14 +101,13 @@ export default function useLocalStorage(
         };
       });
 
-      setFlashcards(fixedFlashcards);
-
       const today = Temporal.Now.plainDateISO();
       setDueFlashcards(
         fixedFlashcards.filter((ffc) => filterDueFlashcards(ffc, today)),
       );
+      setLoaded(true);
     }
   }
 
-  return [dueFlashcards, updateDueDate, refreshCards];
+  return [dueFlashcards, updateDueDate, refreshCards, loaded];
 }

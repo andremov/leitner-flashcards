@@ -6,6 +6,7 @@ import { type MouseEvent, useEffect, useState, CSSProperties } from "react";
 import { api } from "~/trpc/react";
 import { type DatedFlashcard } from "~/shared/types";
 import { TallyCounters } from "../tally-counters";
+import { successDing, failureDrum } from "~/shared/assets";
 
 export default function QuestionCard(props: {
   flashcard: DatedFlashcard;
@@ -45,6 +46,12 @@ export default function QuestionCard(props: {
     setPickedAnswer(index);
     updateDueDate(flashcard.id, +(pickedQuestion.answer === index));
     handleModifyScore(pickedQuestion.answer === index);
+
+    if (pickedQuestion.answer === index) {
+      successDing.play();
+    } else {
+      failureDrum.play();
+    }
   }
 
   function handleClick() {
