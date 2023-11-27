@@ -138,7 +138,7 @@ export default function QuestionCard(props: {
               <button
                 key={index}
                 onClick={(e) => handlePickAnswer(e, index)}
-                disabled={!!pickedAnswer}
+                disabled={pickedAnswer !== undefined}
                 className={`h-10 w-56 rounded-md px-1 leading-4 text-slate-800 transition sm:w-36 ${
                   pickedAnswer === index
                     ? pickedQuestion.answer === index
