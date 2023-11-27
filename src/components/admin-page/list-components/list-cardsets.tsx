@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
 import CreateCardSet from "../create-components/create-cardset";
 import SimpleView from "../simple-view";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 
 export default async function ListCardSets(props: PartialMPP) {
   const { selectedCardsetId } = props;

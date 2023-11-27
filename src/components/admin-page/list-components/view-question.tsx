@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 
 export default async function ViewQuestion(props: PartialMPP) {

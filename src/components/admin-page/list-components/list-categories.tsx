@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
 import CreateCategoryButton from "../create-components/create-category";
 import SimpleView from "../simple-view";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 
 export default async function ListCategories(props: PartialMPP) {

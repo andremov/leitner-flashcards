@@ -1,5 +1,5 @@
 import MagicPage from "~/components/admin-page/magic-page";
-import { type PartialRPP } from "~/types/magic-page-types";
+import { type PartialRPP } from "~/shared/types";
 
 export default function Page({ params }: { params: PartialRPP }) {
   return (

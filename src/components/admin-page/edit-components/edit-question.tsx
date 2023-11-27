@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 
 export default function EditQuestion(props: PartialMPP) {
   const { selectedQuestionId, editingModel } = props;

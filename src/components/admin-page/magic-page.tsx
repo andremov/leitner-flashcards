@@ -7,7 +7,7 @@ import DeleteCardSet from "./delete-components/delete-cardset";
 import EditCategory from "./edit-components/edit-category";
 import DeleteCategory from "./delete-components/delete-category";
 import ListQuestions from "./list-components/list-questions";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 import EditFlashcard from "./edit-components/edit-flashcard";
 import DeleteFlashcard from "./delete-components/delete-flashcard";
 import EditQuestion from "./edit-components/edit-question";

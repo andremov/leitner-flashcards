@@ -1,3 +1,5 @@
+// MAGIC PAGE TYPES
+
 export type ReceivingPageProps = {
   cardset: string;
   category: string;
@@ -17,3 +19,14 @@ export type MagicPageProps = {
 };
 
 export type PartialMPP = Partial<MagicPageProps>;
+
+// PARSED TYPES
+
+import { type Flashcard } from "@prisma/client";
+
+export type DatedFlashcard = Flashcard & {
+  due: string;
+  box: number;
+  right: number;
+  wrong: number;
+};

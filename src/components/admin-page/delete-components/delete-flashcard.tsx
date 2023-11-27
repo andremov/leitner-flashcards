@@ -3,7 +3,7 @@
 import { Check, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 
 export default function DeleteFlashcard(props: PartialMPP) {
   const {

@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
 import CreateFlashCardButton from "../create-components/create-flashcard";
 import SimpleView from "../simple-view";
-import { type PartialMPP } from "~/types/magic-page-types";
+import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 
 export default async function ListFlashcards(props: PartialMPP) {

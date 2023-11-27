@@ -3,7 +3,7 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
-import { type DatedFlashcard } from "~/types/shared";
+import { type DatedFlashcard } from "~/shared/types";
 
 type ParsedStorage = Record<
   string,
