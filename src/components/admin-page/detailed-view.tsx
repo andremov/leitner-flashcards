@@ -44,7 +44,7 @@ function CardsetDetailedView(props: CardSet) {
 
 function CategoryDetailedView(props: Category) {
   const { id, name, color } = props;
-  const bgColor = `bg-${color}`;
+  const bgColor = `bg-${color}-500`;
 
   return (
     <StyledView>
