@@ -10,7 +10,15 @@ type ParsedStorage = Record<
   { due: string; box: number; right: number; wrong: number }
 >;
 
+function mapBox(newBox: number) {
 const boxMapping = [1, 2, 4, 8, 16];
+
+  if (newBox > boxMapping.length) {
+    return boxMapping[boxMapping.length - 1];
+  }
+
+  return boxMapping[newBox];
+}
 
 function defaultHistoryRecord() {
   const { day, month, year } = Temporal.Now.plainDateISO();
@@ -58,7 +66,7 @@ export default function useLocalStorage(
     let historyElem = history[id] ?? defaultHistoryRecord();
 
     const { day, month, year } = getPlainDateFromDue(historyElem.due).add({
-      days: boxMapping[historyElem.box + diff],
+      days: mapBox(historyElem.box + diff),
     });
 
     historyElem = {
