@@ -41,10 +41,9 @@ export default function Page({ params }: { params: { cardset: string } }) {
               topStyles.tallyCounterTextSize
             }
           >
-            <div className="flex flex-1 justify-end gap-3 text-emerald-400 transition hover:text-emerald-500">
+            <div className="flex flex-1 justify-end gap-3 text-emerald-400">
               <TallyCounters
-                width={topStyles.tallyCounterWidth}
-                height={topStyles.tallyCounterWidth}
+                size={topStyles.tallyCounterWidth}
                 reverse
                 count={score.right}
               />
@@ -53,14 +52,13 @@ export default function Page({ params }: { params: { cardset: string } }) {
                 height={topStyles.tallyCounterWidth}
               />
             </div>
-            <div className="flex flex-1 justify-start gap-3 text-red-400 transition hover:text-red-500">
+            <div className="flex flex-1 justify-start gap-3 text-red-400">
               <X
                 width={topStyles.tallyCounterWidth}
                 height={topStyles.tallyCounterWidth}
               />
               <TallyCounters
-                width={topStyles.tallyCounterWidth}
-                height={topStyles.tallyCounterWidth}
+                size={topStyles.tallyCounterWidth}
                 count={score.wrong}
               />
             </div>
@@ -77,12 +75,6 @@ export default function Page({ params }: { params: { cardset: string } }) {
             refreshCards={refreshCards}
             handleModifyScore={setScore}
           />
-          {/* <button
-              className="rounded-md border-2 border-black bg-white px-4 py-2"
-              onClick={() => refreshCards()}
-            >
-              <RefreshCw />
-            </button> */}
         </div>
       )}
     </main>

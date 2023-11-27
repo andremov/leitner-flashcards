@@ -92,14 +92,19 @@ export default function QuestionCard(props: {
             </p>
           )}
 
-          <div className="flex w-8/12 items-center gap-1">
-            <div className="flex flex-1 justify-between">
+          <div
+            className="flex w-10/12 items-center gap-1 rounded-3xl bg-white px-3"
+            style={{
+              boxShadow: "inset 0 2px 2px 0 rgb(0 0 0 / 0.3)",
+            }}
+          >
+            <div className="flex flex-1 justify-between text-emerald-400">
               <Check />
-              <TallyCounters count={flashcard.right} />
+              <TallyCounters size={25} count={flashcard.right} />
             </div>
             <Dot className="h-10 w-10" />
-            <div className="flex flex-1 justify-between">
-              <TallyCounters count={flashcard.wrong} />
+            <div className="flex flex-1 justify-between text-red-400">
+              <TallyCounters size={25} count={flashcard.wrong} />
               <X />
             </div>
           </div>
