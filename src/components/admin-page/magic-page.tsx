@@ -26,21 +26,29 @@ export default async function MagicPage(props: PartialMPP) {
     editingModel,
   } = props;
 
-  const selectedCardset = await api.cardset.findOne.query({
-    id: selectedCardsetId,
-  });
+  const selectedCardset =
+    !!selectedCardsetId &&
+    (await api.cardset.findOne.query({
+      id: selectedCardsetId,
+    }));
 
-  const selectedCategory = await api.category.findOne.query({
-    id: selectedCategoryId,
-  });
+  const selectedCategory =
+    !!selectedCategoryId &&
+    (await api.category.findOne.query({
+      id: selectedCategoryId,
+    }));
 
-  const selectedFlashcard = await api.flashcard.findOne.query({
-    id: selectedFlashcardId,
-  });
+  const selectedFlashcard =
+    !!selectedFlashcardId &&
+    (await api.flashcard.findOne.query({
+      id: selectedFlashcardId,
+    }));
 
-  const selectedQuestion = await api.question.findOne.query({
-    id: selectedQuestionId,
-  });
+  const selectedQuestion =
+    !!selectedQuestionId &&
+    (await api.question.findOne.query({
+      id: selectedQuestionId,
+    }));
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">

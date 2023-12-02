@@ -12,7 +12,7 @@ export default function EditCardSet(props: PartialMPP) {
   const [name, setName] = useState("");
 
   const { data: editingCardset } = api.cardset.findOne.useQuery({
-    id: selectedCardsetId ?? "",
+    id: selectedCardsetId!,
   });
 
   useEffect(() => {

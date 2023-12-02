@@ -14,7 +14,7 @@ export default function EditFlashcard(props: PartialMPP) {
   const [category, setCategory] = useState("");
 
   const { data: editingFlashcard } = api.flashcard.findOne.useQuery({
-    id: selectedFlashcardId ?? "",
+    id: selectedFlashcardId!,
   });
 
   const { data: availCategories } = api.category.getAll.useQuery({

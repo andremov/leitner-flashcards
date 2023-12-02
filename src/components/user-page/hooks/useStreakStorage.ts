@@ -63,7 +63,6 @@ export default function useStreakStorage(): [
         days: getBlankMonth(today.daysInMonth),
       };
     }
-    console.log(storagedStreakData);
 
     storagedStreakData.currentStreak = currentStreak;
     if (storagedStreakData.currentStreak > storagedStreakData.longestStreak) {

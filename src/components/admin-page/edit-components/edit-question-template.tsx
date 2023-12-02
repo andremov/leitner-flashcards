@@ -24,9 +24,8 @@ export default function EditQuestionTemplate(props: {
   });
 
   const { data: editingTemplate } = api.questionTemplate.findOne.useQuery({
-    id: templateId,
+    id: templateId!,
   });
-  console.log(editingTemplate);
 
   useEffect(() => {
     if (editingTemplate) {

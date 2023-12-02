@@ -77,8 +77,6 @@ export const questionTemplateRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      if (!input.id) return {};
-
       return ctx.db.questionTemplate.findFirst({
         where: {
           id: input.id,

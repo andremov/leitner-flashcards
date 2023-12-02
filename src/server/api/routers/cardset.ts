@@ -62,8 +62,6 @@ export const cardsetRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      if (!input.id) return {};
-
       return ctx.db.cardSet.findFirst({
         where: {
           id: input.id,

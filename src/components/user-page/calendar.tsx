@@ -1,7 +1,7 @@
 "use client";
 
 import { Temporal } from "@js-temporal/polyfill";
-import { Crown, Star, StarIcon, StarOff, Stars } from "lucide-react";
+import { Crown, Star, Stars } from "lucide-react";
 import { type StreakDataType } from "~/shared/types";
 
 export default function Calendar(props: {

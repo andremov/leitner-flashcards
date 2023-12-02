@@ -49,6 +49,7 @@ export default function Page({ params }: { params: { cardset: string } }) {
       wrong: todayStreakData.wrong,
       remain: dueFlashcards.length,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [streakLoaded, cardsetLoaded]);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ export default function Page({ params }: { params: { cardset: string } }) {
       updateToday(score.right, score.wrong, dueFlashcards.length);
       refreshCalendar();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score.right, score.wrong, streakLoaded, cardsetLoaded]);
 
   const topStyles = {

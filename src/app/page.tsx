@@ -8,6 +8,7 @@ import Calendar from "~/components/user-page/calendar";
 
 export default function UserHome() {
   const { data: cardsets } = api.cardset.getAll.useQuery();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [streakData, updateToday, refreshCalendar, streakLoaded] =
     useStreakStorage();
 

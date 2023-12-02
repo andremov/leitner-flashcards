@@ -6,7 +6,7 @@ export default async function ViewQuestion(props: PartialMPP) {
   const { selectedQuestionId } = props;
 
   const selectedQuestion = await api.question.findOne.query({
-    id: selectedQuestionId,
+    id: selectedQuestionId!,
   });
 
   if (!selectedQuestion) return <></>;

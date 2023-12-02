@@ -34,7 +34,7 @@ export default function EditCategory(props: PartialMPP) {
   const [color, setColor] = useState("");
 
   const { data: editingCategory } = api.category.findOne.useQuery({
-    id: selectedCategoryId ?? "",
+    id: selectedCategoryId!,
   });
 
   useEffect(() => {

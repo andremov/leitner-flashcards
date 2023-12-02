@@ -1,7 +1,7 @@
 "use client";
 
 // import Link from "next/link";
-import useLocalStorage from "./hooks/useLocalStorage";
+// import useLocalStorage from "./hooks/useLocalStorage";
 
 export function TutorialCard() {
   // const [didTutorial] = useLocalStorage();
