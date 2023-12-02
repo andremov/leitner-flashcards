@@ -17,7 +17,7 @@ export default async function ListQuestions(props: PartialMPP) {
   });
 
   const selectedFlashcard = await api.flashcard.findOne.query({
-    id: selectedFlashcardId,
+    id: selectedFlashcardId!,
   });
 
   if (!selectedFlashcard) return <></>;

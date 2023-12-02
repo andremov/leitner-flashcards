@@ -73,12 +73,10 @@ export const categoryRouter = createTRPCRouter({
   findOne: publicProcedure
     .input(
       z.object({
-        id: z.string().optional(),
+        id: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
-      if (!input.id) return undefined;
-
       return ctx.db.category.findFirst({
         where: {
           id: input.id,

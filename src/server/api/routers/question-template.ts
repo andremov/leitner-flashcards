@@ -2,23 +2,21 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const flashcardRouter = createTRPCRouter({
+export const questionTemplateRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string().min(1),
-        description: z.string(),
-        category: z.string().min(1),
         cardset: z.string().min(1),
+        title: z.string().min(1),
+        body: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.create({
+      return ctx.db.questionTemplate.create({
         data: {
-          title: input.title,
-          description: input.description,
-          category: input.category,
           cardset: input.cardset,
+          title: input.title,
+          body: input.body,
         },
       });
     }),
@@ -27,14 +25,12 @@ export const flashcardRouter = createTRPCRouter({
     .input(
       z.object({
         cardset: z.string().optional(),
-        category: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.flashcard.findMany({
+      return ctx.db.questionTemplate.findMany({
         where: {
           cardset: input.cardset,
-          category: input.category,
         },
         orderBy: { createdAt: "desc" },
       });
@@ -45,19 +41,17 @@ export const flashcardRouter = createTRPCRouter({
       z.object({
         id: z.string().min(1),
         title: z.string().min(1),
-        description: z.string().min(1),
-        category: z.string().min(1),
+        body: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.update({
+      return ctx.db.questionTemplate.update({
         where: {
           id: input.id,
         },
         data: {
           title: input.title,
-          description: input.description,
-          category: input.category,
+          body: input.body,
         },
       });
     }),
@@ -69,7 +63,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.delete({
+      return ctx.db.questionTemplate.delete({
         where: {
           id: input.id,
         },
@@ -83,7 +77,9 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.flashcard.findFirst({
+      if (!input.id) return {};
+
+      return ctx.db.questionTemplate.findFirst({
         where: {
           id: input.id,
         },

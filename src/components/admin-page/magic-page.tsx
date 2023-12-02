@@ -27,19 +27,19 @@ export default async function MagicPage(props: PartialMPP) {
   } = props;
 
   const selectedCardset = await api.cardset.findOne.query({
-    id: selectedCardsetId ?? "",
+    id: selectedCardsetId,
   });
 
   const selectedCategory = await api.category.findOne.query({
-    id: selectedCategoryId ?? "",
+    id: selectedCategoryId,
   });
 
   const selectedFlashcard = await api.flashcard.findOne.query({
-    id: selectedFlashcardId ?? "",
+    id: selectedFlashcardId,
   });
 
   const selectedQuestion = await api.question.findOne.query({
-    id: selectedQuestionId ?? "",
+    id: selectedQuestionId,
   });
 
   return (
@@ -62,22 +62,22 @@ export default async function MagicPage(props: PartialMPP) {
       </div>
       <div className="flex flex-1 items-stretch gap-1">
         <ListCardSets {...props} />
-        <EditCardSet {...props} />
-        <DeleteCardSet {...props} />
+        {selectedCardset && <EditCardSet {...props} />}
+        {selectedCardset && <DeleteCardSet {...props} />}
 
-        <ListCategories {...props} />
-        <EditCategory {...props} />
-        <DeleteCategory {...props} />
+        {selectedCardset && <ListCategories {...props} />}
+        {selectedCategory && <EditCategory {...props} />}
+        {selectedCategory && <DeleteCategory {...props} />}
 
-        <ListFlashcards {...props} />
-        <EditFlashcard {...props} />
-        <DeleteFlashcard {...props} />
+        {selectedCategory && <ListFlashcards {...props} />}
+        {selectedFlashcard && <EditFlashcard {...props} />}
+        {selectedFlashcard && <DeleteFlashcard {...props} />}
 
-        <ListQuestions {...props} />
-        <EditQuestion {...props} />
-        <DeleteQuestion {...props} />
+        {selectedFlashcard && <ListQuestions {...props} />}
+        {selectedQuestion && <EditQuestion {...props} />}
+        {selectedQuestion && <DeleteQuestion {...props} />}
 
-        <ViewQuestion {...props} />
+        {selectedQuestion && <ViewQuestion {...props} />}
       </div>
     </main>
   );

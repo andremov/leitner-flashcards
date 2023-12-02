@@ -58,11 +58,11 @@ export const cardsetRouter = createTRPCRouter({
   findOne: publicProcedure
     .input(
       z.object({
-        id: z.string().optional(),
+        id: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
-      if (!input.id) return undefined;
+      if (!input.id) return {};
 
       return ctx.db.cardSet.findFirst({
         where: {

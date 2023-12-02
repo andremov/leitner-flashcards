@@ -22,11 +22,35 @@ export type PartialMPP = Partial<MagicPageProps>;
 
 // PARSED TYPES
 
-import { type Flashcard } from "@prisma/client";
+import { type Question } from "@prisma/client";
 
-export type DatedFlashcard = Flashcard & {
+export type DatedQuestionCard = Question & {
   due: string;
   box: number;
   right: number;
   wrong: number;
+};
+
+// LOCAL STORAGE TYPES
+
+export type StreakDataDayType = {
+  played: boolean;
+  right: number;
+  wrong: number;
+  remain: number;
+};
+
+export type StreakDataType = {
+  month: number;
+  currentStreak: number;
+  longestStreak: number;
+  days: StreakDataDayType[];
+};
+
+export type CardsetStorageType = {
+  version: string;
+  questionData: Record<
+    string,
+    { due: string; box: number; right: number; wrong: number }
+  >;
 };

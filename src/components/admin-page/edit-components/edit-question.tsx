@@ -4,24 +4,30 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/shared/types";
+import { Pencil, Pointer, X } from "lucide-react";
+import CreateQuestionTemplateButton from "../create-components/create-question-template";
+import { type QuestionTemplate } from "@prisma/client";
+import EditQuestionTemplate from "./edit-question-template";
 
 export default function EditQuestion(props: PartialMPP) {
-  const { selectedQuestionId, editingModel } = props;
+  const { selectedCardsetId, selectedQuestionId, editingModel } = props;
   const router = useRouter();
 
-  const [answer, setAnswer] = useState(0);
+  const [editingTemplate, setEditingTemplate] = useState("");
+
+  const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [options, setOptions] = useState<string[]>([]);
-  const [title, setTitle] = useState("");
+  const [answer, setAnswer] = useState(0);
 
   const { data: editingQuestion } = api.question.findOne.useQuery({
-    id: selectedQuestionId ?? "",
+    id: selectedQuestionId,
   });
+
+  const { data: allTemplates } = api.questionTemplate.getAll.useQuery({});
 
   useEffect(() => {
     if (editingQuestion) {
-      console.log(editingQuestion.answer);
-
       setAnswer(editingQuestion.answer);
       setBody(editingQuestion.body);
       setOptions(editingQuestion.options);
@@ -31,14 +37,60 @@ export default function EditQuestion(props: PartialMPP) {
 
   const updateQuestion = api.question.update.useMutation({
     onSuccess: () => {
-      router.refresh();
+      setTimeout(() => router.refresh(), 600);
     },
   });
+
+  function selectTemplate(template: QuestionTemplate) {
+    setBody(template.body);
+    setTitle(template.title);
+  }
 
   if (!editingQuestion || editingModel !== "question") return <></>;
 
   return (
     <div className="flex flex-[2_2_0%] flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+      <div className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4">
+        {allTemplates?.map((template) => (
+          <div
+            className="mb-2 flex flex-col items-center rounded-md bg-white px-2 py-1"
+            key={template.id}
+          >
+            {/* LIST QUESTION TEMPLATE FORM */}
+            {editingTemplate !== template.id && (
+              <div
+                className={`flex h-fit w-full gap-2 overflow-hidden transition`}
+              >
+                <span className="flex-1">{template.title}</span>
+                <button
+                  className="rounded-sm transition hover:bg-black/20"
+                  onClick={() => selectTemplate(template)}
+                >
+                  <Pointer width={20} height={20} />
+                </button>
+                <button
+                  className="rounded-sm transition hover:bg-black/20"
+                  onClick={() => {
+                    setEditingTemplate(template.id);
+                  }}
+                >
+                  <Pencil width={20} height={20} />
+                </button>
+              </div>
+            )}
+
+            {editingTemplate === template.id && (
+              <EditQuestionTemplate
+                stopEditing={() => setEditingTemplate("")}
+                templateId={editingTemplate}
+              />
+            )}
+          </div>
+        ))}
+
+        <CreateQuestionTemplateButton selectedCardsetId={selectedCardsetId!} />
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -50,7 +102,12 @@ export default function EditQuestion(props: PartialMPP) {
             title: title,
           });
         }}
-        className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
+        style={{
+          height: editingTemplate ? "0" : "auto",
+        }}
+        className={`my-2 flex w-8/12 select-none flex-col gap-1 overflow-hidden rounded-lg bg-slate-500 transition ${
+          editingTemplate ? "h-0" : "h-fit p-4"
+        }`}
       >
         <p className="text-white">Question Name</p>
         <input
@@ -74,7 +131,7 @@ export default function EditQuestion(props: PartialMPP) {
           {options?.map((option, index) => (
             <div
               key={index}
-              className="mb-2 flex items-center gap-2 rounded-md bg-white px-1"
+              className="mb-2 flex items-center gap-2 rounded-md bg-white pl-2"
             >
               <input
                 type="radio"
@@ -82,10 +139,10 @@ export default function EditQuestion(props: PartialMPP) {
                 checked={index === answer}
                 onClick={() => setAnswer(index)}
               />
-              <div className="flex flex-1 items-center">
+              <div className="flex flex-1 items-center gap-1">
                 <span>{index + 1}. </span>
                 <input
-                  className="flex-1 px-2 py-1"
+                  className="w-full px-2 py-1"
                   placeholder="New answer"
                   value={option}
                   onChange={(e) => {
@@ -94,16 +151,16 @@ export default function EditQuestion(props: PartialMPP) {
                     setOptions(newOptions);
                   }}
                 />
-                <input
-                  type="button"
-                  value="X"
+                <div
                   onClick={() => {
                     const newOptions = [...options];
                     newOptions.splice(index, 1);
                     setOptions(newOptions);
                   }}
-                  className="cursor-pointer rounded-md px-1.5 transition hover:bg-red-600 hover:text-white"
-                />
+                  className="cursor-pointer rounded-sm p-1 transition hover:bg-red-600 hover:text-white"
+                >
+                  <X />
+                </div>
               </div>
             </div>
           ))}
@@ -113,7 +170,7 @@ export default function EditQuestion(props: PartialMPP) {
           type="button"
           onClick={() => setOptions([...options, ""])}
           value="New answer"
-          className="cursor-pointer rounded-md bg-black/30 py-1 text-white"
+          className="cursor-pointer rounded-md bg-black/30 py-1 text-white transition hover:bg-black/50"
         />
 
         <button

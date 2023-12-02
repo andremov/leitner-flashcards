@@ -8,12 +8,12 @@ export default async function ListFlashcards(props: PartialMPP) {
   const { selectedCardsetId, selectedCategoryId, selectedFlashcardId } = props;
 
   const flashcards = await api.flashcard.getAll.query({
-    cardset: selectedCardsetId ?? undefined,
-    category: selectedCategoryId ?? undefined,
+    cardset: selectedCardsetId,
+    category: selectedCategoryId,
   });
 
   const selectedCategory = await api.category.findOne.query({
-    id: selectedCategoryId,
+    id: selectedCategoryId!,
   });
 
   if (!selectedCardsetId || !selectedCategory) return <></>;

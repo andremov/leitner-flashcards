@@ -1,53 +1,45 @@
 "use client";
 
-import { type Question } from "@prisma/client";
 import { Check, Dot, X } from "lucide-react";
-import { type MouseEvent, useEffect, useState, CSSProperties } from "react";
+import { type MouseEvent, useState } from "react";
 import { api } from "~/trpc/react";
-import { type DatedFlashcard } from "~/shared/types";
+import { type DatedQuestionCard } from "~/shared/types";
 import { TallyCounters } from "../tally-counters";
 import { successDing, failureDrum } from "~/shared/assets";
 
 export default function QuestionCard(props: {
-  flashcard: DatedFlashcard;
+  questionCard: DatedQuestionCard;
   updateDueDate: (id: string, diff: number) => void;
   refreshCards: () => void;
   handleModifyScore: (right: boolean) => void;
 }) {
-  const { handleModifyScore, flashcard, updateDueDate, refreshCards } = props;
+  const { handleModifyScore, questionCard, updateDueDate, refreshCards } =
+    props;
   const [flipped, setFlipped] = useState(false);
   const [pickedAnswer, setPickedAnswer] = useState<number | undefined>(
     undefined,
   );
-  const [pickedQuestion, pickQuestion] = useState<Question | undefined>(
-    undefined,
+
+  const { data: flashcard, isSuccess: findFlashcardSuccess } =
+    api.flashcard.findOne.useQuery({
+      id: questionCard.flashcard,
+    });
+
+  const { data: category } = api.category.findOne.useQuery(
+    {
+      id: flashcard?.category ?? "",
+    },
+    { enabled: findFlashcardSuccess },
   );
-
-  const { data: questions } = api.question.getAll.useQuery({
-    flashcard: flashcard.id,
-  });
-
-  const { data: category } = api.category.findOne.useQuery({
-    id: flashcard.category,
-  });
-
-  useEffect(() => {
-    if (!pickedQuestion && questions) {
-      const index = Math.floor(Math.random() * questions.length);
-      pickQuestion(questions[index]);
-    }
-  }, [questions, pickedQuestion]);
 
   function handlePickAnswer(e: MouseEvent, index: number) {
     e.stopPropagation();
 
-    if (!pickedQuestion) return;
-
     setPickedAnswer(index);
-    updateDueDate(flashcard.id, +(pickedQuestion.answer === index));
-    handleModifyScore(pickedQuestion.answer === index);
+    updateDueDate(questionCard.id, +(questionCard.answer === index));
+    handleModifyScore(questionCard.answer === index);
 
-    if (pickedQuestion.answer === index) {
+    if (questionCard.answer === index) {
       successDing.play();
     } else {
       failureDrum.play();
@@ -63,9 +55,9 @@ export default function QuestionCard(props: {
     }
   }
 
-  if (!pickedQuestion) {
+  if (!questionCard || !flashcard || !category) {
     return (
-      <div className="absolute m-4 h-72 cursor-pointer rounded-lg bg-white p-1 shadow-lg transition sm:w-96">
+      <div className="absolute m-4 h-96 w-72 cursor-pointer rounded-lg bg-white p-1 shadow-lg transition sm:h-72 sm:w-96 ">
         <div className="flex h-full w-full flex-col items-center justify-around gap-2 rounded-md bg-slate-300 p-4 text-center text-slate-800">
           <h4 className="text-3xl font-semibold">Loading...</h4>
         </div>
@@ -94,7 +86,7 @@ export default function QuestionCard(props: {
             category ? category.color : "slate"
           }-300`}
         >
-          <p>{pickedQuestion.title}</p>
+          <p>{questionCard.title}</p>
           <h4 className="text-3xl font-semibold">{flashcard.title}</h4>
           {category && (
             <p
@@ -112,11 +104,11 @@ export default function QuestionCard(props: {
           >
             <div className="flex flex-1 justify-between text-emerald-400">
               <Check />
-              <TallyCounters size={25} count={flashcard.right} />
+              <TallyCounters size={25} count={questionCard.right} />
             </div>
             <Dot className="h-10 w-10" />
             <div className="flex flex-1 justify-between text-red-400">
-              <TallyCounters size={25} count={flashcard.wrong} />
+              <TallyCounters size={25} count={questionCard.wrong} />
               <X />
             </div>
           </div>
@@ -137,21 +129,22 @@ export default function QuestionCard(props: {
           }-300`}
         >
           <p>
-            {pickedQuestion.title}: {flashcard.title}
+            {questionCard.title}: {flashcard.title}
           </p>
-          <h4 className="text-2xl font-semibold">{pickedQuestion.body}</h4>
+          <h4 className="text-2xl font-semibold">{questionCard.body}</h4>
           <div className="flex h-48 w-full flex-wrap items-center justify-center gap-2 sm:h-24">
-            {pickedQuestion.options?.map((option, index) => (
+            {questionCard.options?.map((option, index) => (
               <button
                 key={index}
                 onClick={(e) => handlePickAnswer(e, index)}
                 disabled={pickedAnswer !== undefined}
                 className={`h-10 w-56 rounded-md px-1 leading-4 text-slate-800 transition sm:w-36 ${
                   pickedAnswer === index
-                    ? pickedQuestion.answer === index
+                    ? questionCard.answer === index
                       ? "border-2 border-white bg-lime-500"
                       : "border-2 border-white bg-red-500"
-                    : pickedQuestion.answer === index && !!pickedAnswer
+                    : questionCard.answer === index &&
+                        !!(pickedAnswer !== undefined)
                       ? "bg-lime-500"
                       : "bg-white/50 hover:bg-white/70 disabled:bg-black/30"
                 }`}

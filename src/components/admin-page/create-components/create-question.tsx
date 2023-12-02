@@ -25,6 +25,7 @@ export default function CreateQuestionButton(props: {
       body: "Question body",
       answer: 0,
       flashcard: selectedFlashcardId,
+      cardset: selectedCardsetId,
       options: ["Answer1", "Answer2"],
     });
 

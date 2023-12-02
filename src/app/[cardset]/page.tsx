@@ -1,34 +1,74 @@
 "use client";
 
-import useLocalStorage from "~/components/user-page/hooks/useLocalStorage";
+import useCardsetStorage from "~/components/user-page/hooks/useCardsetStorage";
 import QuestionCard from "~/components/user-page/cards/question-card";
-import { useEffect, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
 import { TallyCounters } from "~/components/user-page/tally-counters";
 import { openCard, successFanfare } from "~/shared/assets";
+import useStreakStorage from "~/components/user-page/hooks/useStreakStorage";
+import Calendar from "~/components/user-page/calendar";
 
-function reducer(state: { right: number; wrong: number }, right: boolean) {
+function reducer(state: ScoreType, right: boolean) {
   return {
     right: state.right + +right,
     wrong: state.wrong + ((+right + 1) % 2),
+    remain: state.remain,
   };
 }
 
+type ScoreType = { right: number; wrong: number; remain: number };
+
+const initScoreState = {
+  right: 0,
+  wrong: 0,
+  remain: 0,
+};
+
 export default function Page({ params }: { params: { cardset: string } }) {
-  const [score, setScore] = useReducer(reducer, { right: 0, wrong: 0 });
-  const [dueFlashcards, updateDueDate, refreshCards, loaded] = useLocalStorage(
-    params.cardset,
-  );
+  const [score, setScore] = useState<ScoreType>(initScoreState);
+  const [dueFlashcards, updateDueDate, refreshCards, cardsetLoaded] =
+    useCardsetStorage(params.cardset);
+
+  const scoreReducer = (right: boolean) => setScore(reducer(score, right));
+
+  const [
+    streakData,
+    updateToday,
+    refreshCalendar,
+    todayStreakData,
+    streakLoaded,
+  ] = useStreakStorage();
 
   useEffect(() => {
-    if (!loaded) return;
+    if (!todayStreakData) return;
+    if (!cardsetLoaded) return;
+
+    setScore({
+      right: todayStreakData.right,
+      wrong: todayStreakData.wrong,
+      remain: dueFlashcards.length,
+    });
+  }, [streakLoaded, cardsetLoaded]);
+
+  useEffect(() => {
+    if (!cardsetLoaded) return;
 
     if (dueFlashcards.length === 0) {
       successFanfare.play();
     } else {
       openCard.play();
     }
-  }, [dueFlashcards.length, loaded]);
+  }, [dueFlashcards.length, cardsetLoaded, streakLoaded]);
+
+  useEffect(() => {
+    if (!cardsetLoaded) return;
+
+    if (streakLoaded) {
+      updateToday(score.right, score.wrong, dueFlashcards.length);
+      refreshCalendar();
+    }
+  }, [score.right, score.wrong, streakLoaded, cardsetLoaded]);
 
   const topStyles = {
     titleTextSize: dueFlashcards.length === 0 ? "text-3xl" : "text-xl",
@@ -80,12 +120,16 @@ export default function Page({ params }: { params: { cardset: string } }) {
         <div className="flex flex-1 flex-col items-center justify-center gap-10">
           <QuestionCard
             key={dueFlashcards[0]!.id}
-            flashcard={dueFlashcards[0]!}
+            questionCard={dueFlashcards[0]!}
             updateDueDate={updateDueDate}
             refreshCards={refreshCards}
-            handleModifyScore={setScore}
+            handleModifyScore={scoreReducer}
           />
         </div>
+      )}
+
+      {dueFlashcards.length === 0 && streakLoaded && (
+        <Calendar streakData={streakData} />
       )}
     </main>
   );

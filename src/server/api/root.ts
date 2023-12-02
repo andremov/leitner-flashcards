@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { flashcardRouter } from "./routers/flashcard";
 import { questionRouter } from "./routers/question";
+import { questionTemplateRouter } from "./routers/question-template";
 import { cardsetRouter } from "./routers/cardset";
 import { categoryRouter } from "./routers/category";
 
@@ -11,6 +12,7 @@ import { categoryRouter } from "./routers/category";
  */
 export const appRouter = createTRPCRouter({
   question: questionRouter,
+  questionTemplate: questionTemplateRouter,
   flashcard: flashcardRouter,
   category: categoryRouter,
   cardset: cardsetRouter,

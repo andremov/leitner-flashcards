@@ -8,11 +8,11 @@ export default async function ListCategories(props: PartialMPP) {
   const { selectedCardsetId, selectedCategoryId } = props;
 
   const categories = await api.category.getAll.query({
-    cardset: selectedCardsetId ?? undefined,
+    cardset: selectedCardsetId,
   });
 
   const selectedCardset = await api.cardset.findOne.query({
-    id: selectedCardsetId,
+    id: selectedCardsetId!,
   });
 
   if (!selectedCardset) return <></>;

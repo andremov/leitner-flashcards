@@ -3,12 +3,10 @@
 import { Temporal } from "@js-temporal/polyfill";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
-import { type DatedFlashcard } from "~/shared/types";
-
-type ParsedStorage = Record<
-  string,
-  { due: string; box: number; right: number; wrong: number }
->;
+import {
+  type DatedQuestionCard,
+  type CardsetStorageType,
+} from "~/shared/types";
 
 function mapBox(newBox: number) {
   const boxMapping = [1, 2, 4, 8, 16];
@@ -37,33 +35,45 @@ function getPlainDateFromDue(dueDate: string): Temporal.PlainDate {
   return new Temporal.PlainDate(+year!, +month!, +day!);
 }
 
-function filterDueFlashcards(ffc: DatedFlashcard, today: Temporal.PlainDate) {
+function filterDueQuestions(ffc: DatedQuestionCard, today: Temporal.PlainDate) {
   const flashcardDate = getPlainDateFromDue(ffc.due);
 
   return flashcardDate.until(today).days >= 0;
 }
 
-export default function useLocalStorage(
+export default function useCardsetStorage(
   cardset: string,
-): [DatedFlashcard[], (id: string, diff: number) => void, () => void, boolean] {
+): [
+  DatedQuestionCard[],
+  (id: string, diff: number) => void,
+  () => void,
+  boolean,
+] {
   const [loaded, setLoaded] = useState(false);
-  const [dueFlashcards, setDueFlashcards] = useState<DatedFlashcard[]>([]);
+  const [dueFlashcards, setDueFlashcards] = useState<DatedQuestionCard[]>([]);
 
-  const { data: flashcards } = api.flashcard.getAll.useQuery({
+  const { data: questions } = api.question.getAll.useQuery({
     cardset: cardset,
   });
 
   useEffect(() => {
     refreshCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardset, flashcards]);
+  }, [cardset, questions]);
 
   function updateDueDate(id: string, diff: number) {
-    const history = JSON.parse(
+    let history = JSON.parse(
       localStorage.getItem(cardset) ?? "{}",
-    ) as ParsedStorage;
+    ) as CardsetStorageType;
 
-    let historyElem = history[id] ?? defaultHistoryRecord();
+    if (!history.version) {
+      history = {
+        version: "1.1",
+        questionData: {},
+      };
+    }
+
+    let historyElem = history.questionData[id] ?? defaultHistoryRecord();
 
     const { day, month, year } = getPlainDateFromDue(historyElem.due).add({
       days: mapBox(historyElem.box + diff),
@@ -78,19 +88,30 @@ export default function useLocalStorage(
 
     localStorage.setItem(
       cardset,
-      JSON.stringify({ ...history, [id]: historyElem }),
+      JSON.stringify({
+        ...history,
+        questionData: { ...history.questionData, [id]: historyElem },
+      }),
     );
   }
 
   function refreshCards() {
-    if (flashcards) {
+    if (questions) {
       setLoaded(false);
-      const history = JSON.parse(
+      let history = JSON.parse(
         localStorage.getItem(cardset) ?? "{}",
-      ) as ParsedStorage;
+      ) as CardsetStorageType;
 
-      const fixedFlashcards = flashcards.map((flashcard) => {
-        const historyElem = history[flashcard.id] ?? defaultHistoryRecord();
+      if (!history.version) {
+        history = {
+          version: "1.1",
+          questionData: {},
+        };
+      }
+
+      const fixedQuestions = questions.map((flashcard) => {
+        const historyElem =
+          history.questionData[flashcard.id] ?? defaultHistoryRecord();
 
         return {
           ...flashcard,
@@ -103,7 +124,7 @@ export default function useLocalStorage(
 
       const today = Temporal.Now.plainDateISO();
       setDueFlashcards(
-        fixedFlashcards.filter((ffc) => filterDueFlashcards(ffc, today)),
+        fixedQuestions.filter((ffc) => filterDueQuestions(ffc, today)),
       );
       setLoaded(true);
     }
