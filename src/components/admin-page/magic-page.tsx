@@ -51,8 +51,12 @@ export default async function MagicPage(props: PartialMPP) {
     }));
 
   const activeViews = Object.keys(props).filter(
-    (key) => !!props[key as keyof PartialMPP] && key.includes("selected"),
-  ).length;
+    (key) => !!props[key as keyof PartialMPP],
+  );
+
+  const curActiveView =
+    activeViews.filter((key) => key.includes("selected")).length -
+    activeViews.filter((key) => !key.includes("selected")).length;
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
@@ -75,7 +79,7 @@ export default async function MagicPage(props: PartialMPP) {
       <div className="flex flex-1 items-stretch gap-1">
         <ListCardSets
           selectedCardsetId={selectedCardsetId}
-          isActive={activeViews === 0}
+          isActive={curActiveView <= 1}
         />
         {selectedCardsetId && <EditCardSet {...props} />}
         {selectedCardsetId && <DeleteCardSet {...props} />}
@@ -84,17 +88,31 @@ export default async function MagicPage(props: PartialMPP) {
           <ListCategories
             {...props}
             selectedCardsetId={selectedCardsetId}
-            isActive={activeViews === 1}
+            isActive={curActiveView <= 2}
           />
         )}
         {selectedCategoryId && <EditCategory {...props} />}
         {selectedCategoryId && <DeleteCategory {...props} />}
 
-        {selectedCategoryId && <ListFlashcards {...props} />}
+        {selectedCardsetId && selectedCategoryId && (
+          <ListFlashcards
+            {...props}
+            selectedCardsetId={selectedCardsetId}
+            selectedCategoryId={selectedCategoryId}
+            isActive={curActiveView <= 3}
+          />
+        )}
         {selectedFlashcard && <EditFlashcard {...props} />}
         {selectedFlashcard && <DeleteFlashcard {...props} />}
 
-        {selectedFlashcard && <ListQuestions {...props} />}
+        {selectedCardsetId && selectedCategoryId && selectedFlashcard && (
+          <ListQuestions
+            {...props}
+            selectedCardsetId={selectedCardsetId}
+            selectedCategoryId={selectedCategoryId}
+            selectedFlashcardId={selectedFlashcardId}
+          />
+        )}
         {selectedQuestion && <EditQuestion {...props} />}
         {selectedQuestion && <DeleteQuestion {...props} />}
 

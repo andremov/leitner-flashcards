@@ -50,7 +50,9 @@ function CategoryDetailedView(props: Category) {
     <StyledView>
       <h3 className="mb-2 text-xl font-semibold">{name}</h3>
 
-      <div className={`w-52 ${bgColor} rounded-md text-center`}>Color</div>
+      <div className={`box-border w-full px-4 py-2 ${bgColor} rounded-md`}>
+        Color: {color}
+      </div>
 
       <p className="mt-2 text-right text-sm text-white/50">{id}</p>
     </StyledView>

@@ -4,7 +4,13 @@ import SimpleView from "../simple-view";
 import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 
-export default async function ListQuestions(props: PartialMPP) {
+type ListQuestionsProps = PartialMPP & {
+  selectedCardsetId: string;
+  selectedCategoryId: string;
+  selectedFlashcardId: string;
+};
+
+export default async function ListQuestions(props: ListQuestionsProps) {
   const {
     selectedCardsetId,
     selectedCategoryId,
@@ -17,13 +23,16 @@ export default async function ListQuestions(props: PartialMPP) {
   });
 
   const selectedFlashcard = await api.flashcard.findOne.query({
-    id: selectedFlashcardId!,
+    id: selectedFlashcardId,
   });
 
   if (!selectedFlashcard) return <></>;
 
   return (
-    <div className="flex flex-1 flex-col overflow-y-auto bg-slate-200 px-4 py-4">
+    <div
+      className="flex flex-1 flex-col overflow-x-hidden bg-slate-200 px-4 py-4"
+      style={{ maxHeight: "calc(100vh - 4rem)" }}
+    >
       <DetailedView data={selectedFlashcard} type="flashcard" />
 
       {questions && (
@@ -33,7 +42,7 @@ export default async function ListQuestions(props: PartialMPP) {
         </p>
       )}
 
-      <div className="my-2 flex flex-1 select-none flex-col gap-1">
+      <div className="my-2  flex flex-1 select-none flex-col gap-1 overflow-y-auto">
         {questions?.map((question) => (
           <SimpleView
             baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/`}
@@ -49,9 +58,9 @@ export default async function ListQuestions(props: PartialMPP) {
       </div>
 
       <CreateQuestionButton
-        selectedCardsetId={selectedCardsetId!}
-        selectedCategoryId={selectedCategoryId!}
-        selectedFlashcardId={props.selectedFlashcardId!}
+        selectedCardsetId={selectedCardsetId}
+        selectedCategoryId={selectedCategoryId}
+        selectedFlashcardId={selectedFlashcardId}
       />
     </div>
   );

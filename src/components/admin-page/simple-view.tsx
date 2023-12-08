@@ -1,7 +1,7 @@
 import { ExternalLink, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
-export default function SimpleView(props: {
+type SimpleViewProps = {
   name: string;
   id: string;
   baseUrl: string;
@@ -9,7 +9,10 @@ export default function SimpleView(props: {
   hasChildren?: boolean;
   activeColor: string;
   inactiveColor: string;
-}) {
+  dotColor?: string;
+};
+
+export default function SimpleView(props: SimpleViewProps) {
   const {
     name,
     id,
@@ -18,6 +21,7 @@ export default function SimpleView(props: {
     hasChildren,
     activeColor,
     inactiveColor,
+    dotColor,
   } = props;
 
   return (
@@ -27,7 +31,12 @@ export default function SimpleView(props: {
       }`}
     >
       <div className="flex items-center justify-between">
-        <span>{name}</span>
+        <div className="flex items-center gap-2">
+          {dotColor && (
+            <div className={`${dotColor} h-3 w-3 rounded-full`}></div>
+          )}
+          <span>{name}</span>
+        </div>
         <div className="flex gap-2">
           {hasChildren && (
             <Link

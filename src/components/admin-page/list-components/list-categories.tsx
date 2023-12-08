@@ -4,6 +4,7 @@ import SimpleView from "../simple-view";
 import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 import { ArrowBigLeft } from "lucide-react";
+import Link from "next/link";
 
 type ListCategoriesProps = PartialMPP & {
   selectedCardsetId: string;
@@ -23,8 +24,9 @@ export default async function ListCategories(props: ListCategoriesProps) {
 
   return (
     <div
-      className={`overflow-y-auto overflow-x-hidden bg-slate-200 transition
+      className={`overflow-x-hidden bg-slate-200 transition
       ${isActive ? "flex-1" : "w-10"}`}
+      style={{ maxHeight: "calc(100vh - 4rem)" }}
     >
       {isActive && (
         <div className="flex h-full flex-col px-4 py-4">
@@ -37,7 +39,7 @@ export default async function ListCategories(props: ListCategoriesProps) {
             </p>
           )}
 
-          <div className="my-2 flex flex-1 select-none flex-col gap-1">
+          <div className="my-2 flex flex-1 select-none flex-col gap-1 overflow-y-auto">
             {categories?.map((category) => (
               <SimpleView
                 baseUrl={`/admin/${selectedCardsetId}/`}
@@ -47,6 +49,7 @@ export default async function ListCategories(props: ListCategoriesProps) {
                 key={category.id}
                 activeColor="bg-violet-500 text-white"
                 inactiveColor="bg-violet-300"
+                dotColor={`bg-${category.color}-500`}
                 hasChildren
               />
             ))}
@@ -55,16 +58,19 @@ export default async function ListCategories(props: ListCategoriesProps) {
           <CreateCategoryButton selectedCardsetId={selectedCardsetId} />
         </div>
       )}
-      <div
-        className="flex h-5/6 w-full cursor-pointer gap-4 p-2 text-xl font-bold transition hover:bg-slate-400"
-        style={{ textOrientation: "sideways", writingMode: "vertical-rl" }}
-      >
-        <ArrowBigLeft />
-        <span>
-          Category:{" "}
-          {categories.find((item) => item.id === selectedCategoryId)?.name}
-        </span>
-      </div>
+      {!isActive && (
+        <Link
+          className="flex h-5/6 w-full cursor-pointer gap-4 p-2 text-xl font-bold transition hover:bg-slate-400"
+          style={{ textOrientation: "sideways", writingMode: "vertical-rl" }}
+          href={`/admin/${selectedCardsetId}`}
+        >
+          <ArrowBigLeft />
+          <span>
+            Category:{" "}
+            {categories.find((item) => item.id === selectedCategoryId)?.name}
+          </span>
+        </Link>
+      )}
     </div>
   );
 }
