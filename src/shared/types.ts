@@ -14,8 +14,8 @@ export type MagicPageProps = {
   selectedCategoryId: string;
   selectedFlashcardId: string;
   selectedQuestionId: string;
-  editingModel: string;
-  deletingModel: string;
+  editingModel: "cardset" | "category" | "flashcard" | "question";
+  deletingModel: "cardset" | "category" | "flashcard" | "question";
 };
 
 export type PartialMPP = Partial<MagicPageProps>;

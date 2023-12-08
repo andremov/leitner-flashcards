@@ -37,7 +37,7 @@ export default function EditCardSet(props: PartialMPP) {
             name,
           });
         }}
-        className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
+        className="my-2 flex w-72 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
       >
         <p className="text-white">Cardset Name</p>
         <input

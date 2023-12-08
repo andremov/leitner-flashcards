@@ -13,7 +13,7 @@ import DeleteFlashcard from "./delete-components/delete-flashcard";
 import EditQuestion from "./edit-components/edit-question";
 import DeleteQuestion from "./delete-components/delete-question";
 import ViewQuestion from "./list-components/view-question";
-import { ArrowBigLeft } from "lucide-react";
+import { ArrowBigLeft, ChevronRight, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
 export default async function MagicPage(props: PartialMPP) {
@@ -63,17 +63,64 @@ export default async function MagicPage(props: PartialMPP) {
       <div className="relative flex h-16 w-screen items-center justify-center">
         <Link
           href={"/"}
-          className="border-blac absolute left-10 rounded-md border-2 border-black bg-white px-4 py-2"
+          className="absolute left-10 rounded-md border-2 border-black bg-white px-4 py-2"
         >
           <ArrowBigLeft />
         </Link>
-        <div className="rounded-md border border-black bg-white px-4 py-2">
-          / {selectedCardset && `${selectedCardset.name} /`}{" "}
-          {selectedCategory && `${selectedCategory.name} /`}{" "}
-          {selectedFlashcard && `${selectedFlashcard.title} /`}{" "}
-          {selectedQuestion && `${selectedQuestion.title} /`}{" "}
-          {editingModel && "EDITING"}
-          {deletingModel && "DELETING"}
+        <div className="flex items-center gap-1 rounded-md bg-white px-4 py-2">
+          <ChevronRight width={20} />
+          {selectedCardset && (
+            <>
+              <Link
+                className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
+                href={`/admin/${selectedCardsetId}`}
+              >
+                {selectedCardset.name}
+              </Link>
+              {editingModel === "cardset" && <Pencil width={20} />}
+              {deletingModel === "cardset" && <Trash width={20} />}
+            </>
+          )}
+
+          {selectedCategory && (
+            <>
+              <ChevronRight width={20} />
+              <Link
+                className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
+                href={`/admin/${selectedCardsetId}/${selectedCategoryId}`}
+              >
+                {selectedCategory.name}
+              </Link>
+              {editingModel === "category" && <Pencil width={20} />}
+              {deletingModel === "category" && <Trash width={20} />}
+            </>
+          )}
+          {selectedFlashcard && (
+            <>
+              <ChevronRight width={20} />
+              <Link
+                className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
+                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}`}
+              >
+                {selectedFlashcard.title}
+              </Link>
+              {editingModel === "flashcard" && <Pencil width={20} />}
+              {deletingModel === "flashcard" && <Trash width={20} />}
+            </>
+          )}
+          {selectedQuestion && (
+            <>
+              <ChevronRight width={20} />
+              <Link
+                className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
+                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/${selectedQuestionId}`}
+              >
+                {selectedQuestion.title}
+              </Link>
+              {editingModel === "question" && <Pencil width={20} />}
+              {deletingModel === "question" && <Trash width={20} />}
+            </>
+          )}
         </div>
       </div>
       <div className="flex flex-1 items-stretch gap-1">

@@ -47,10 +47,10 @@ export default function EditQuestionTemplate(props: {
         });
         stopEditing();
       }}
-      className={`relative flex h-fit w-full select-none flex-col gap-1 overflow-hidden rounded-lg bg-slate-500 p-4 transition`}
+      className={`relative flex h-fit w-full select-none flex-col gap-1 overflow-hidden`}
     >
       <div
-        className="absolute right-2 top-2 cursor-pointer text-white"
+        className="absolute right-0 top-0 cursor-pointer text-white"
         onClick={stopEditing}
       >
         <X />

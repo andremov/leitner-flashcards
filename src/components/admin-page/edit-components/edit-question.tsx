@@ -49,15 +49,14 @@ export default function EditQuestion(props: PartialMPP) {
   if (!editingQuestion || editingModel !== "question") return <></>;
 
   return (
-    <div className="flex flex-[2_2_0%] flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
-      <div className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4">
-        {allTemplates?.map((template) => (
-          <div
-            className="mb-2 flex flex-col items-center rounded-md bg-white px-2 py-1"
-            key={template.id}
-          >
-            {/* LIST QUESTION TEMPLATE FORM */}
-            {editingTemplate !== template.id && (
+    <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+      <div className="my-2 flex w-96 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4">
+        {!editingTemplate &&
+          allTemplates?.map((template) => (
+            <div
+              className="mb-2 flex w-full flex-col items-center rounded-md bg-white px-2 py-1"
+              key={template.id}
+            >
               <div
                 className={`flex h-fit w-full gap-2 overflow-hidden transition`}
               >
@@ -77,18 +76,19 @@ export default function EditQuestion(props: PartialMPP) {
                   <Pencil width={20} height={20} />
                 </button>
               </div>
-            )}
-
-            {editingTemplate === template.id && (
-              <EditQuestionTemplate
-                stopEditing={() => setEditingTemplate("")}
-                templateId={editingTemplate}
-              />
-            )}
-          </div>
-        ))}
-
-        <CreateQuestionTemplateButton selectedCardsetId={selectedCardsetId!} />
+            </div>
+          ))}
+        {editingTemplate && (
+          <EditQuestionTemplate
+            stopEditing={() => setEditingTemplate("")}
+            templateId={editingTemplate}
+          />
+        )}
+        {!editingTemplate && (
+          <CreateQuestionTemplateButton
+            selectedCardsetId={selectedCardsetId!}
+          />
+        )}
       </div>
 
       <form
@@ -105,7 +105,7 @@ export default function EditQuestion(props: PartialMPP) {
         style={{
           height: editingTemplate ? "0" : "auto",
         }}
-        className={`my-2 flex w-8/12 select-none flex-col gap-1 overflow-hidden rounded-lg bg-slate-500 transition ${
+        className={`my-2 flex w-96 select-none flex-col gap-1 overflow-hidden rounded-lg bg-slate-500 transition ${
           editingTemplate ? "h-0" : "h-fit p-4"
         }`}
       >

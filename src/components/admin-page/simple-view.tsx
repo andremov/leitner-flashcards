@@ -33,7 +33,9 @@ export default function SimpleView(props: SimpleViewProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           {dotColor && (
-            <div className={`${dotColor} h-3 w-3 rounded-full`}></div>
+            <div
+              className={`${dotColor} h-4 w-4 rounded-full border-2 border-white`}
+            ></div>
           )}
           <span>{name}</span>
         </div>

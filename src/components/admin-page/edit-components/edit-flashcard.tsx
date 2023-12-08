@@ -38,7 +38,7 @@ export default function EditFlashcard(props: PartialMPP) {
   if (!editingFlashcard || editingModel !== "flashcard") return <></>;
 
   return (
-    <div className="flex flex-[2_2_0%] flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
+    <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto bg-slate-200 px-4 py-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -49,7 +49,7 @@ export default function EditFlashcard(props: PartialMPP) {
             category: category,
           });
         }}
-        className="my-2 flex w-8/12 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
+        className="my-2 flex w-72 select-none flex-col gap-1 rounded-lg bg-slate-500 p-4 "
       >
         <p className="text-white">Flashcard Title</p>
         <input
