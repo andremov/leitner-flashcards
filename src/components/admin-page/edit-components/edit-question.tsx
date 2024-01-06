@@ -137,7 +137,7 @@ export default function EditQuestion(props: PartialMPP) {
                 type="radio"
                 // className="h-5 w-5"
                 checked={index === answer}
-                onClick={() => setAnswer(index)}
+                onChange={() => setAnswer(index)}
               />
               <div className="flex flex-1 items-center gap-1">
                 <span>{index + 1}. </span>

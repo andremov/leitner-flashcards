@@ -50,6 +50,10 @@ export default async function MagicPage(props: PartialMPP) {
       id: selectedQuestionId,
     }));
 
+  const activeViews = Object.keys(props).filter(
+    (key) => !!props[key as keyof PartialMPP] && key.includes("selected"),
+  ).length;
+
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
       <div className="relative flex h-16 w-screen items-center justify-center">
@@ -69,15 +73,24 @@ export default async function MagicPage(props: PartialMPP) {
         </div>
       </div>
       <div className="flex flex-1 items-stretch gap-1">
-        <ListCardSets {...props} />
-        {selectedCardset && <EditCardSet {...props} />}
-        {selectedCardset && <DeleteCardSet {...props} />}
+        <ListCardSets
+          selectedCardsetId={selectedCardsetId}
+          isActive={activeViews === 0}
+        />
+        {selectedCardsetId && <EditCardSet {...props} />}
+        {selectedCardsetId && <DeleteCardSet {...props} />}
 
-        {selectedCardset && <ListCategories {...props} />}
-        {selectedCategory && <EditCategory {...props} />}
-        {selectedCategory && <DeleteCategory {...props} />}
+        {selectedCardsetId && (
+          <ListCategories
+            {...props}
+            selectedCardsetId={selectedCardsetId}
+            isActive={activeViews === 1}
+          />
+        )}
+        {selectedCategoryId && <EditCategory {...props} />}
+        {selectedCategoryId && <DeleteCategory {...props} />}
 
-        {selectedCategory && <ListFlashcards {...props} />}
+        {selectedCategoryId && <ListFlashcards {...props} />}
         {selectedFlashcard && <EditFlashcard {...props} />}
         {selectedFlashcard && <DeleteFlashcard {...props} />}
 
