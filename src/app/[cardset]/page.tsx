@@ -117,7 +117,6 @@ export default function Page({ params }: { params: { cardset: string } }) {
           </div>
         )}
       </div>
-
       {dueFlashcards.length > 0 && (
         <div className="flex flex-1 flex-col items-center justify-center gap-10">
           <QuestionCard
@@ -129,10 +128,20 @@ export default function Page({ params }: { params: { cardset: string } }) {
           />
         </div>
       )}
-
       {dueFlashcards.length === 0 && streakLoaded && (
         <Calendar streakData={streakData} />
       )}
+
+      <div className="m-2 select-none rounded-lg bg-slate-300 px-4 py-2 text-center shadow-sm">
+        Storage version:{" "}
+        {
+          (
+            JSON.parse(
+              localStorage.getItem(params.cardset) ?? "{version:'no-storage'}",
+            ) as Record<string, string>
+          ).version
+        }
+      </div>
     </main>
   );
 }

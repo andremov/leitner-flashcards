@@ -66,7 +66,7 @@ export default function useCardsetStorage(
       localStorage.getItem(cardset) ?? "{}",
     ) as CardsetStorageType;
 
-    if (!history.version) {
+    if (!history.version || history.version !== "1.1") {
       history = {
         version: "1.1",
         questionData: {},
