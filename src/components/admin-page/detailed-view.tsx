@@ -1,19 +1,12 @@
-import {
-  type Category,
-  type CardSet,
-  type Flashcard,
-  type Question,
-} from "@prisma/client";
+import { type Category, type Flashcard, type Question } from "@prisma/client";
 
 export default function DetailedView(props: {
   data: unknown;
-  type: "cardset" | "category" | "flashcard" | "question";
+  type: "category" | "flashcard" | "question";
 }) {
   const { data, type } = props;
 
   switch (type) {
-    case "cardset":
-      return <CardsetDetailedView {...(data as CardSet)} />;
     case "category":
       return <CategoryDetailedView {...(data as Category)} />;
     case "flashcard":
@@ -28,17 +21,6 @@ function StyledView({ children }: { children: JSX.Element | JSX.Element[] }) {
     <div className="my-2 rounded-md bg-black/50 px-4 py-2 text-white">
       {children}
     </div>
-  );
-}
-
-function CardsetDetailedView(props: CardSet) {
-  const { id, name } = props;
-
-  return (
-    <StyledView>
-      <h3 className="mb-2 text-xl font-semibold">{name}</h3>
-      <p className="mt-2 text-right text-sm text-white/50">{id}</p>
-    </StyledView>
   );
 }
 
