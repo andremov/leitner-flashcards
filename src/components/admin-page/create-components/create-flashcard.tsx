@@ -4,17 +4,14 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateFlashCardButton(props: {
-  selectedCardsetId: string;
   selectedCategoryId: string;
 }) {
-  const { selectedCardsetId, selectedCategoryId } = props;
+  const { selectedCategoryId } = props;
   const router = useRouter();
 
   const createFlashcard = api.flashcard.create.useMutation({
     onSuccess: (newFlashcard) => {
-      router.push(
-        `/admin/${selectedCardsetId}/${selectedCategoryId}/${newFlashcard.id}/edit`,
-      );
+      router.push(`/admin/${selectedCategoryId}/${newFlashcard.id}/edit`);
     },
   });
 
@@ -22,7 +19,6 @@ export default function CreateFlashCardButton(props: {
     createFlashcard.mutate({
       title: "New card",
       description: "",
-      cardset: selectedCardsetId,
       category: selectedCategoryId,
     });
 

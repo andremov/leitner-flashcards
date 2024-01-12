@@ -18,19 +18,12 @@ import Link from "next/link";
 
 export default async function MagicPage(props: PartialMPP) {
   const {
-    selectedCardsetId,
     selectedCategoryId,
     selectedFlashcardId,
     selectedQuestionId,
     deletingModel,
     editingModel,
   } = props;
-
-  const selectedCardset =
-    !!selectedCardsetId &&
-    (await api.cardset.findOne.query({
-      id: selectedCardsetId,
-    }));
 
   const selectedCategory =
     !!selectedCategoryId &&
@@ -69,25 +62,12 @@ export default async function MagicPage(props: PartialMPP) {
         </Link>
         <div className="flex items-center gap-1 rounded-md bg-white px-4 py-2">
           <ChevronRight width={20} />
-          {selectedCardset && (
-            <>
-              <Link
-                className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
-                href={`/admin/${selectedCardsetId}`}
-              >
-                {selectedCardset.name}
-              </Link>
-              {editingModel === "cardset" && <Pencil width={20} />}
-              {deletingModel === "cardset" && <Trash width={20} />}
-            </>
-          )}
 
           {selectedCategory && (
             <>
-              <ChevronRight width={20} />
               <Link
                 className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}`}
+                href={`/admin/${selectedCategoryId}`}
               >
                 {selectedCategory.name}
               </Link>
@@ -100,7 +80,7 @@ export default async function MagicPage(props: PartialMPP) {
               <ChevronRight width={20} />
               <Link
                 className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}`}
+                href={`/admin/${selectedCategoryId}/${selectedFlashcardId}`}
               >
                 {selectedFlashcard.title}
               </Link>
@@ -113,7 +93,7 @@ export default async function MagicPage(props: PartialMPP) {
               <ChevronRight width={20} />
               <Link
                 className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
-                href={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/${selectedQuestionId}`}
+                href={`/admin/${selectedCategoryId}/${selectedFlashcardId}/${selectedQuestionId}`}
               >
                 {selectedQuestion.title}
               </Link>
@@ -124,27 +104,13 @@ export default async function MagicPage(props: PartialMPP) {
         </div>
       </div>
       <div className="flex flex-1 items-stretch gap-1">
-        <ListCardSets
-          selectedCardsetId={selectedCardsetId}
-          isActive={curActiveView <= 1}
-        />
-        {selectedCardsetId && <EditCardSet {...props} />}
-        {selectedCardsetId && <DeleteCardSet {...props} />}
-
-        {selectedCardsetId && (
-          <ListCategories
-            {...props}
-            selectedCardsetId={selectedCardsetId}
-            isActive={curActiveView <= 2}
-          />
-        )}
+        <ListCategories {...props} isActive={curActiveView <= 2} />
         {selectedCategoryId && <EditCategory {...props} />}
         {selectedCategoryId && <DeleteCategory {...props} />}
 
-        {selectedCardsetId && selectedCategoryId && (
+        {selectedCategoryId && (
           <ListFlashcards
             {...props}
-            selectedCardsetId={selectedCardsetId}
             selectedCategoryId={selectedCategoryId}
             isActive={curActiveView <= 3}
           />
@@ -152,10 +118,9 @@ export default async function MagicPage(props: PartialMPP) {
         {selectedFlashcard && <EditFlashcard {...props} />}
         {selectedFlashcard && <DeleteFlashcard {...props} />}
 
-        {selectedCardsetId && selectedCategoryId && selectedFlashcard && (
+        {selectedCategoryId && selectedFlashcard && (
           <ListQuestions
             {...props}
-            selectedCardsetId={selectedCardsetId}
             selectedCategoryId={selectedCategoryId}
             selectedFlashcardId={selectedFlashcardId}
           />

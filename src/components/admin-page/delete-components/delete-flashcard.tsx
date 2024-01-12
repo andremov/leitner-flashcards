@@ -6,12 +6,7 @@ import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/shared/types";
 
 export default function DeleteFlashcard(props: PartialMPP) {
-  const {
-    selectedCardsetId,
-    selectedCategoryId,
-    selectedFlashcardId,
-    deletingModel,
-  } = props;
+  const { selectedCategoryId, selectedFlashcardId, deletingModel } = props;
   const router = useRouter();
 
   const { data: flashcards } = api.question.getAll.useQuery({
@@ -24,7 +19,7 @@ export default function DeleteFlashcard(props: PartialMPP) {
 
   const deleteFlashcard = api.flashcard.delete.useMutation({
     onSuccess: () => {
-      router.push(`/admin/${selectedCardsetId}/${selectedCategoryId}`);
+      router.push(`/admin/${selectedCategoryId}`);
     },
   });
 

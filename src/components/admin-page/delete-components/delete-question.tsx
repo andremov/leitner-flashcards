@@ -6,7 +6,6 @@ import { type PartialMPP } from "~/shared/types";
 
 export default function DeleteQuestion(props: PartialMPP) {
   const {
-    selectedCardsetId,
     selectedCategoryId,
     selectedFlashcardId,
     selectedQuestionId,
@@ -20,9 +19,7 @@ export default function DeleteQuestion(props: PartialMPP) {
 
   const deleteCategory = api.question.delete.useMutation({
     onSuccess: () => {
-      router.push(
-        `/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}`,
-      );
+      router.push(`/admin/${selectedCategoryId}/${selectedFlashcardId}`);
     },
   });
 

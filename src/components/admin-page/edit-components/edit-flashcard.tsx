@@ -6,7 +6,7 @@ import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/shared/types";
 
 export default function EditFlashcard(props: PartialMPP) {
-  const { selectedFlashcardId, selectedCardsetId, editingModel } = props;
+  const { selectedFlashcardId, editingModel } = props;
   const router = useRouter();
 
   const [title, setTitle] = useState("");
@@ -17,9 +17,7 @@ export default function EditFlashcard(props: PartialMPP) {
     id: selectedFlashcardId!,
   });
 
-  const { data: availCategories } = api.category.getAll.useQuery({
-    cardset: selectedCardsetId,
-  });
+  const { data: availCategories } = api.category.getAll.useQuery({});
 
   useEffect(() => {
     if (editingFlashcard) {

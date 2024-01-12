@@ -4,17 +4,16 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 export default function CreateQuestionButton(props: {
-  selectedCardsetId: string;
   selectedCategoryId: string;
   selectedFlashcardId: string;
 }) {
-  const { selectedCardsetId, selectedCategoryId, selectedFlashcardId } = props;
+  const { selectedCategoryId, selectedFlashcardId } = props;
   const router = useRouter();
 
   const createQuestion = api.question.create.useMutation({
     onSuccess: (newQuestion) => {
       router.push(
-        `/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/${newQuestion.id}/edit`,
+        `/admin/${selectedCategoryId}/${selectedFlashcardId}/${newQuestion.id}/edit`,
       );
     },
   });
@@ -25,7 +24,7 @@ export default function CreateQuestionButton(props: {
       body: "Question body",
       answer: 0,
       flashcard: selectedFlashcardId,
-      cardset: selectedCardsetId,
+      category: selectedCategoryId,
       options: ["Answer1", "Answer2"],
     });
 

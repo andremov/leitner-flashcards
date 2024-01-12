@@ -7,21 +7,14 @@ import { ArrowBigLeft } from "lucide-react";
 import Link from "next/link";
 
 type ListFlashcardsProps = PartialMPP & {
-  selectedCardsetId: string;
   selectedCategoryId: string;
   isActive: boolean;
 };
 
 export default async function ListFlashcards(props: ListFlashcardsProps) {
-  const {
-    selectedCardsetId,
-    selectedCategoryId,
-    selectedFlashcardId,
-    isActive,
-  } = props;
+  const { selectedCategoryId, selectedFlashcardId, isActive } = props;
 
   const flashcards = await api.flashcard.getAll.query({
-    cardset: selectedCardsetId,
     category: selectedCategoryId,
   });
 
@@ -29,7 +22,7 @@ export default async function ListFlashcards(props: ListFlashcardsProps) {
     id: selectedCategoryId,
   });
 
-  if (!selectedCardsetId || !selectedCategory) return <></>;
+  if (!selectedCategory) return <></>;
 
   return (
     <div
@@ -51,7 +44,7 @@ export default async function ListFlashcards(props: ListFlashcardsProps) {
           <div className="my-2 flex flex-1 select-none flex-col gap-1 overflow-y-auto">
             {flashcards?.map((flashcard) => (
               <SimpleView
-                baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/`}
+                baseUrl={`/admin/${selectedCategoryId}/`}
                 id={flashcard.id}
                 name={flashcard.title}
                 selection={selectedFlashcardId}
@@ -63,17 +56,14 @@ export default async function ListFlashcards(props: ListFlashcardsProps) {
             ))}
           </div>
 
-          <CreateFlashCardButton
-            selectedCardsetId={selectedCardsetId}
-            selectedCategoryId={selectedCategoryId}
-          />
+          <CreateFlashCardButton selectedCategoryId={selectedCategoryId} />
         </div>
       )}
       {!isActive && (
         <Link
           className="flex h-5/6 w-full cursor-pointer gap-4 p-2 text-xl font-bold transition hover:bg-slate-400"
           style={{ textOrientation: "sideways", writingMode: "vertical-rl" }}
-          href={`/admin/${selectedCardsetId}/${selectedCategoryId}`}
+          href={`/admin/${selectedCategoryId}`}
         >
           <ArrowBigLeft />
           <span>

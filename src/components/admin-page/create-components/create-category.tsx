@@ -3,22 +3,18 @@
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
-export default function CreateCategoryButton(props: {
-  selectedCardsetId: string;
-}) {
-  const { selectedCardsetId } = props;
+export default function CreateCategoryButton() {
   const router = useRouter();
 
   const createCategory = api.category.create.useMutation({
     onSuccess: (newCategory) => {
-      router.push(`/admin/${selectedCardsetId}/${newCategory.id}/edit`);
+      router.push(`/admin/${newCategory.id}/edit`);
     },
   });
 
   const createDraftCategory = () =>
     createCategory.mutate({
       name: "New category",
-      cardset: selectedCardsetId,
       color: "emerald-500",
     });
 

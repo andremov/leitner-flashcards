@@ -5,18 +5,12 @@ import { type PartialMPP } from "~/shared/types";
 import DetailedView from "../detailed-view";
 
 type ListQuestionsProps = PartialMPP & {
-  selectedCardsetId: string;
   selectedCategoryId: string;
   selectedFlashcardId: string;
 };
 
 export default async function ListQuestions(props: ListQuestionsProps) {
-  const {
-    selectedCardsetId,
-    selectedCategoryId,
-    selectedFlashcardId,
-    selectedQuestionId,
-  } = props;
+  const { selectedCategoryId, selectedFlashcardId, selectedQuestionId } = props;
 
   const questions = await api.question.getAll.query({
     flashcard: selectedFlashcardId,
@@ -45,7 +39,7 @@ export default async function ListQuestions(props: ListQuestionsProps) {
       <div className="my-2  flex flex-1 select-none flex-col gap-1 overflow-y-auto">
         {questions?.map((question) => (
           <SimpleView
-            baseUrl={`/admin/${selectedCardsetId}/${selectedCategoryId}/${selectedFlashcardId}/`}
+            baseUrl={`/admin/${selectedCategoryId}/${selectedFlashcardId}/`}
             id={question.id}
             name={question.title}
             selection={selectedQuestionId}
@@ -58,7 +52,6 @@ export default async function ListQuestions(props: ListQuestionsProps) {
       </div>
 
       <CreateQuestionButton
-        selectedCardsetId={selectedCardsetId}
         selectedCategoryId={selectedCategoryId}
         selectedFlashcardId={selectedFlashcardId}
       />

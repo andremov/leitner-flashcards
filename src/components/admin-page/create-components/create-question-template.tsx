@@ -3,10 +3,7 @@
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
-export default function CreateQuestionTemplateButton(props: {
-  selectedCardsetId: string;
-}) {
-  const { selectedCardsetId } = props;
+export default function CreateQuestionTemplateButton() {
   const router = useRouter();
   const utils = api.useUtils();
 
@@ -21,7 +18,6 @@ export default function CreateQuestionTemplateButton(props: {
     createQuestionTemplate.mutate({
       title: "New template",
       body: "Template body",
-      cardset: selectedCardsetId,
     });
 
   return (

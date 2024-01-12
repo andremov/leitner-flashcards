@@ -10,7 +10,7 @@ import { type QuestionTemplate } from "@prisma/client";
 import EditQuestionTemplate from "./edit-question-template";
 
 export default function EditQuestion(props: PartialMPP) {
-  const { selectedCardsetId, selectedQuestionId, editingModel } = props;
+  const { selectedQuestionId, editingModel } = props;
   const router = useRouter();
 
   const [editingTemplate, setEditingTemplate] = useState("");
@@ -84,11 +84,7 @@ export default function EditQuestion(props: PartialMPP) {
             templateId={editingTemplate}
           />
         )}
-        {!editingTemplate && (
-          <CreateQuestionTemplateButton
-            selectedCardsetId={selectedCardsetId!}
-          />
-        )}
+        {!editingTemplate && <CreateQuestionTemplateButton />}
       </div>
 
       <form
@@ -100,6 +96,7 @@ export default function EditQuestion(props: PartialMPP) {
             body: body,
             options: options,
             title: title,
+            category: editingQuestion.category,
           });
         }}
         style={{

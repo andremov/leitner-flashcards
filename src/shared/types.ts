@@ -1,7 +1,6 @@
 // MAGIC PAGE TYPES
 
 export type ReceivingPageProps = {
-  cardset: string;
   category: string;
   flashcard: string;
   question: string;
@@ -10,12 +9,11 @@ export type ReceivingPageProps = {
 export type PartialRPP = Partial<ReceivingPageProps>;
 
 export type MagicPageProps = {
-  selectedCardsetId: string;
   selectedCategoryId: string;
   selectedFlashcardId: string;
   selectedQuestionId: string;
-  editingModel: "cardset" | "category" | "flashcard" | "question";
-  deletingModel: "cardset" | "category" | "flashcard" | "question";
+  editingModel: "category" | "flashcard" | "question";
+  deletingModel: "category" | "flashcard" | "question";
 };
 
 export type PartialMPP = Partial<MagicPageProps>;

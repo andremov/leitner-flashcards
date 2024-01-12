@@ -6,7 +6,7 @@ import { api } from "~/trpc/react";
 import { type PartialMPP } from "~/shared/types";
 
 export default function DeleteCategory(props: PartialMPP) {
-  const { selectedCardsetId, selectedCategoryId, deletingModel } = props;
+  const { selectedCategoryId, deletingModel } = props;
   const router = useRouter();
 
   const { data: flashcards } = api.flashcard.getAll.useQuery({
@@ -19,7 +19,7 @@ export default function DeleteCategory(props: PartialMPP) {
 
   const deleteCategory = api.category.delete.useMutation({
     onSuccess: () => {
-      router.push("/admin/" + selectedCardsetId);
+      router.push("/admin/");
     },
   });
 

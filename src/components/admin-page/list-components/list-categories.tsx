@@ -2,25 +2,17 @@ import { api } from "~/trpc/server";
 import CreateCategoryButton from "../create-components/create-category";
 import SimpleView from "../simple-view";
 import { type PartialMPP } from "~/shared/types";
-import DetailedView from "../detailed-view";
 import { ArrowBigLeft } from "lucide-react";
 import Link from "next/link";
 
 type ListCategoriesProps = PartialMPP & {
-  selectedCardsetId: string;
   isActive: boolean;
 };
 
 export default async function ListCategories(props: ListCategoriesProps) {
-  const { selectedCardsetId, selectedCategoryId, isActive } = props;
+  const { selectedCategoryId, isActive } = props;
 
-  const categories = await api.category.getAll.query({
-    cardset: selectedCardsetId,
-  });
-
-  const selectedCardset = await api.cardset.findOne.query({
-    id: selectedCardsetId,
-  });
+  const categories = await api.category.getAll.query({});
 
   return (
     <div
@@ -30,8 +22,6 @@ export default async function ListCategories(props: ListCategoriesProps) {
     >
       {isActive && (
         <div className="flex h-full flex-col px-4 py-4">
-          <DetailedView data={selectedCardset} type="cardset" />
-
           {categories && (
             <p>
               {categories.length} categor{categories.length > 1 ? "ies" : "y"}{" "}
@@ -42,7 +32,7 @@ export default async function ListCategories(props: ListCategoriesProps) {
           <div className="my-2 flex flex-1 select-none flex-col gap-1 overflow-y-auto">
             {categories?.map((category) => (
               <SimpleView
-                baseUrl={`/admin/${selectedCardsetId}/`}
+                baseUrl={`/admin/`}
                 id={category.id}
                 name={category.name}
                 selection={selectedCategoryId}
@@ -55,14 +45,14 @@ export default async function ListCategories(props: ListCategoriesProps) {
             ))}
           </div>
 
-          <CreateCategoryButton selectedCardsetId={selectedCardsetId} />
+          <CreateCategoryButton />
         </div>
       )}
       {!isActive && (
         <Link
           className="flex h-5/6 w-full cursor-pointer gap-4 p-2 text-xl font-bold transition hover:bg-slate-400"
           style={{ textOrientation: "sideways", writingMode: "vertical-rl" }}
-          href={`/admin/${selectedCardsetId}`}
+          href={`/admin`}
         >
           <ArrowBigLeft />
           <span>
