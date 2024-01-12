@@ -2,7 +2,7 @@
 
 import { Temporal } from "@js-temporal/polyfill";
 import { Crown, Star, Stars } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuestionStore } from "~/store/questionStore";
 import { useStreakStore } from "~/store/streakStore";
 import { api } from "~/trpc/react";
@@ -11,8 +11,6 @@ export default function Calendar() {
   const today = Temporal.Now.plainDateISO();
   const firstDay = today.subtract({ days: today.daysInMonth - 1 });
   const { data: questions } = api.question.getAll.useQuery({});
-
-  const [isClient, setIsClient] = useState(false);
 
   const {
     days: streakDays,
@@ -34,13 +32,7 @@ export default function Calendar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return <></>;
-  }
+  const curStreak = getCurrentStreak();
 
   return (
     <div className="m-4 rounded-lg bg-white p-1 shadow-lg">
@@ -56,7 +48,7 @@ export default function Calendar() {
           {streakDays.map((day, index) => (
             <div
               key={index}
-              className={`relative flex h-7 w-7  items-center justify-center rounded-lg p-0.5 ${
+              className={`relative flex h-7 w-7 items-center justify-center rounded-lg p-0.5 ${
                 today.day - 1 === index ? "border border-black/50" : ""
               } ${
                 day.pyd
@@ -82,14 +74,12 @@ export default function Calendar() {
 
         <div className="flex w-full gap-3 px-5">
           <Crown />
-          <span>
-            Longest Streak: {Math.max(longestStreak, getCurrentStreak())}
-          </span>
+          <span>Longest Streak: {Math.max(longestStreak, curStreak)}</span>
         </div>
 
         <div className="flex w-full gap-3 px-5">
           <Stars />
-          <span>Current Streak: {getCurrentStreak()}</span>
+          <span>Current Streak: {curStreak}</span>
         </div>
       </div>
     </div>

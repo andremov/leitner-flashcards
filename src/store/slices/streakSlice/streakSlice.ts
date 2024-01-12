@@ -12,21 +12,27 @@ function getBlankMonth(daysInMonth: number): StreakDataDayType[] {
   }));
 }
 
-function calcCurrentStreak(streak: number, days: StreakDataDayType[]) {
-  const today = Temporal.Now.plainDateISO().day;
+function calcCurrentStreak(
+  streak: number,
+  days: StreakDataDayType[],
+  today: number,
+) {
+  // const today = Temporal.Now.plainDateISO().day;
 
-  if (today === 1) return streak;
+  const playedToday = days[today - 1]!.pyd;
+
+  if (today === 1) return streak + +playedToday;
 
   const daysCutOff = days
     .slice(0, today - 1)
     .map((item, index) => ({ ...item, index }))
     .filter((item) => !item.pyd);
 
-  if (daysCutOff.length === 0) return streak + today - 1;
+  if (daysCutOff.length === 0) return streak + today - 1 + +playedToday;
 
-  return (
-    today - 2 - daysCutOff[daysCutOff.length - 1]!.index + +days[today - 1]!.pyd
-  );
+  const lastPlayedDay = daysCutOff[daysCutOff.length - 1]!.index + 1;
+
+  return today - lastPlayedDay - 1 + +playedToday;
 }
 
 export const createStreakSlice: StateCreator<
@@ -66,6 +72,8 @@ export const createStreakSlice: StateCreator<
   checkState: () => {
     const currentMonth = Temporal.Now.plainDateISO().month;
 
+    const lastDay = Temporal.Now.plainDateISO().subtract({ months: 1 });
+
     const {
       month,
       currentStreak: currentStreakInState,
@@ -75,7 +83,11 @@ export const createStreakSlice: StateCreator<
 
     if (currentMonth === month) return;
 
-    const currentStreak = calcCurrentStreak(currentStreakInState, days);
+    const currentStreak = calcCurrentStreak(
+      currentStreakInState,
+      days,
+      lastDay.daysInMonth,
+    );
 
     set({
       month: currentMonth,
@@ -88,6 +100,10 @@ export const createStreakSlice: StateCreator<
   getCurrentStreak: () => {
     const { currentStreak, days } = get();
 
-    return calcCurrentStreak(currentStreak, days);
+    return calcCurrentStreak(
+      currentStreak,
+      days,
+      Temporal.Now.plainDateISO().day,
+    );
   },
 });

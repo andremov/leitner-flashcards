@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
 import { TallyCounters } from "~/components/user-page/tally-counters";
 import { openCard, successFanfare } from "~/shared/assets";
-import Calendar from "~/components/user-page/calendar";
 import { useQuestionStore } from "~/store/questionStore";
 import { api } from "~/trpc/react";
 import type { DatedQuestionCard } from "~/shared/types";
 import { useRouter } from "next/navigation";
 import { useStreakStore } from "~/store/streakStore";
+import dynamic from "next/dynamic";
+
+const Calendar = dynamic(() => import("~/components/user-page/calendar"), {
+  ssr: false, // This ensures the component is only rendered on the client
+});
 
 export default function Page({ params }: { params: { category: string } }) {
   const { getPendingQuestions, updateQuestion } = useQuestionStore();
