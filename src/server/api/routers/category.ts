@@ -19,11 +19,8 @@ export const categoryRouter = createTRPCRouter({
       });
     }),
 
-  getAll: publicProcedure.input(z.object({})).query(({ ctx, input }) => {
+  getAll: publicProcedure.input(z.object({})).query(({ ctx }) => {
     return ctx.db.category.findMany({
-      // where: {
-      // cardset: input.cardset,
-      // },
       orderBy: { createdAt: "desc" },
     });
   }),
