@@ -19,6 +19,7 @@ export default function Calendar() {
     checkState,
     updateTodayScore,
   } = useStreakStore();
+
   const { getPendingCount } = useQuestionStore();
 
   useEffect(() => {
@@ -30,6 +31,8 @@ export default function Calendar() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
+
+  console.log(window === undefined ? "Server-side" : "Client-side");
 
   return (
     <div className="m-4 rounded-lg bg-white p-1 shadow-lg">
