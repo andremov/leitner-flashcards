@@ -1,9 +1,6 @@
-import ListCardSets from "./list-components/list-cardsets";
 import ListCategories from "./list-components/list-categories";
 import { api } from "~/trpc/server";
 import ListFlashcards from "./list-components/list-flashcards";
-import EditCardSet from "./edit-components/edit-cardset";
-import DeleteCardSet from "./delete-components/delete-cardset";
 import EditCategory from "./edit-components/edit-category";
 import DeleteCategory from "./delete-components/delete-category";
 import ListQuestions from "./list-components/list-questions";
