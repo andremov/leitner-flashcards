@@ -2,7 +2,7 @@
 
 import { Temporal } from "@js-temporal/polyfill";
 import { Crown, Star, Stars } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuestionStore } from "~/store/questionStore";
 import { useStreakStore } from "~/store/streakStore";
 import { api } from "~/trpc/react";
@@ -11,6 +11,8 @@ export default function Calendar() {
   const today = Temporal.Now.plainDateISO();
   const firstDay = today.subtract({ days: today.daysInMonth - 1 });
   const { data: questions } = api.question.getAll.useQuery({});
+
+  const [isClient, setIsClient] = useState(false);
 
   const {
     days: streakDays,
@@ -32,7 +34,13 @@ export default function Calendar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions]);
 
-  console.log(window === undefined ? "Server-side" : "Client-side");
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return <></>;
+  }
 
   return (
     <div className="m-4 rounded-lg bg-white p-1 shadow-lg">

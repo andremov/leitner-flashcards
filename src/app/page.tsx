@@ -1,10 +1,12 @@
+"use client";
+
 import { CategoryCard } from "~/components/user-page/cards/category-card";
 import { TutorialCard } from "~/components/tutorial-page/tutorial-card";
 import Calendar from "~/components/user-page/calendar";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 
-export default async function UserHome() {
-  const categories = await api.category.getAll.query({});
+export default function UserHome() {
+  const { data: categories } = api.category.getAll.useQuery({});
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-200 text-slate-950">
