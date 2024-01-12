@@ -6,19 +6,20 @@ import { api } from "~/trpc/react";
 import { type DatedQuestionCard } from "~/shared/types";
 import { TallyCounters } from "../tally-counters";
 import { successDing, failureDrum } from "~/shared/assets";
+import { useStreakStore } from "~/store/streakStore";
 
 export default function QuestionCard(props: {
   questionCard: DatedQuestionCard;
   updateDueDate: (id: string, diff: number) => void;
   refreshCards: () => void;
-  handleModifyScore: (right: boolean) => void;
 }) {
-  const { handleModifyScore, questionCard, updateDueDate, refreshCards } =
-    props;
+  const { questionCard, updateDueDate, refreshCards } = props;
   const [flipped, setFlipped] = useState(false);
   const [pickedAnswer, setPickedAnswer] = useState<number | undefined>(
     undefined,
   );
+
+  const { updateTodayScore, getTodayScore } = useStreakStore();
 
   const { data: flashcard, isSuccess: findFlashcardSuccess } =
     api.flashcard.findOne.useQuery({
@@ -34,10 +35,14 @@ export default function QuestionCard(props: {
 
   function handlePickAnswer(e: MouseEvent, index: number) {
     e.stopPropagation();
-
+    const currentScore = getTodayScore();
     setPickedAnswer(index);
     updateDueDate(questionCard.id, +(questionCard.answer === index));
-    handleModifyScore(questionCard.answer === index);
+    updateTodayScore({
+      pyd: true,
+      rgt: currentScore.rgt + +(questionCard.answer === index),
+      wrg: currentScore.wrg + +(questionCard.answer !== index),
+    });
 
     if (questionCard.answer === index) {
       successDing.play();
@@ -104,11 +109,11 @@ export default function QuestionCard(props: {
           >
             <div className="flex flex-1 justify-between text-emerald-400">
               <Check />
-              <TallyCounters size={25} count={questionCard.right} />
+              <TallyCounters size={25} count={questionCard.rgt} />
             </div>
             <Dot className="h-10 w-10" />
             <div className="flex flex-1 justify-between text-red-400">
-              <TallyCounters size={25} count={questionCard.wrong} />
+              <TallyCounters size={25} count={questionCard.wrg} />
               <X />
             </div>
           </div>

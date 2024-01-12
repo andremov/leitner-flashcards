@@ -8,7 +8,6 @@ export const categoryRouter = createTRPCRouter({
       z.object({
         name: z.string().min(1),
         color: z.string().min(1),
-        cardset: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -16,25 +15,18 @@ export const categoryRouter = createTRPCRouter({
         data: {
           name: input.name,
           color: input.color,
-          cardset: input.cardset,
         },
       });
     }),
 
-  getAll: publicProcedure
-    .input(
-      z.object({
-        cardset: z.string().optional(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.category.findMany({
-        where: {
-          cardset: input.cardset,
-        },
-        orderBy: { createdAt: "desc" },
-      });
-    }),
+  getAll: publicProcedure.input(z.object({})).query(({ ctx, input }) => {
+    return ctx.db.category.findMany({
+      // where: {
+      // cardset: input.cardset,
+      // },
+      orderBy: { createdAt: "desc" },
+    });
+  }),
 
   update: publicProcedure
     .input(

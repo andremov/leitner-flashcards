@@ -11,7 +11,7 @@ export const questionRouter = createTRPCRouter({
         answer: z.number(),
         options: z.array(z.string().min(1)).min(1),
         flashcard: z.string().min(1),
-        cardset: z.string().min(1),
+        category: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -22,7 +22,7 @@ export const questionRouter = createTRPCRouter({
           answer: input.answer,
           options: input.options,
           flashcard: input.flashcard,
-          cardset: input.cardset,
+          category: input.category,
         },
       });
     }),
@@ -31,14 +31,14 @@ export const questionRouter = createTRPCRouter({
     .input(
       z.object({
         flashcard: z.string().optional(),
-        cardset: z.string().optional(),
+        category: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.question.findMany({
         where: {
           flashcard: input.flashcard,
-          cardset: input.cardset,
+          category: input.category,
         },
         orderBy: { createdAt: "desc" },
       });
@@ -52,6 +52,7 @@ export const questionRouter = createTRPCRouter({
         body: z.string().min(1),
         options: z.array(z.string().min(1)).min(1),
         answer: z.number(),
+        category: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -64,6 +65,7 @@ export const questionRouter = createTRPCRouter({
           body: input.body,
           options: input.options,
           answer: input.answer,
+          category: input.category,
         },
       });
     }),

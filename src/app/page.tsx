@@ -1,26 +1,20 @@
-"use client";
-
-import { api } from "~/trpc/react";
-import { CardSetCard } from "~/components/user-page/cards/cardset-card";
+import { CategoryCard } from "~/components/user-page/cards/category-card";
 import { TutorialCard } from "~/components/tutorial-page/tutorial-card";
-import useStreakStorage from "~/components/user-page/hooks/useStreakStorage";
 import Calendar from "~/components/user-page/calendar";
 
-export default function UserHome() {
-  const { data: cardsets } = api.cardset.getAll.useQuery();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [streakData, updateToday, refreshCalendar, streakLoaded] =
-    useStreakStorage();
+import { api } from "~/trpc/server";
+export default async function UserHome() {
+  const categories = await api.category.getAll.query({});
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-200 text-slate-950">
       <div className="flex flex-col sm:flex-row sm:flex-wrap">
         <TutorialCard />
-        {cardsets?.map((cardset) => (
-          <CardSetCard key={cardset.id} {...cardset} />
+        {categories?.map((category) => (
+          <CategoryCard key={category.id} {...category} />
         ))}
       </div>
-      {streakLoaded && <Calendar streakData={streakData} />}
+      <Calendar />
     </main>
   );
 }

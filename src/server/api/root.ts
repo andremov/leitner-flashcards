@@ -2,7 +2,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { flashcardRouter } from "./routers/flashcard";
 import { questionRouter } from "./routers/question";
 import { questionTemplateRouter } from "./routers/question-template";
-import { cardsetRouter } from "./routers/cardset";
+// import { cardsetRouter } from "./routers/cardset";
 import { categoryRouter } from "./routers/category";
 
 /**
@@ -15,7 +15,7 @@ export const appRouter = createTRPCRouter({
   questionTemplate: questionTemplateRouter,
   flashcard: flashcardRouter,
   category: categoryRouter,
-  cardset: cardsetRouter,
+  // cardset: cardsetRouter,
 });
 
 // export type definition of API

@@ -6,7 +6,6 @@ export const questionTemplateRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        cardset: z.string().min(1),
         title: z.string().min(1),
         body: z.string().min(1),
       }),
@@ -14,27 +13,19 @@ export const questionTemplateRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.questionTemplate.create({
         data: {
-          cardset: input.cardset,
           title: input.title,
           body: input.body,
         },
       });
     }),
 
-  getAll: publicProcedure
-    .input(
-      z.object({
-        cardset: z.string().optional(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.questionTemplate.findMany({
-        where: {
-          cardset: input.cardset,
-        },
-        orderBy: { createdAt: "desc" },
-      });
-    }),
+  getAll: publicProcedure.input(z.object({})).query(({ ctx, input }) => {
+    return ctx.db.questionTemplate.findMany({
+      // where: {
+      // },
+      orderBy: { createdAt: "desc" },
+    });
+  }),
 
   update: publicProcedure
     .input(

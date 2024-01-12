@@ -13,7 +13,6 @@ datasource db {
 model Flashcard {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     category    String   @db.ObjectId
-    cardset     String   @db.ObjectId
     title       String
     description String
     createdAt   DateTime @default(now())
@@ -22,8 +21,8 @@ model Flashcard {
 
 model Question {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    cardset   String   @db.ObjectId
     flashcard String   @db.ObjectId
+    category  String   @db.ObjectId
     title     String
     body      String
     options   String[]
@@ -34,23 +33,14 @@ model Question {
 
 model Category {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    cardset   String   @db.ObjectId
     name      String
     color     String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
-model CardSet {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 model QuestionTemplate {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    cardset   String   @db.ObjectId
     title     String
     body      String
     createdAt DateTime @default(now())

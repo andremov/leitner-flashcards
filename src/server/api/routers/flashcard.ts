@@ -9,7 +9,6 @@ export const flashcardRouter = createTRPCRouter({
         title: z.string().min(1),
         description: z.string(),
         category: z.string().min(1),
-        cardset: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -18,7 +17,6 @@ export const flashcardRouter = createTRPCRouter({
           title: input.title,
           description: input.description,
           category: input.category,
-          cardset: input.cardset,
         },
       });
     }),
@@ -26,14 +24,12 @@ export const flashcardRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(
       z.object({
-        cardset: z.string().optional(),
         category: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.flashcard.findMany({
         where: {
-          cardset: input.cardset,
           category: input.category,
         },
         orderBy: { createdAt: "desc" },
