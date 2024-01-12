@@ -1,6 +1,5 @@
 "use client";
 
-// import { createWithEqualityFn } from "zustand/traditional";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createStreakSlice } from "./slices/streakSlice/streakSlice";
 import type { StreakSlice } from "./slices/streakSlice/streakSlice.types";
@@ -14,7 +13,6 @@ export type LfStoreMiddlewares = [
 ];
 
 export const useStreakStore = create<StoreState>()(
-  // export const useStreakStore = createWithEqualityFn<StoreState>()(
   devtools(
     persist(
       (...methods) => ({
@@ -33,5 +31,4 @@ export const useStreakStore = create<StoreState>()(
       },
     ),
   ),
-  // Object.is,
 );

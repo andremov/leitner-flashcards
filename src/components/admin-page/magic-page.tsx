@@ -1,5 +1,7 @@
+"use client";
+
 import ListCategories from "./list-components/list-categories";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 import ListFlashcards from "./list-components/list-flashcards";
 import EditCategory from "./edit-components/edit-category";
 import DeleteCategory from "./delete-components/delete-category";
@@ -13,7 +15,7 @@ import ViewQuestion from "./list-components/view-question";
 import { ArrowBigLeft, ChevronRight, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
-export default async function MagicPage(props: PartialMPP) {
+export default function MagicPage(props: PartialMPP) {
   const {
     selectedCategoryId,
     selectedFlashcardId,
@@ -22,23 +24,23 @@ export default async function MagicPage(props: PartialMPP) {
     editingModel,
   } = props;
 
-  const selectedCategory =
-    !!selectedCategoryId &&
-    (await api.category.findOne.query({
-      id: selectedCategoryId,
-    }));
+  const { data: selectedCategory } = !!selectedCategoryId
+    ? api.category.findOne.useQuery({
+        id: selectedCategoryId,
+      })
+    : { data: undefined };
 
-  const selectedFlashcard =
-    !!selectedFlashcardId &&
-    (await api.flashcard.findOne.query({
-      id: selectedFlashcardId,
-    }));
+  const { data: selectedFlashcard } = !!selectedFlashcardId
+    ? api.flashcard.findOne.useQuery({
+        id: selectedFlashcardId,
+      })
+    : { data: undefined };
 
-  const selectedQuestion =
-    !!selectedQuestionId &&
-    (await api.question.findOne.query({
-      id: selectedQuestionId,
-    }));
+  const { data: selectedQuestion } = !!selectedQuestionId
+    ? api.question.findOne.useQuery({
+        id: selectedQuestionId,
+      })
+    : { data: undefined };
 
   const activeViews = Object.keys(props).filter(
     (key) => !!props[key as keyof PartialMPP],
@@ -115,7 +117,7 @@ export default async function MagicPage(props: PartialMPP) {
         {selectedFlashcard && <EditFlashcard {...props} />}
         {selectedFlashcard && <DeleteFlashcard {...props} />}
 
-        {selectedCategoryId && selectedFlashcard && (
+        {selectedCategoryId && selectedFlashcardId && (
           <ListQuestions
             {...props}
             selectedCategoryId={selectedCategoryId}

@@ -1,6 +1,5 @@
 "use client";
 
-import { createWithEqualityFn } from "zustand/traditional";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createQuestionSlice } from "./slices/questionSlice/questionSlice";
 import type { QuestionSlice } from "./slices/questionSlice/questionSlice.types";
@@ -14,7 +13,6 @@ export type LfStoreMiddlewares = [
 ];
 
 export const useQuestionStore = create<StoreState>()(
-  // export const useQuestionStore = createWithEqualityFn<StoreState>()(
   devtools(
     persist(
       (...methods) => ({
@@ -30,5 +28,4 @@ export const useQuestionStore = create<StoreState>()(
       },
     ),
   ),
-  // Object.is,
 );
