@@ -2,13 +2,12 @@
 import { shallow } from "zustand/shallow";
 
 /** Functional **/
-import { useQuestionStore } from "~/store/questionStore";
+import { useStreakStore } from "~/store/streakStore";
 
-export const useSelectQuestionState = () =>
-  useQuestionStore(
-    ({ questions: cardsets, updateFlashcard }) => ({
-      cardsets,
-      updateFlashcard,
+export const useSelectStreakState = () =>
+  useStreakStore(
+    (store) => ({
+      ...store,
     }),
     shallow,
   );
