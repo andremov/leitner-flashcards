@@ -24,7 +24,7 @@ export default function EditQuestion(props: PartialMPP) {
     id: selectedQuestionId!,
   });
 
-  const { data: allTemplates } = api.questionTemplate.getAll.useQuery({});
+  const { data: allTemplates } = api.questionTemplate.getAll.useQuery();
 
   useEffect(() => {
     if (editingQuestion) {

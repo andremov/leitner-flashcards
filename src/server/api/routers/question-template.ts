@@ -19,10 +19,15 @@ export const questionTemplateRouter = createTRPCRouter({
       });
     }),
 
-  getAll: publicProcedure.input(z.object({})).query(({ ctx }) => {
-    return ctx.db.questionTemplate.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+  getAll: publicProcedure.query(({ ctx }) => {
+    try {
+      return ctx.db.questionTemplate.findMany({
+        orderBy: { createdAt: "desc" },
+      });
+    } catch (e: unknown) {
+      console.error(e!);
+      console.error(JSON.stringify(e));
+    }
   }),
 
   update: publicProcedure
@@ -60,17 +65,22 @@ export const questionTemplateRouter = createTRPCRouter({
     }),
 
   findOne: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.questionTemplate.findFirst({
-        where: {
-          id: input.id,
-        },
-        orderBy: { createdAt: "desc" },
-      });
-    }),
+    // .input(
+    //   z.object({
+    //     id: z.string(),
+    //   }),
+    // )
+    .query(
+      ({
+        ctx,
+        // input
+      }) => {
+        return ctx.db.questionTemplate.findFirst({
+          // where: {
+          //   id: input.id,
+          // },
+          orderBy: { createdAt: "desc" },
+        });
+      },
+    ),
 });
