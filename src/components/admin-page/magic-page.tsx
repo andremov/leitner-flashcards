@@ -62,7 +62,6 @@ export default async function MagicPage(props: PartialMPP) {
 
           {selectedCategory && (
             <>
-              <ChevronRight width={20} />
               <Link
                 className="cursor-pointer rounded-md border border-black/20 px-2 py-1 hover:bg-black/10"
                 href={`/admin/${selectedCategoryId}`}
