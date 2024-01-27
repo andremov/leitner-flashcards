@@ -43,10 +43,9 @@ export default async function MagicPage(props: PartialMPP) {
   const activeViews = Object.keys(props).filter(
     (key) => !!props[key as keyof PartialMPP],
   );
+  // console.log({ keys: Object.keys(props), activeViews });
 
-  const curActiveView =
-    activeViews.filter((key) => key.includes("selected")).length -
-    activeViews.filter((key) => !key.includes("selected")).length;
+  const curActiveView = activeViews.length;
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-300">
@@ -100,6 +99,7 @@ export default async function MagicPage(props: PartialMPP) {
           )}
         </div>
       </div>
+
       <div className="flex flex-1 items-stretch gap-1">
         <ListCategories {...props} isActive={curActiveView <= 2} />
         {selectedCategoryId && <EditCategory {...props} />}

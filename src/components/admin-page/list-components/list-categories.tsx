@@ -52,7 +52,7 @@ export default async function ListCategories(props: ListCategoriesProps) {
         <Link
           className="flex h-5/6 w-full cursor-pointer gap-4 p-2 text-xl font-bold transition hover:bg-slate-400"
           style={{ textOrientation: "sideways", writingMode: "vertical-rl" }}
-          href={`/admin`}
+          href={`/admin/${selectedCategoryId}`}
         >
           <ArrowBigLeft />
           <span>
