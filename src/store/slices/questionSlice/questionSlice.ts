@@ -12,7 +12,7 @@ function getPlainDateFromDue(dueDate: string): Temporal.PlainDate {
 }
 
 function mapBox(newBox: number) {
-  const boxMapping = [1, 2, 4, 8, 16];
+  const boxMapping = [1, 2, 3, 5, 8, 13, 21, 34, 55];
 
   if (newBox > boxMapping.length) {
     return boxMapping[boxMapping.length - 1];

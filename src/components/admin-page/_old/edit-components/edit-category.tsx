@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
-import { type PartialMPP } from "~/shared/types";
 
 const colors = [
   { bg: "bg-red-500", name: "red", soft: "bg-red-300" },

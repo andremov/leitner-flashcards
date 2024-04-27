@@ -10,7 +10,33 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Flashcard {
+// Users
+
+model User {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    name          String
+    color         String
+    currentStreak Int
+    longestStreak Int
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+}
+
+model UserQuestionHistory {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    user       String   @db.ObjectId
+    question   String   @db.ObjectId
+    due        DateTime
+    leitnerBox Int
+    rightCount Int
+    wrongCount Int
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+// Questions
+
+model Concept {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     category    String   @db.ObjectId
     title       String
@@ -21,12 +47,11 @@ model Flashcard {
 
 model Question {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    flashcard String   @db.ObjectId
+    concept   String   @db.ObjectId
     category  String   @db.ObjectId
-    title     String
     body      String
     options   String[]
-    answer    Int
+    answer    String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
@@ -41,7 +66,6 @@ model Category {
 
 model QuestionTemplate {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    title     String
     body      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

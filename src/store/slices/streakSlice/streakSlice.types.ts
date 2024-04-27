@@ -1,5 +1,3 @@
-// LOCAL STORAGE TYPES
-
 export type StreakDataDayType = {
   pyd: boolean;
   rgt: number;

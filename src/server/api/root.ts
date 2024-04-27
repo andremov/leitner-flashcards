@@ -4,6 +4,7 @@ import { questionRouter } from "./routers/question";
 import { questionTemplateRouter } from "./routers/question-template";
 // import { cardsetRouter } from "./routers/cardset";
 import { categoryRouter } from "./routers/category";
+import { userRouter } from "./routers/user";
 
 /**
  * This is the primary router for your server.
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   questionTemplate: questionTemplateRouter,
   flashcard: flashcardRouter,
   category: categoryRouter,
+  user: userRouter,
   // cardset: cardsetRouter,
 });
 

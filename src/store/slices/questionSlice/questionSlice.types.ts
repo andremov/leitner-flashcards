@@ -1,8 +1,6 @@
 import type { Question } from "@prisma/client";
 import type { DatedQuestionCard, QuestionCardInfo } from "~/shared/types";
 
-// LOCAL STORAGE TYPES
-
 export type QuestionStoreState = {
   questions: Record<string, QuestionCardInfo>;
 };

@@ -1,25 +1,25 @@
 "use client";
 
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-import { createStreakSlice } from "./slices/streakSlice/streakSlice";
-import type { StreakSlice } from "./slices/streakSlice/streakSlice.types";
+import { createAdminSlice } from "./slices/adminSlice/adminSlice";
+import type { AdminSlice } from "./slices/adminSlice/adminSlice.types";
 import { create } from "zustand";
 
-export type StoreState = StreakSlice;
+export type StoreState = AdminSlice;
 
 export type LfStoreMiddlewares = [
   ["zustand/devtools", never],
   ["zustand/persist", unknown],
 ];
 
-export const useStreakStore = create<StoreState>()(
+export const useAdminStore = create<StoreState>()(
   devtools(
     persist(
       (...methods) => ({
-        ...createStreakSlice(...methods),
+        ...createAdminSlice(...methods),
       }),
       {
-        name: "streakStore",
+        name: "adminStore",
         partialize: (state) => ({}),
         version: 1.3,
         storage: createJSONStorage(() => localStorage),

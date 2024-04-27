@@ -1,26 +1,28 @@
 "use client";
 
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-import { createStreakSlice } from "./slices/streakSlice/streakSlice";
-import type { StreakSlice } from "./slices/streakSlice/streakSlice.types";
+import { createUserSlice } from "./slices/userSlice/userSlice";
+import type { UserSlice } from "./slices/userSlice/userSlice.types";
 import { create } from "zustand";
 
-export type StoreState = StreakSlice;
+export type StoreState = UserSlice;
 
 export type LfStoreMiddlewares = [
   ["zustand/devtools", never],
   ["zustand/persist", unknown],
 ];
 
-export const useStreakStore = create<StoreState>()(
+export const useUserStore = create<StoreState>()(
   devtools(
     persist(
       (...methods) => ({
-        ...createStreakSlice(...methods),
+        ...createUserSlice(...methods),
       }),
       {
-        name: "streakStore",
-        partialize: (state) => ({}),
+        name: "userStore",
+        partialize: (state) => ({
+          userId: state.userId,
+        }),
         version: 1.3,
         storage: createJSONStorage(() => localStorage),
       },

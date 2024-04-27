@@ -21,7 +21,6 @@ export const useQuestionStore = create<StoreState>()(
       {
         name: "questionStore",
         partialize: (state) => ({
-          questions: state.questions,
         }),
         version: 1.3,
         storage: createJSONStorage(() => localStorage),
