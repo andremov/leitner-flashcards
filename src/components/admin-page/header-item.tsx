@@ -14,7 +14,7 @@ export function HeaderItem(props: HeaderItemProps) {
       className={clsx([
         "flex-1 cursor-pointer rounded-md bg-slate-200 p-2 transition hover:bg-slate-300",
         {
-          "bg-slate-400": isActive,
+          "bg-slate-600 text-white hover:bg-slate-700": isActive,
         },
       ])}
       onClick={onClick}
