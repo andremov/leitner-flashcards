@@ -6,22 +6,20 @@ export const questionRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string().min(1),
         body: z.string().min(1),
-        answer: z.number(),
+        answer: z.string().min(1),
         options: z.array(z.string().min(1)).min(1),
-        flashcard: z.string().min(1),
+        concept: z.string().min(1),
         category: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.question.create({
         data: {
-          title: input.title,
           body: input.body,
           answer: input.answer,
           options: input.options,
-          flashcard: input.flashcard,
+          concept: input.concept,
           category: input.category,
         },
       });
@@ -30,14 +28,14 @@ export const questionRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(
       z.object({
-        flashcard: z.string().optional(),
+        concept: z.string().optional(),
         category: z.string().optional(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.question.findMany({
         where: {
-          flashcard: input.flashcard,
+          concept: input.concept,
           category: input.category,
         },
         orderBy: { createdAt: "desc" },
@@ -48,10 +46,9 @@ export const questionRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        title: z.string().min(1),
         body: z.string().min(1),
         options: z.array(z.string().min(1)).min(1),
-        answer: z.number(),
+        answer: z.string().min(1),
         category: z.string().min(1),
       }),
     )
@@ -61,7 +58,6 @@ export const questionRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          title: input.title,
           body: input.body,
           options: input.options,
           answer: input.answer,

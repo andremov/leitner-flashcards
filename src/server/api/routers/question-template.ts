@@ -6,14 +6,12 @@ export const questionTemplateRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        title: z.string().min(1),
         body: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.questionTemplate.create({
         data: {
-          title: input.title,
           body: input.body,
         },
       });
@@ -29,7 +27,6 @@ export const questionTemplateRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        title: z.string().min(1),
         body: z.string().min(1),
       }),
     )
@@ -39,7 +36,6 @@ export const questionTemplateRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          title: input.title,
           body: input.body,
         },
       });

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const flashcardRouter = createTRPCRouter({
+export const conceptRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
@@ -12,7 +12,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.create({
+      return ctx.db.concept.create({
         data: {
           title: input.title,
           description: input.description,
@@ -28,7 +28,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.flashcard.findMany({
+      return ctx.db.concept.findMany({
         where: {
           category: input.category,
         },
@@ -46,7 +46,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.update({
+      return ctx.db.concept.update({
         where: {
           id: input.id,
         },
@@ -65,7 +65,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.flashcard.delete({
+      return ctx.db.concept.delete({
         where: {
           id: input.id,
         },
@@ -79,7 +79,7 @@ export const flashcardRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.flashcard.findFirst({
+      return ctx.db.concept.findFirst({
         where: {
           id: input.id,
         },
