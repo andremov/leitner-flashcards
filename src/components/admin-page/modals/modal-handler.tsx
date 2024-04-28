@@ -1,6 +1,7 @@
 import { useAdminStore } from "~/store/adminStore";
 import { AdminModal } from "~/store/slices/adminSlice/adminSlice.types";
 import { CreateUserModal } from "./create-user";
+import { CreateCategoryModal } from "./create-category";
 
 export function AdminModalHandler() {
   const { activeModal } = useAdminStore();
@@ -10,6 +11,12 @@ export function AdminModalHandler() {
       return (
         <ModalBackdrop>
           <CreateUserModal />
+        </ModalBackdrop>
+      );
+    case AdminModal.CREATE_CATEGORY:
+      return (
+        <ModalBackdrop>
+          <CreateCategoryModal />
         </ModalBackdrop>
       );
     default:
