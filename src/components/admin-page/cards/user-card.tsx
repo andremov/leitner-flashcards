@@ -1,11 +1,11 @@
 "use client";
 
-import type { User } from "@prisma/client";
 import { CrownIcon, Dot, PlusCircleIcon, Stars, UserIcon } from "lucide-react";
+import type { UserType } from "~/shared/types";
 import { useAdminStore } from "~/store/adminStore";
 import { AdminModal } from "~/store/slices/adminSlice/adminSlice.types";
 
-export function UserCard({ user }: { user: User }) {
+export function UserCard({ user }: { user: UserType }) {
   return (
     <div
       className={`bg-${user.color}-500 flex h-40 w-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-4 border-white text-white shadow-2xl transition hover:scale-95 active:scale-90`}

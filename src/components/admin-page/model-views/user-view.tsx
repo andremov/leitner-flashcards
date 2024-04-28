@@ -1,24 +1,18 @@
 "use client";
 
 import { InfoIcon, Loader2 } from "lucide-react";
-import { api } from "~/trpc/react";
 import { NewUserCard, SkeletonUserCard, UserCard } from "../cards/user-card";
+import { useDatedUsers } from "~/hooks";
 
 export function UserView() {
-  const { data: users } = api.user.getAll.useQuery({});
+  const users = useDatedUsers();
 
   if (!users) {
     return (
       <div className="flex flex-wrap gap-[1.155rem]">
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
+        {Array.from({ length: 15 }).map((_, idx) => (
+          <SkeletonUserCard key={idx} />
+        ))}
 
         <div className="absolute left-0 top-1/2 flex w-full flex-col items-center gap-2">
           <Loader2
