@@ -61,8 +61,6 @@ export function QuestionView({
     );
   }
 
-  console.log(category);
-
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="flex w-fit items-center rounded-md bg-black/50 px-2 py-1 text-sm text-white">

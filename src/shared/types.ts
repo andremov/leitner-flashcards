@@ -5,6 +5,11 @@ export type QuestionOption = {
   name: string;
 };
 
+export type UserHistoryType = {
+  count: number;
+  date: Temporal.PlainDate;
+};
+
 // Users
 
 export type UserType = {

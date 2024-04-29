@@ -1,16 +1,18 @@
 "use client";
 
-import { Loader2Icon } from "lucide-react";
+import { ArrowRightIcon, Loader2Icon, XIcon } from "lucide-react";
 import { useUserStore } from "~/store/userStore";
 import { UserCard } from "~/components/user-page/cards/user-card";
 import { redirect } from "next/navigation";
 import { useDatedUserQuestions } from "~/hooks/useDatedUserQuestions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionView } from "~/components/user-page/question-view";
 import { api } from "~/trpc/react";
 import { mapBox } from "~/shared/functions";
 import { Temporal } from "@js-temporal/polyfill";
 import { openCard } from "~/shared/assets";
+import Link from "next/link";
+import clsx from "clsx";
 
 export default function UserHome() {
   const { user, setUser } = useUserStore();
@@ -21,6 +23,28 @@ export default function UserHome() {
   const createQuestionHistory = api.questionHistory.create.useMutation({});
   const updateQuestionHistory = api.questionHistory.update.useMutation({});
   const updateUser = api.user.update.useMutation({});
+
+  useEffect(() => {
+    if (pendingQuestions !== undefined && user !== undefined) {
+      if (pendingQuestions.length === 0) {
+        updateUser.mutate({
+          id: user.id,
+          lastPlayedAt: new Date(),
+          currentStreak: user.currentStreak + 1,
+          longestStreak:
+            user.currentStreak + 1 > user.longestStreak
+              ? user.currentStreak + 1
+              : user.longestStreak,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingQuestions, user]);
+
+  useEffect(() => {
+    setQuestionAnswered(false);
+    setCurQuestion(0);
+  }, [pendingQuestions?.length]);
 
   if (!user) {
     redirect("/");
@@ -140,13 +164,30 @@ export default function UserHome() {
         question={pendingQuestions[curQuestion]!}
       />
 
-      <button
-        disabled={!questionAnswered}
-        className={`m-4 h-16 w-72 rounded-md border-4 border-white bg-${user.color}-500 text-lg font-bold text-white shadow-lg transition enabled:hover:scale-110 enabled:active:scale-95 disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-400 disabled:shadow-none`}
-        onClick={handleNextQuestion}
-      >
-        Siguiente
-      </button>
+      <div className="m-4 flex gap-4">
+        <Link href={"/menu"}>
+          <div
+            className={clsx([
+              "flex h-16 w-16 items-center justify-center rounded-md text-lg font-bold transition",
+              {
+                "bg-slate-300 text-slate-400 shadow-none": !questionAnswered,
+                "bg-red-500 text-white shadow-lg hover:scale-110 active:scale-95":
+                  questionAnswered,
+              },
+            ])}
+          >
+            <XIcon />
+          </div>
+        </Link>
+        <button
+          disabled={!questionAnswered}
+          className={`flex h-16 w-72 items-center justify-center gap-2 rounded-md bg-${user.color}-500 text-lg font-bold text-white shadow-lg transition enabled:hover:scale-110 enabled:active:scale-95 disabled:bg-slate-300 disabled:text-slate-400 disabled:shadow-none`}
+          onClick={handleNextQuestion}
+        >
+          <span>Siguiente</span>
+          <ArrowRightIcon />
+        </button>
+      </div>
     </main>
   );
 }

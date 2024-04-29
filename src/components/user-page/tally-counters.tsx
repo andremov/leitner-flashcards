@@ -28,8 +28,8 @@ export function TallyCounters(props: {
   const fullTallies = Math.floor(count / 5);
   const remTallies = count - fullTallies * 5;
 
-  if (count === 0) return <span>0</span>;
-  if (count > 10) return <span>{count}</span>;
+  if (count === 0) return <span className="text-md">0</span>;
+  if (count > 15) return <span className="text-md">{count}</span>;
   return (
     <span className={`flex gap-0.5 ${reverse ? "flex-row-reverse" : ""}`}>
       {[...Array(fullTallies).keys()].map((item) => (

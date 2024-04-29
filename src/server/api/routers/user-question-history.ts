@@ -42,6 +42,26 @@ export const userQuestionHistoryRouter = createTRPCRouter({
       });
     }),
 
+  count: publicProcedure
+    .input(
+      z.object({
+        user: z.string(),
+        updatedAtRangeStart: z.date(),
+        updatedAtRangeEnd: z.date(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.userQuestionHistory.count({
+        where: {
+          user: input.user,
+          updatedAt: {
+            gte: input.updatedAtRangeStart,
+            lt: input.updatedAtRangeEnd,
+          },
+        },
+      });
+    }),
+
   update: publicProcedure
     .input(
       z.object({
