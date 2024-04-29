@@ -3,6 +3,8 @@ export enum AdminModal {
   CREATE_USER = 1,
   CREATE_CATEGORY,
   CREATE_CONCEPT,
+  CREATE_TEMPLATE,
+  CREATE_QUESTION,
 }
 
 export type AdminStoreState = {

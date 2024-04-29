@@ -1,7 +1,6 @@
 "use client";
 
 import { InfoIcon, Loader2 } from "lucide-react";
-import { api } from "~/trpc/react";
 import {
   NewConceptCard,
   SkeletonConceptCard,
@@ -18,10 +17,11 @@ export function ConceptView() {
   const [sortBy, setSortBy] = useState<"" | "category" | "title" | "createdAt">(
     "",
   );
+
   const categories = useDatedCategories();
   const concepts = useDatedConcepts();
 
-  if (!concepts || !categories) {
+  if (concepts === undefined || categories === undefined) {
     return (
       <div className="flex flex-wrap gap-[1.975rem]">
         {Array.from({ length: 15 }).map((_, idx) => (
@@ -39,8 +39,6 @@ export function ConceptView() {
       </div>
     );
   }
-
-  console.log(concepts[0]);
 
   if (concepts.length === 0) {
     return (
@@ -111,7 +109,10 @@ export function ConceptView() {
           </option>
         </select>
       </div>
+
       <div className="flex flex-wrap gap-[1.975rem]">
+        <NewConceptCard />
+
         {concepts
           .filter((c) => {
             if (searchText !== "" && !c.title.includes(searchText)) {
@@ -128,11 +129,6 @@ export function ConceptView() {
               case "title":
                 return c1[sortBy].localeCompare(c2[sortBy]);
               case "createdAt":
-                console.log({
-                  createdAt: c1.createdAt,
-                  tp: typeof c1.createdAt,
-                });
-
                 return c1.createdAt.since(c2.createdAt).sign;
               default:
                 return 0;
@@ -145,8 +141,6 @@ export function ConceptView() {
               category={categoryLookup[c.category]}
             />
           ))}
-
-        <NewConceptCard />
       </div>
     </div>
   );

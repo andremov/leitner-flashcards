@@ -78,7 +78,7 @@ function ParseView({ adminView }: { adminView?: AdminViewType }) {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-2 rounded-lg border-t-2 border-slate-400">
+    <div className="flex flex-1 flex-col gap-2 rounded-lg border-t-2 border-slate-400 pb-4">
       <h2 className="my-2 text-center text-2xl font-bold">
         {adminView.displayName}
       </h2>

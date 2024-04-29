@@ -8,7 +8,7 @@ import { AdminModal } from "~/store/slices/adminSlice/adminSlice.types";
 export function CategoryCard({ category }: { category: CategoryType }) {
   return (
     <div
-      className={`bg-${category.color}-500 flex h-24 w-52 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-4 border-white text-white shadow-2xl transition hover:scale-95 active:scale-90`}
+      className={`bg-${category.color}-500 flex h-24 w-52 cursor-pointer select-none flex-col items-center justify-center gap-2 rounded-lg border-4 border-white text-white shadow-2xl transition hover:scale-95 active:scale-90`}
     >
       <div className="flex items-center gap-2">
         <FolderIcon width={25} height={25} />

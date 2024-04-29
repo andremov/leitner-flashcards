@@ -11,18 +11,12 @@ import { useDatedCategories } from "~/hooks";
 export function CategoryView() {
   const categories = useDatedCategories();
 
-  if (!categories) {
+  if (categories === undefined) {
     return (
       <div className="flex flex-wrap gap-[2.14rem]">
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
-        <SkeletonCategoryCard />
+        {Array.from({ length: 12 }).map((_, idx) => (
+          <SkeletonCategoryCard key={idx} />
+        ))}
 
         <div className="absolute left-0 top-1/2 flex w-full flex-col items-center gap-2">
           <Loader2
@@ -51,11 +45,11 @@ export function CategoryView() {
 
   return (
     <div className="flex flex-wrap gap-[2.14rem]">
+      <NewCategoryCard />
+
       {categories.map((c) => (
         <CategoryCard key={c.id} category={c} />
       ))}
-
-      <NewCategoryCard />
     </div>
   );
 }

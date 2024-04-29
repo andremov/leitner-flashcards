@@ -19,7 +19,7 @@ export function ConceptCard({
 
   return (
     <div
-      className={`flex h-24 w-72 cursor-pointer items-center gap-2 rounded-lg border-4 border-white px-2 bg-${categoryColor}-500 text-white shadow-2xl transition hover:scale-95 active:scale-90`}
+      className={`flex h-24 w-72 cursor-pointer select-none items-center gap-2 rounded-lg border-4 border-white px-2 bg-${categoryColor}-500 text-white shadow-2xl transition hover:scale-95 active:scale-90`}
       title={concept.title}
     >
       <LibrarySquareIcon width={50} height={50} />

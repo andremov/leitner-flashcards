@@ -1,24 +1,22 @@
 "use client";
 
 import { InfoIcon, Loader2 } from "lucide-react";
-import { api } from "~/trpc/react";
-import { NewUserCard, SkeletonUserCard, UserCard } from "../cards/user-card";
+import {
+  NewQuestionTemplateCard,
+  SkeletonQuestionTemplateCard,
+  QuestionTemplateCard,
+} from "../cards/template-card";
+import { useDatedTemplates } from "~/hooks";
 
 export function TemplateView() {
-  const { data: users } = api.user.getAll.useQuery({});
+  const templates = useDatedTemplates();
 
-  if (!users) {
+  if (!templates) {
     return (
       <div className="flex flex-wrap gap-[1.155rem]">
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
-        <SkeletonUserCard />
+        {Array.from({ length: 15 }).map((_, idx) => (
+          <SkeletonQuestionTemplateCard key={idx} />
+        ))}
 
         <div className="absolute left-0 top-1/2 flex w-full flex-col items-center gap-2">
           <Loader2
@@ -32,10 +30,10 @@ export function TemplateView() {
     );
   }
 
-  if (users.length === 0) {
+  if (templates.length === 0) {
     return (
       <div className="flex flex-wrap gap-[1.155rem]">
-        <NewUserCard />
+        <NewQuestionTemplateCard />
 
         <div className="absolute left-0 top-1/2 flex w-full flex-col items-center gap-2">
           <InfoIcon className="text-slate-400" width={40} height={40} />
@@ -47,11 +45,11 @@ export function TemplateView() {
 
   return (
     <div className="flex flex-wrap gap-[1.155rem]">
-      {users.map((u) => (
-        <UserCard key={u.id} user={u} />
-      ))}
+      <NewQuestionTemplateCard />
 
-      <NewUserCard />
+      {templates.map((t) => (
+        <QuestionTemplateCard key={t.id} template={t} />
+      ))}
     </div>
   );
 }
