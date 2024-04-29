@@ -2,7 +2,6 @@
 
 import { CrownIcon, Loader2Icon, PlayIcon } from "lucide-react";
 import { useUserStore } from "~/store/userStore";
-import { UserCard } from "~/components/user-page/cards/user-card";
 import { redirect } from "next/navigation";
 import { useDatedUserQuestions } from "~/hooks/useDatedUserQuestions";
 import Link from "next/link";

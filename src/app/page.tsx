@@ -6,7 +6,7 @@ import { Loader2Icon } from "lucide-react";
 import { useUserStore } from "~/store/userStore";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import { UserType } from "~/shared/types";
+import type { UserType } from "~/shared/types";
 
 export default function Home() {
   const users = useDatedUsers();
@@ -20,6 +20,7 @@ export default function Home() {
         setUser(user);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, users, users?.length]);
 
   if (user) {
@@ -43,7 +44,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between bg-slate-200 py-10 text-slate-950">
       <h2 className="text-2xl font-bold">Elegir Perfil</h2>
 
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex max-w-[70rem] flex-col items-center justify-center gap-2 md:flex-row md:flex-wrap">
         {users.map((u) => (
           <UserCardAction
             key={u.id}

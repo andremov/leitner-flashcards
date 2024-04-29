@@ -10,6 +10,7 @@ import { QuestionView } from "~/components/user-page/question-view";
 import { api } from "~/trpc/react";
 import { mapBox } from "~/shared/functions";
 import { Temporal } from "@js-temporal/polyfill";
+import { openCard } from "~/shared/assets";
 
 export default function UserHome() {
   const { user, setUser } = useUserStore();
@@ -28,6 +29,8 @@ export default function UserHome() {
   function handleNextQuestion() {
     setQuestionAnswered(false);
     setCurQuestion(curQuestion + 1);
+
+    openCard.play();
   }
 
   function handleQuestionAnswered(rightAnswer: boolean) {
@@ -104,11 +107,13 @@ export default function UserHome() {
         id: user.id,
         lastPlayedAt: new Date(),
         currentStreak: 1,
+        longestStreak: 1,
       });
       setUser({
         ...user,
         lastPlayedAt: Temporal.Now.plainDateISO(),
         currentStreak: 1,
+        longestStreak: 1,
       });
     }
   }

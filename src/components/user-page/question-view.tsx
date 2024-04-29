@@ -1,18 +1,12 @@
 "use client";
 
 import clsx from "clsx";
-import {
-  AlertTriangleIcon,
-  CheckIcon,
-  Dot,
-  Loader2Icon,
-  XIcon,
-} from "lucide-react";
+import { AlertTriangleIcon, Dot, Loader2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { UserQuestionType } from "~/shared/types";
 import { api } from "~/trpc/react";
-import { TallyCounters } from "./tally-counters";
 import { QuestionHistory } from "./question-history";
+import { successDing, failureDrum } from "~/shared/assets";
 
 export function QuestionView({
   question,
@@ -35,6 +29,12 @@ export function QuestionView({
     if (pickedAnswer === undefined) {
       pickAnswer(newPickedAnswer);
       handleQuestionAnswered(newPickedAnswer === question.answer);
+
+      if (newPickedAnswer === question.answer) {
+        successDing.play();
+      } else {
+        failureDrum.play();
+      }
     }
   }
 
@@ -74,12 +74,12 @@ export function QuestionView({
       <QuestionHistory questionHistory={question.history} />
 
       <div
-        className={`min-w-[18rem] items-center rounded-lg px-8 py-4 text-center text-white md:min-w-[32.5rem] bg-${category.color}-500 shadow-lg`}
+        className={`min-w-[18rem] items-center rounded-lg px-8 py-4 text-center text-white md:min-w-[33rem] bg-${category.color}-500 shadow-lg`}
       >
         <span className="text-lg font-bold">{question.body}</span>
       </div>
 
-      <div className="mt-12 flex max-w-[32.5rem] flex-col items-center gap-4 md:flex-row md:flex-wrap md:gap-2">
+      <div className="mt-12 flex max-w-[33rem] flex-col items-center gap-4 md:flex-row md:flex-wrap">
         {question.options.map((o) => (
           <button
             className={clsx([
@@ -103,6 +103,16 @@ export function QuestionView({
             {o.name}
           </button>
         ))}
+
+        {question.history === undefined ? (
+          <div className="mt-4 w-full text-center text-slate-500">
+            Nunca respondido.
+          </div>
+        ) : (
+          <div className="mt-4 w-full text-center text-slate-500">
+            Respondido por última vez: {question.history.updatedAt.toString()}
+          </div>
+        )}
       </div>
     </div>
   );
