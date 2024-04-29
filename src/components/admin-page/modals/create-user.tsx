@@ -71,7 +71,7 @@ export function CreateUserModal() {
       <div className="flex flex-col">
         <label className="px-2 text-sm text-slate-600">User Name</label>
         <input
-          className="border-1 rounded-md border px-2 py-1 outline-none focus:border-blue-400"
+          className="border-1 rounded-md border px-2 py-1 outline-none focus:border-blue-500"
           value={name}
           placeholder="Andres"
           onChange={(e) => handleNameChange(e.target.value)}
@@ -98,7 +98,7 @@ export function CreateUserModal() {
       <div className="mt-2 flex w-full content-center items-center gap-2">
         <button
           type="submit"
-          className="h-12 flex-1 rounded-lg bg-green-400 font-semibold text-white transition hover:bg-green-500 active:bg-green-600 disabled:bg-slate-500"
+          className="h-12 flex-1 rounded-lg bg-green-500 font-semibold text-white transition hover:bg-green-500 active:bg-green-600 disabled:bg-slate-500"
           disabled={createUser.isLoading}
         >
           {createUser.isLoading ? "Creating..." : "Create"}
@@ -106,7 +106,7 @@ export function CreateUserModal() {
 
         <button
           type="button"
-          className="h-12 w-12 rounded-lg bg-red-400 font-semibold text-white transition hover:bg-red-500 active:bg-red-600 disabled:bg-slate-500"
+          className="h-12 w-12 rounded-lg bg-red-500 font-semibold text-white transition hover:bg-red-500 active:bg-red-600 disabled:bg-slate-500"
           disabled={createUser.isLoading}
           onClick={closeModal}
         >

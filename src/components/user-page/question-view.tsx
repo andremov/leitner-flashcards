@@ -81,17 +81,18 @@ export function QuestionView({
         {question.options.map((o) => (
           <button
             className={clsx([
-              "w-64 rounded-md border-4 py-2 text-lg text-white transition",
+              "w-64 rounded-md border-4 py-2 text-lg transition",
               {
-                "border-transparent bg-black/30 hover:scale-110 active:scale-95":
+                [`border-transparent bg-${category.color}-300 text-black hover:scale-110 active:scale-95`]:
                   pickedAnswer === undefined,
-                "disabled:bg-red-400": question.answer !== o.id,
-                "disabled:bg-green-400": question.answer === o.id,
-                "border-white": pickedAnswer === o.id,
-                "disabled:border-red-400":
+                "disabled:bg-slate-300 disabled:text-black":
                   pickedAnswer !== o.id && question.answer !== o.id,
-                "disabled:border-green-400":
-                  pickedAnswer !== o.id && question.answer === o.id,
+                "disabled:bg-red-300 disabled:text-black":
+                  pickedAnswer === o.id && question.answer !== o.id,
+                "disabled:bg-green-300 disabled:text-black":
+                  question.answer === o.id,
+                "disabled:border-white/80": pickedAnswer === o.id,
+                "disabled:border-black/10": pickedAnswer !== o.id,
               },
             ])}
             key={o.id}

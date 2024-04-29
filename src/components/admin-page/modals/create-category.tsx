@@ -71,7 +71,7 @@ export function CreateCategoryModal() {
       <div className="flex flex-col">
         <label className="px-2 text-sm text-slate-600">Category Name</label>
         <input
-          className="border-1 rounded-md border px-2 py-1 outline-none focus:border-blue-400"
+          className="border-1 rounded-md border px-2 py-1 outline-none focus:border-blue-500"
           value={name}
           placeholder="Geography"
           onChange={(e) => handleNameChange(e.target.value)}

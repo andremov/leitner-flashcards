@@ -36,7 +36,7 @@ export function NewUserCard() {
 
   return (
     <div
-      className="flex h-40 w-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-4 border-white bg-green-400 text-white shadow-2xl transition hover:scale-95 active:scale-90"
+      className="flex h-40 w-64 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-4 border-white bg-green-500 text-white shadow-2xl transition hover:scale-95 active:scale-90"
       onClick={setCreateUserModal}
     >
       <PlusCircleIcon width={35} height={35} />

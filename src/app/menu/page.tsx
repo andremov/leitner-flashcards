@@ -36,7 +36,7 @@ export default function UserHome() {
       <UserCardAction user={user} onClick={handleBackToProfileSelect} />
 
       <Link href={"/play"}>
-        <div className="flex h-16 w-72 items-center justify-between rounded-md border-4 border-white bg-green-400 p-4 text-white shadow-2xl transition hover:scale-110 active:scale-95">
+        <div className="flex h-16 w-72 items-center justify-between rounded-md border-4 border-white bg-green-500 p-4 text-white shadow-2xl transition hover:scale-110 active:scale-95">
           <PlayIcon className="fill-white" />
           <span className="text-xl font-bold">Comenzar</span>
           <span className="text-xl">({pendingQuestions?.length})</span>
