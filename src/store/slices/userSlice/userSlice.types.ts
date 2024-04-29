@@ -1,10 +1,10 @@
-import type { User } from "@prisma/client";
+import type { UserType } from "~/shared/types";
 
 export type UserStoreState = {
   userId: string | undefined;
-  user: User | undefined;
+  user: UserType | undefined;
 };
 
 export type UserSlice = UserStoreState & {
-  setUser: (user: User) => void;
+  setUser: (user: UserType | undefined) => void;
 };

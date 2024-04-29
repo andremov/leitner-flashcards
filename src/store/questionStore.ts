@@ -20,9 +20,8 @@ export const useQuestionStore = create<StoreState>()(
       }),
       {
         name: "questionStore",
-        partialize: (state) => ({
-        }),
-        version: 1.3,
+        partialize: (state) => ({}),
+        version: 1.4,
         storage: createJSONStorage(() => localStorage),
       },
     ),

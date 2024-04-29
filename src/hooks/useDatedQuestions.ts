@@ -10,8 +10,16 @@ export function useDatedQuestions(): QuestionType[] | undefined {
   }
 
   return questions.map((q) => {
-    const createdAt = Temporal.Instant.from(q.createdAt.toISOString());
-    const updatedAt = Temporal.Instant.from(q.updatedAt.toISOString());
+    const createdAt = new Temporal.PlainDate(
+      q.createdAt.getFullYear(),
+      q.createdAt.getMonth() + 1,
+      q.createdAt.getDate(),
+    );
+    const updatedAt = new Temporal.PlainDate(
+      q.updatedAt.getFullYear(),
+      q.updatedAt.getMonth() + 1,
+      q.updatedAt.getDate(),
+    );
     const options = q.options.map((o) => JSON.parse(o) as QuestionOption);
 
     return {

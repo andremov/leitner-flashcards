@@ -1,24 +1,38 @@
 "use client";
 
-import type { User } from "@prisma/client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useQuestionStore } from "~/store/questionStore";
-import { api } from "~/trpc/react";
+import { Temporal } from "@js-temporal/polyfill";
+import clsx from "clsx";
+import { Sparkles, UserIcon } from "lucide-react";
+import type { UserType } from "~/shared/types";
 
-export function UserCard(props: User) {
-  const { id, currentStreak, name, days, longestStreak, month } = props;
+export function UserCard({ user }: { user?: UserType }) {
+  if (!user) {
+    return <></>;
+  }
+  const today = Temporal.Now.plainDateISO();
+
+  const comparison = today.toString() === user.lastPlayedAt.toString();
 
   return (
-    <Link href={`/${id}`}>
-      <div className={`m-4 rounded-lg bg-white p-1 shadow-lg transition`}>
-        <div
-          className={`box-border flex h-32 w-52 flex-col items-center justify-center gap-2 rounded-md bg-blue-800 p-4 text-center text-slate-200`}
-        >
-          <h2 className="text-2xl font-bold">{name}</h2>
-          <p className="text-md h-0 font-semibold opacity-30">User</p>
-        </div>
+    <div
+      className={`m-4 box-border flex h-16 w-72 select-none items-center justify-between gap-2 rounded-md border-4 border-white shadow-lg bg-${user.color}-500 p-4 text-center text-white`}
+    >
+      <div className="flex items-center gap-2">
+        <UserIcon className="fill-white" />
+        <span className="text-2xl font-bold">{user.name}</span>
       </div>
-    </Link>
+
+      <div
+        className={clsx([
+          "flex items-center gap-2",
+          {
+            "text-yellow-400": comparison,
+          },
+        ])}
+      >
+        <Sparkles />
+        <span className="text-xl font-bold">{user.currentStreak}</span>
+      </div>
+    </div>
   );
 }

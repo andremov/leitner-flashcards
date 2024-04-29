@@ -23,7 +23,7 @@ export const useUserStore = create<StoreState>()(
         partialize: (state) => ({
           userId: state.userId,
         }),
-        version: 1.3,
+        version: 1.4,
         storage: createJSONStorage(() => localStorage),
       },
     ),

@@ -10,13 +10,27 @@ export function useDatedUsers(): UserType[] | undefined {
   }
 
   return users.map((u) => {
-    const createdAt = Temporal.Instant.from(u.createdAt.toISOString());
-    const updatedAt = Temporal.Instant.from(u.updatedAt.toISOString());
+    const createdAt = new Temporal.PlainDate(
+      u.createdAt.getFullYear(),
+      u.createdAt.getMonth() + 1,
+      u.createdAt.getDate(),
+    );
+    const updatedAt = new Temporal.PlainDate(
+      u.updatedAt.getFullYear(),
+      u.updatedAt.getMonth() + 1,
+      u.updatedAt.getDate(),
+    );
+    const lastPlayedAt = new Temporal.PlainDate(
+      u.lastPlayedAt.getFullYear(),
+      u.lastPlayedAt.getMonth() + 1,
+      u.lastPlayedAt.getDate(),
+    );
 
     return {
       ...u,
       createdAt,
       updatedAt,
+      lastPlayedAt,
     };
   });
 }

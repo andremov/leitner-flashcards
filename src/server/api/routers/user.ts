@@ -14,6 +14,7 @@ export const userRouter = createTRPCRouter({
         data: {
           name: input.name,
           color: input.color,
+          lastPlayedAt: new Date(0),
           currentStreak: 0,
           longestStreak: 0,
         },
@@ -30,8 +31,11 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        name: z.string().min(1),
-        color: z.string().min(1),
+        name: z.string().optional(),
+        color: z.string().optional(),
+        lastPlayedAt: z.date().optional(),
+        currentStreak: z.number().optional(),
+        longestStreak: z.number().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -41,6 +45,10 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           name: input.name,
+          color: input.color,
+          lastPlayedAt: input.lastPlayedAt,
+          currentStreak: input.currentStreak,
+          longestStreak: input.longestStreak,
         },
       });
     }),

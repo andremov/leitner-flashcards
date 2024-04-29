@@ -21,7 +21,7 @@ export const useStreakStore = create<StoreState>()(
       {
         name: "streakStore",
         partialize: (state) => ({}),
-        version: 1.3,
+        version: 1.4,
         storage: createJSONStorage(() => localStorage),
       },
     ),

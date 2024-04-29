@@ -10,8 +10,16 @@ export function useDatedTemplates(): QuestionTemplateType[] | undefined {
   }
 
   return templates.map((t) => {
-    const createdAt = Temporal.Instant.from(t.createdAt.toISOString());
-    const updatedAt = Temporal.Instant.from(t.updatedAt.toISOString());
+    const createdAt = new Temporal.PlainDate(
+      t.createdAt.getFullYear(),
+      t.createdAt.getMonth() + 1,
+      t.createdAt.getDate(),
+    );
+    const updatedAt = new Temporal.PlainDate(
+      t.updatedAt.getFullYear(),
+      t.updatedAt.getMonth() + 1,
+      t.updatedAt.getDate(),
+    );
 
     return {
       ...t,

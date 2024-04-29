@@ -18,6 +18,7 @@ model User {
     color         String
     currentStreak Int
     longestStreak Int
+    lastPlayedAt  DateTime
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
 }

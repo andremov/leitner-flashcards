@@ -13,20 +13,21 @@ export type UserType = {
   color: string;
   currentStreak: number;
   longestStreak: number;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  lastPlayedAt: Temporal.PlainDate;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
 };
 
 export type UserQuestionHistoryType = {
   id: string;
   user: string;
   question: string;
-  due: Temporal.Instant;
+  due: Temporal.PlainDate;
   leitnerBox: number;
   rightCount: number;
   wrongCount: number;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
 };
 
 // Questions
@@ -35,8 +36,8 @@ export type CategoryType = {
   id: string;
   name: string;
   color: string;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
 };
 
 export type ConceptType = {
@@ -44,8 +45,8 @@ export type ConceptType = {
   category: string;
   title: string;
   description: string;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
 };
 
 export type QuestionType = {
@@ -55,13 +56,19 @@ export type QuestionType = {
   body: string;
   options: QuestionOption[];
   answer: string;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
 };
 
 export type QuestionTemplateType = {
   id: string;
   body: string;
-  createdAt: Temporal.Instant;
-  updatedAt: Temporal.Instant;
+  createdAt: Temporal.PlainDate;
+  updatedAt: Temporal.PlainDate;
+};
+
+// QUESTION + HISTORY
+
+export type UserQuestionType = QuestionType & {
+  history?: UserQuestionHistoryType;
 };

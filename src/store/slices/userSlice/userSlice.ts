@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import type { LfStoreMiddlewares, StoreState } from "~/store/userStore";
 import type { UserSlice } from "./userSlice.types";
-import type { User } from "@prisma/client";
+import type { UserType } from "~/shared/types";
 
 export const createUserSlice: StateCreator<
   StoreState,
@@ -12,10 +12,10 @@ export const createUserSlice: StateCreator<
   user: undefined,
   userId: undefined,
 
-  setUser: (user: User) => {
+  setUser: (user: UserType | undefined) => {
     set({
       user,
-      userId: user.id,
+      userId: user?.id,
     });
   },
 });

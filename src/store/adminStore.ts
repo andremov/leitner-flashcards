@@ -21,7 +21,7 @@ export const useAdminStore = create<StoreState>()(
       {
         name: "adminStore",
         partialize: (state) => ({}),
-        version: 1.3,
+        version: 1.4,
         storage: createJSONStorage(() => localStorage),
       },
     ),
