@@ -4,8 +4,10 @@ import { api } from "~/trpc/react";
 
 export function useDatedUserHistory(
   userId?: UserType["id"],
-): UserHistoryType[] | undefined {
-  const today = Temporal.Now.plainDateISO();
+): UserHistoryType[] {
+  const { day, month, year } = Temporal.Now.plainDateISO();
+
+  const today = new Temporal.PlainDateTime(year, month, day);
   const pastDay1 = today.subtract({ days: 1 });
   const pastDay2 = pastDay1.subtract({ days: 1 });
   const pastDay3 = pastDay2.subtract({ days: 1 });

@@ -7,7 +7,7 @@ export type QuestionOption = {
 
 export type UserHistoryType = {
   count: number;
-  date: Temporal.PlainDate;
+  date: Temporal.PlainDateTime;
 };
 
 // Users
