@@ -48,7 +48,7 @@ export function useDatedUserHistory(
       date: pastDay4,
     },
     {
-      count: pastDay3Count ?? 100,
+      count: pastDay3Count ?? 0,
       date: pastDay3,
     },
     {
