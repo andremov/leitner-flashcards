@@ -72,16 +72,16 @@ export function QuestionView({
       <QuestionHistory questionHistory={question.history} />
 
       <div
-        className={`min-w-[18rem] items-center rounded-lg px-8 py-4 text-center text-white md:min-w-[33rem] bg-${category.color}-500 shadow-lg`}
+        className={`mx-4 items-center rounded-lg px-8 py-4 text-center text-white md:min-w-[35rem] bg-${category.color}-500 shadow-lg`}
       >
         <span className="text-lg font-bold">{question.body}</span>
       </div>
 
-      <div className="mt-12 flex max-w-[33rem] flex-col items-center gap-4 md:flex-row md:flex-wrap">
+      <div className="mx-4 mt-12 flex max-w-[33rem] flex-col items-center gap-4 md:flex-row md:flex-wrap">
         {question.options.map((o) => (
           <button
             className={clsx([
-              "w-64 rounded-md border-4 py-2 text-lg transition",
+              "h-24 w-full rounded-md border-4 p-2 text-lg transition md:w-64",
               {
                 [`border-transparent bg-${category.color}-300 text-black hover:scale-110 active:scale-95`]:
                   pickedAnswer === undefined,

@@ -164,11 +164,11 @@ export default function UserHome() {
         question={pendingQuestions[curQuestion]!}
       />
 
-      <div className="m-4 flex gap-4">
+      <div className="my-4 flex w-full gap-4 px-4 md:w-fit">
         <Link href={"/menu"}>
           <div
             className={clsx([
-              "flex h-16 w-16 items-center justify-center rounded-md text-lg font-bold transition",
+              "flex h-12 w-12 items-center justify-center rounded-md text-lg font-bold transition md:h-16 md:w-16",
               {
                 "bg-slate-300 text-slate-400 shadow-none": !questionAnswered,
                 "bg-red-500 text-white shadow-lg hover:scale-110 active:scale-95":
@@ -181,7 +181,7 @@ export default function UserHome() {
         </Link>
         <button
           disabled={!questionAnswered}
-          className={`flex h-16 w-72 items-center justify-center gap-2 rounded-md bg-${user.color}-500 text-lg font-bold text-white shadow-lg transition enabled:hover:scale-110 enabled:active:scale-95 disabled:bg-slate-300 disabled:text-slate-400 disabled:shadow-none`}
+          className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-md md:h-16 md:w-72 bg-${user.color}-500 text-lg font-bold text-white shadow-lg transition enabled:hover:scale-110 enabled:active:scale-95 disabled:bg-slate-300 disabled:text-slate-400 disabled:shadow-none`}
           onClick={handleNextQuestion}
         >
           <span>Siguiente</span>
