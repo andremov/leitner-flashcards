@@ -5,6 +5,8 @@ import { questionTemplateRouter } from "./routers/question-template";
 import { categoryRouter } from "./routers/category";
 import { userRouter } from "./routers/user";
 import { userQuestionHistoryRouter } from "./routers/user-question-history";
+import { dailyWordRouter } from "./routers/daily-word";
+import { dailyWordExampleRouter } from "./routers/daily-word-example";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +20,8 @@ export const appRouter = createTRPCRouter({
   category: categoryRouter,
   user: userRouter,
   questionHistory: userQuestionHistoryRouter,
+  dailyWord: dailyWordRouter,
+  dailyWordExample: dailyWordExampleRouter,
 });
 
 // export type definition of API

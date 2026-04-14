@@ -71,3 +71,23 @@ model QuestionTemplate {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+model DailyWord {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    word         String
+    description  String
+    translation  String
+    category     String
+    assignedDate DateTime
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+}
+
+model DailyWordExample {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    wordId      String   @db.ObjectId
+    sentence    String
+    translation String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
